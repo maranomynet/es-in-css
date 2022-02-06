@@ -1,3 +1,7 @@
+**Concept work in progress. No actual code here yet.**
+
+---
+
 # js-in-css
 
 This library serves much of the same purpose as SASS/SCSS, LESS and other CSS
