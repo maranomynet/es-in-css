@@ -226,6 +226,8 @@ export default css`
 
 ## Roadmap
 
+- Make css minification optional
 - Add more helpful methods, including color functions, unit values, etc.
-- Emitting sourcemaps is not planned ATM.
 - Expose a JavaScript build API
+
+NOTE: Emitting sourcemaps is **not** planned at the moment.
