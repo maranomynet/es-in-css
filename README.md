@@ -31,9 +31,9 @@ Create a file called `src/cool-design.css.ts`:
 import { css, variables, px } from 'js-in-css';
 
 const colors = {
-  yellow: 'yellow',
-  red: '#cc3300',
-  purple: '#990099',
+  yellow: `yellow`,
+  red: `#cc3300`,
+  purple: `#990099`,
 };
 
 const bp = { large: 850 };
@@ -45,9 +45,9 @@ const mq = {
 const cssVars = variables({
   linkColor: colors.red,
   'linkColor--hover': colors.purple, // dashes must be quoted
-  linkColor__focus: 'var(--focusColor)';
-  focusColor: 'peach';
-})
+  linkColor__focus: `var(--focusColor)`;
+  focusColor: `peach`;
+});
 const vars = cssVars.vars;
 
 export default css`
@@ -119,11 +119,11 @@ Dumb tagged template literal that returns a `string`.
 import { css } from 'js-in-css';
 
 const themeColors = {
-  yellow: 'yellow',
-  red: '#cc3300',
-  purple: '#990099',
+  yellow: `yellow`,
+  red: `#cc3300`,
+  purple: `#990099`,
 };
-const textColor = '#333';
+const textColor = `#333`;
 
 export default css`
   body {
@@ -152,8 +152,8 @@ variable names wrapped in `var()` ready to be used as values.
 import { variables } from 'js-in-css';
 
 const cssVars = variables({
-  linkColor: '#0000ff',
-  linkColor__hover: '#cc00cc',
+  linkColor: `#0000ff`,
+  linkColor__hover: `#cc00cc`,
 });
 
 cssVars.declarations;
@@ -177,7 +177,7 @@ that's what you need:
 ```ts
 import { scoped, css } from 'js-in-css';
 
-export const blockName = scoped('.Button'); // 'Button_4af51c0d267'
+export const blockName = scoped(`.Button`); // 'Button_4af51c0d267'
 
 export default css`
   .${blockName} {
