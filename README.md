@@ -197,7 +197,18 @@ export default css`
 `*/
 ```
 
-### Unit functions `px`, `em`, `rem`, `pct`, `vh`, `vw`, `s`, `ms`, etc.
+### Unit functions
+
+**Fixed sizes:** `px()` and `cm()`
+
+**Type relative:** `em()`, `rem()`, `ch()` and `ex()`
+
+**Layout relative:** `pct()` (%), `vh()`, `vw()`, `vmin()` and `vmax()`
+
+**Time:** `ms()`
+
+These return light-weight object instances that can still be mostly treated as
+string **and** number liters depending on the context.
 
 ```ts
 import { px, css } from 'js-in-css';
@@ -237,6 +248,31 @@ export default css`
     width: 300px;
   }
 `*/
+```
+
+### Unit converters
+
+100-based percentage values from proportions/fractions:  
+`pct_f()`, `vh_f()`, `vw_f()`, `vmin_f()` and `vmax_f()`.
+
+```js
+pct_f(1 / 3); // 33.33333%   (Same as `pct(100 * 1/3)`)
+vw_f(370 / 1400); // 26.42857143vw
+```
+
+Milliseconds from seconds:  
+`ms_sec()`
+
+```js
+ms_sec(1.2); // 1200ms
+```
+
+Centimeters from other physical units:  
+`cm_in()`, `cm_mm()`, `cm_pt()` and `cm_pc()`.
+
+```js
+cm_mm(33.3); // 3.33cm
+cm_in(1); // 2.54cm
 ```
 
 ## Roadmap
