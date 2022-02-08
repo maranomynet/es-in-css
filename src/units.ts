@@ -1,10 +1,10 @@
-export class Unit<T> {
-  constructor(value: T | Unit<T>, unit: string) {
-    this.value = 'value' in value ? value.value : value;
+export class Unit {
+  constructor(value: number | Unit, unit: string) {
+    this.value = typeof value === 'number' ? value : value.value;
     this.unit = unit;
   }
 
-  value: T;
+  value: number;
   unit: string;
 
   toString() {
@@ -17,73 +17,73 @@ export class Unit<T> {
 
 // ---------------------------------------------------------------------------
 
-export class PxValue extends Unit<number> {
+export class PxValue extends Unit {
   constructor(value: number | PxValue) {
     super(value, 'px');
   }
 }
 
-export class RemValue extends Unit<number> {
+export class RemValue extends Unit {
   constructor(value: number | RemValue) {
     super(value, 'rem');
   }
 }
 
-export class EmValue extends Unit<number> {
+export class EmValue extends Unit {
   constructor(value: number | EmValue) {
     super(value, 'em');
   }
 }
 
-export class ChValue extends Unit<number> {
+export class ChValue extends Unit {
   constructor(value: number | ChValue) {
     super(value, 'ch');
   }
 }
 
-export class ExValue extends Unit<number> {
+export class ExValue extends Unit {
   constructor(value: number | ExValue) {
     super(value, 'ex');
   }
 }
 
-export class PctValue extends Unit<number> {
+export class PctValue extends Unit {
   constructor(value: number | PctValue) {
     super(value, '%');
   }
 }
 
-export class VwValue extends Unit<number> {
+export class VwValue extends Unit {
   constructor(value: number | VwValue) {
     super(value, 'vw');
   }
 }
 
-export class VhValue extends Unit<number> {
+export class VhValue extends Unit {
   constructor(value: number | VhValue) {
     super(value, 'vh');
   }
 }
 
-export class VminValue extends Unit<number> {
+export class VminValue extends Unit {
   constructor(value: number | VminValue) {
     super(value, 'vmin');
   }
 }
 
-export class VmaxValue extends Unit<number> {
+export class VmaxValue extends Unit {
   constructor(value: number | VmaxValue) {
     super(value, 'vmax');
   }
 }
 
-export class MsValue extends Unit<number> {
+export class MsValue extends Unit {
   constructor(value: number | MsValue) {
     super(value, 'ms');
   }
 }
 
-export class MmValue extends Unit<number> {
+export class MmValue extends Unit {
   constructor(value: number | MmValue) {
     super(value, 'mm');
   }
