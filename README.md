@@ -1,4 +1,4 @@
-**Concept work in progress. No actual code here yet.**
+**Concept work in progress. Hardly any actual code here yet.**
 
 ---
 
