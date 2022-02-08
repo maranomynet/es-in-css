@@ -83,8 +83,8 @@ export class MsValue extends Unit {
   }
 }
 
-export class MmValue extends Unit {
-  constructor(value: number | MmValue) {
-    super(value, 'mm');
+export class CmValue extends Unit {
+  constructor(value: number | CmValue) {
+    super(value, 'cm');
   }
 }
