@@ -1,4 +1,4 @@
-**Concept work in progress. Hardly any actual code here yet.**
+**Concept work in progress. Very little actual code here yet.**
 
 ---
 
@@ -188,8 +188,12 @@ export default css`
   }
 `;
 /*`
-  .Button_4af51c0d267 { border: 1px solid blue; }
-  .Button_4af51c0d267__title { font-size: 2rem; }
+  .Button_4af51c0d267 {
+    border: 1px solid blue;
+  }
+  .Button_4af51c0d267__title {
+    font-size: 2rem;
+  }
 `*/
 ```
 
@@ -201,10 +205,12 @@ import { px, css } from 'js-in-css';
 const leftColW = px(300);
 const mainColW = px(700);
 const gutter = px(50);
+// Calculations work as if they're numbers
 const totalWidth = px(leftColW + gutter + mainColW);
 
 export default css`
   .layout {
+    /* But the unit suffix appears when printed */
     width: ${totalWidth};
     margin: 0 auto;
     display: flex;
@@ -218,9 +224,18 @@ export default css`
   }
 `;
 /*`
-  .layout { width: 1000px; margin: 0 auto; display: flex; gap: 50px; }
-  .main { width: 700px; }
-  .sidebar { width: 300px; }
+  .layout {
+    width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 50px;
+  }
+  .main {
+    width: 700px;
+  }
+  .sidebar {
+    width: 300px;
+  }
 `*/
 ```
 
