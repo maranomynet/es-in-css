@@ -225,7 +225,7 @@ export default css`
 `;
 /*`
   .layout {
-    width: 1000px;
+    width: 1050px;
     margin: 0 auto;
     display: flex;
     gap: 50px;
