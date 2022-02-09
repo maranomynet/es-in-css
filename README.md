@@ -11,8 +11,9 @@ preprocessors, but uses plain JavaScript/TypeScript to provide the
 Overall this is a "do less" toolkit with tiny API, that mainly tries to stay
 out of your way.
 
-Selector nesting and autoprefixer features are automoatically provided by
-`postCSS`, but apart from that it's all pretty basic. Just you composing CSS.
+Selector nesting, `//` comment support and autoprefixer features are
+automoatically provided by `postCSS`, but apart from that it's all pretty
+basic. Just you composing CSS.
 
 For good developer experience, it'd be best to use VSCode with the
 [**vscode-styled-components** extension](https://marketplace.visualstudio.com/items?itemName=stmponents.vscode-stmponents)
@@ -221,7 +222,7 @@ const totalWidth = px(leftColW + gutter + mainColW);
 
 export default css`
   .layout {
-    /* But the unit suffix appears when printed */
+    // But the unit suffix appears when printed
     width: ${totalWidth};
     margin: 0 auto;
     display: flex;
@@ -236,6 +237,7 @@ export default css`
 `;
 /*`
   .layout {
+    /* But the unit suffix appears when printed *​/
     width: 1050px;
     margin: 0 auto;
     display: flex;
