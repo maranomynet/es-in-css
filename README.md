@@ -25,7 +25,7 @@ template literals.
 yarn add --dev js-in-css
 ```
 
-Create a file called `src/cool-design.css.ts`:
+Create a file called `src/cool-design.css.js`:
 
 ```ts
 import { css, variables, px } from 'js-in-css';
@@ -78,7 +78,7 @@ export default css`
 Then build the CSS file with the command:
 
 ```sh
-./node_modules/.bin/js-in-css src/*.css.ts --dest dist/styles
+./node_modules/.bin/js-in-css src/*.css.js --dest dist/styles
 ```
 
 Now you have a file called `dest/styles/cool-design.css`:
