@@ -172,16 +172,24 @@ cssCars.declarations;
 
 #### `VariableData<T>.vars`
 
-Holds a readonly `Record<T, string>` object with the full variable names
-wrapped in `var()` ready to be used as values.
+Holds a readonly `Record<T, VariablePrinter>` object where the
+`VariablePrinter`s emit the variable names wrapped in `var()`, ready to be
+used as values … with the option of passing a default value.
 
 ```ts
 const { vars } = cssVars;
 
-vars.linkColor;
+vars.linkColor + ''; // invokes .toString()
 // `var(--linkColor)`
-vars.linkColor__hover;
-// `var(--linkColor__hover)`
+
+vars.linkColor(`default`);
+// `var(--linkColor, default)`
+
+vars.linkColor(); // also works
+// `var(--linkColor)`
+
+`color: ${vars.linkColor__hover};`;
+// `color: var(--linkColor__hover);`
 ```
 
 #### `VariableData<T>.override(vars: { [P in T]?: string })`
