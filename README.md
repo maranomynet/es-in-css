@@ -143,11 +143,19 @@ export default css`
 
 ### `variables<T extends string>(vars: Record<T, string>): VariableData<T>`
 
+Helper to provide type-safety and code-completion when using CSS custom
+properties (CSS variables) at scale.
+
+The returned objects contains the following:
+
 `VariableData<T>.declarations` contains CSS string with all the custom
 property declarations, ready to be dumped into a CSS rule block.
 
 `VariableData<T>.vars` is a readonly `Record<T, string>` object with the full
 variable names wrapped in `var()` ready to be used as values.
+
+`VariableData<T>.override(vars: { [P in T]?: string })` returns redeclarations
+for any of the variables of type `T`.
 
 ```ts
 import { variables } from 'js-in-css';
@@ -157,7 +165,8 @@ const cssVars = variables({
   linkColor__hover: `#cc00cc`,
 });
 
-cssVars.declarations;
+const { declarations } = cssCars;
+declarations;
 /*`
   --linkColor: #0000ff;
   --linkColor__hover: #cc00cc;
@@ -167,6 +176,16 @@ cssVars.vars.linkColor;
 // `var(--linkColor)`
 cssVars.vars.linkColor__hover;
 // `var(--linkColor__hover)`
+
+cssVars.override({
+  linkColor: `#ff0000`,
+});
+/*`
+  --linkColor: #ff0000;
+`*/
+
+cssVars.declarations === declarations;
+// true
 ```
 
 ### `scoped(prefix?: string): string`
