@@ -281,4 +281,12 @@ cm_in(1); // 2.54cm
 - Add more helpful methods, including color functions, unit values, etc.
 - Expose a JavaScript build API
 
-NOTE: Emitting sourcemaps is **not** planned at the moment.
+### Maybe:
+
+- `--watch` mode … although this might also be defined as out of scope
+- Ability to configure and/or chain more postcss plugins.
+
+### Not planned:
+
+- Emitting source maps.
+- Complicated config files, etc.
