@@ -79,7 +79,7 @@ export default css`
 Then build the CSS file with the command:
 
 ```sh
-./node_modules/.bin/js-in-css src/*.css.js --dest dist/styles
+./node_modules/.bin/js-in-css "src/*.css.js" --dest dist/styles
 ```
 
 Now you have a file called `dest/styles/cool-design.css`:
@@ -112,9 +112,11 @@ a[href]:focus-visible {
 
 The `js-in-css` module exports the following methods:
 
-### ` css``  `
+### <code>css\`...`</code>
 
-Dumb tagged template literal that returns a `string`.
+Dumb tagged template literal that returns a `string`. Mostly it guarantees
+nice syntax highlighting and code-completion in VSCode by using a well-known
+name.
 
 ```ts
 import { css } from 'js-in-css';
