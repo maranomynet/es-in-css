@@ -20,6 +20,25 @@ For good developer experience, it'd be best to use VSCode with the
 for instant syntax highlighting and IntelliSense autocomplete inside the CSS
 template literals.
 
+<!-- prettier-ignore-start -->
+
+- [Quick-Start Guide](#quick-start-guide)
+- [CSS Authoring Features](#css-authoring-features)
+  - [`css` Templater](#css-templater)
+  - [`scoped` Name Generator](#scoped-name-generator)
+  - [Unit Value Helpers](#unit-value-helpers)
+  - [Unit Converters](#unit-converters)
+  - [`variables` Helper](#variables-helper)
+    - [`VariableData.declarations`](#variabledatadeclarations)
+    - [`VariableData.vars`](#variabledatavars)
+    - [`VariableData.override`](#variabledataoverride)
+    - [`VariableOptions`](#variableoptions)
+- [Roadmap](#roadmap)
+  - [Maybe:](#maybe)
+  - [Not planned:](#not-planned)
+
+<!-- prettier-ignore-end -->
+
 ## Quick-Start Guide
 
 ```sh
