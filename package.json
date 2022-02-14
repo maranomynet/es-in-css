@@ -22,7 +22,10 @@
     },
     "main": "lib/index.cjs.js",
     "module": "lib/index.esm.js",
-    "types": "lib/index.d.ts"
+    "types": "lib/index.d.ts",
+    "bin": {
+      "js-in-css": "bin/compiler.js"
+    }
   },
   "engines": {
     "node": "^16"

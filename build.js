@@ -49,45 +49,56 @@ const exit1 = (err) => {
 // ---------------------------------------------------------------------------
 
 const testsDir = '__tests';
+const outdir = 'dist/';
+const baseOpts = {
+  bundle: true,
+  platform: 'node',
+  external: allDeps,
+  watch: opts.dev,
+  // define: {
+  //   'process.env.DEV_FILE_SERVER': JSON.stringify(process.env.DEV_FILE_SERVER),
+  // },
+};
+
+// ---------------------------------------------------------------------------
 
 exec('rm -rf ' + testsDir + ' && mkdir ' + testsDir);
+exec('rm -rf ' + outdir + ' && mkdir ' + outdir);
+exec('cp README.md CHANGELOG.md ' + outdir);
+makePackageJson(outdir);
+
+// ---------------------------------------------------------------------------
+
 esbuild
   .build({
-    entryPoints: glob('src/**/*.tests.ts'),
-    // entrypPoints: glob('src/**/*.tests.ts', { ignore: '**/__*.tests.ts' }),
+    ...baseOpts,
     outdir: testsDir,
-    format: 'cjs',
-    bundle: true,
-    external: allDeps,
-    watch: opts.dev,
+    entryPoints: glob('src/**/*.tests.ts'),
   })
   .catch(exit1);
 
 // ---------------------------------------------------------------------------
 
-if (!opts.dev) {
-  const outdir = 'dist/';
+const build = (format, extraCfg) =>
+  esbuild.build({
+    ...baseOpts,
+    platform: format === 'esm' ? 'neutral' : 'node',
+    outdir,
+    entryPoints: ['src/index.ts'],
+    entryNames: `lib/[name].${format}`,
+    ...extraCfg,
+  });
 
-  exec('rm -rf ' + outdir + ' && mkdir ' + outdir);
-  exec('cp README.md CHANGELOG.md ' + outdir);
-  makePackageJson(outdir);
+build('esm', { plugins: [dtsPlugin({ outDir: outdir + 'lib/' })] }).catch(exit1);
+build('cjs').catch(exit1);
 
-  const build = (format, extraCfg) =>
-    esbuild.build({
-      entryPoints: ['src/index.ts'],
-      entryNames: `lib/[name].${format}`,
-      platform: format === 'cjs' ? 'node' : 'neutral',
-      outdir,
-      bundle: true,
-      external: allDeps,
-      // define: {
-      //   'process.env.DEV_FILE_SERVER': JSON.stringify(process.env.DEV_FILE_SERVER),
-      // },
-      ...extraCfg,
-    });
+// ---------------------------------------------------------------------------
 
-  build('esm', { plugins: [dtsPlugin({ outDir: outdir + 'lib/' })] }).catch(exit1);
-  build('cjs').catch(exit1);
-
-  // TODO: Build cli tool as cjs
-}
+esbuild.build({
+  ...baseOpts,
+  outdir: outdir + 'bin/',
+  entryPoints: ['src/compiler.ts'],
+  // define: {
+  //   'process.env.DEV_FILE_SERVER': JSON.stringify(process.env.DEV_FILE_SERVER),
+  // },
+});
