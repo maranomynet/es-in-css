@@ -5,8 +5,17 @@ export const css = function (
   const valCount = values.length;
   return strings
     .map((str, i) => {
-      const val = i < valCount ? String(values[i]) : '';
-      return str + val;
+      if (i === valCount) {
+        return str;
+      }
+      const rawValue = values[i];
+      const value = Array.isArray(rawValue)
+        ? rawValue.join(' ')
+        : typeof rawValue === 'function'
+        ? rawValue()
+        : rawValue;
+
+      return str + value;
     })
     .join('');
 };
