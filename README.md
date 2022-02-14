@@ -33,6 +33,9 @@ template literals.
     - [`VariableData.vars`](#variabledatavars)
     - [`VariableData.override`](#variabledataoverride)
     - [`VariableOptions`](#variableoptions)
+- [Compilation API](#compilation-api)
+  - [CLI Syntax](#cli-syntax)
+  - [CLI Example Usage](#cli-example-usage)
 - [Roadmap](#roadmap)
   - [Maybe:](#maybe)
   - [Not planned:](#not-planned)
@@ -95,10 +98,16 @@ export default css`
 `
 ```
 
-Then build the CSS file with the command:
+Then build/compile the CSS file with the command:
 
 ```sh
-./node_modules/.bin/js-in-css "src/*.css.js" --dest dist/styles
+yarn run js-in-css "src/*.css.js" --outdir=dist/styles
+```
+
+or using npm:
+
+```sh
+npm exec js-in-css "src/*.css.js" --outdir=dist/styles`
 ```
 
 Now you have a file called `dest/styles/cool-design.css`:
@@ -382,6 +391,94 @@ const v3 = variables({ link__color: 'blue' }, v3opts);
 
 v3.declarations; // `--link--color: blue;\n`
 v3.vars.link__color(); // `var(--link--color)`
+```
+
+## Compilation API
+
+The `js-in-css` package exposes a CLI script of the same name. (Use `yarn run`
+or `npm exec` to run it, unless you have `./node_modules/.bin/` in PATH, or
+js-in-css is installed "globally".)
+
+The `js-in-css` compiler imports/requires the default string export of the
+passed javascript modules and passes it through a series of `postcss` plugins
+before writing the resulting CSS to disc.
+
+### CLI Syntax
+
+```sh
+js-in-css "inputglob" --outbase=src/path --outdir=out/path --minify
+```
+
+**`inputglob`**
+
+Must be quoted. Handles all the patterns supported by the
+[`glob` module](https://www.npmjs.com/package/glob).
+
+**`--outdir`**
+
+By default the compiled CSS files are saved in the same folder as the source
+file. This is rarely the desired behavior so by setting `outdir` you choose
+where the compiled CSS files end up.
+
+The output file names replace the input-modules file-extension with `.css` —
+unless if the source file name ends in `.css.js`, in which case the `.js`
+ending is simply dropped.
+
+**`--outbase`**
+
+If your inputglob file list contains multiple entry points in separate
+directories, the directory structure will be replicated into the `outdir`
+starting from the lowest common ancestor directory among all input entry point
+paths.
+
+If you want to customize this behavior, you should set the `outbase` path.
+
+**`--minify`**
+
+Opts into moderately aggressive, yet safe [cssnano](https://cssnano.co/)
+minification of the resulting CSS.
+
+All comments are stripped, except ones that start with `/*!`.
+
+### CLI Example Usage
+
+```sh
+js-in-css "src/css/**/*.js" --outdir=dist/styles
+```
+
+Given the `src` folder contained the following files:
+
+```
+src/css/styles.css.js
+src/css/resets.js
+src/css/component/buttons.css.js
+src/css/component/formFields.js
+```
+
+The dist folder now contains:
+
+```
+dist/styles/styles.css
+dist/styles/resets.css
+dist/styles/component/buttons.css
+dist/styles/component/formFields.css
+```
+
+Note how the `src/css/` is automatically detected as a reasonable common
+ancestor. If you want to make `src/` the base folder, you must use the
+`outbase` option, like so:
+
+```sh
+js-in-css "src/css/**/*.js" --outbase=src --outdir=dist
+```
+
+The dist folder now contains:
+
+```
+dist/styles/css/styles.css
+dist/styles/css/resets.css
+dist/styles/css/component/buttons.css
+dist/styles/css/component/formFields.css
 ```
 
 ## Roadmap
