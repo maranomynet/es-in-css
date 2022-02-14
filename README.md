@@ -143,7 +143,7 @@ export default css`
 `;
 ```
 
-### `variables<T extends string>(vars: Record<T, string>): VariableData<T>`
+### `variables<T extends string>(vars: Record<T, VariableValue>, options?: VariableOptions): VariableData<T>`
 
 Helper to provide type-safety and code-completion when using CSS custom
 properties (CSS variables) at scale.
@@ -214,23 +214,34 @@ cssVars.declarations === declarations;
 // true
 ```
 
+#### `VariableOptions`
+
 By default only "simple" ascii alphanumerical variable-names are allowed
 (`/^[a-z0-9_-]+$/i`). If unsuppored/malformed variables names are passed, the
 function throws an error. However, you can author your own `RegExp` to
-validate the variable names by using the `variables.setNameRe()` config
-function:
+validate the variable names, and a custom CSS variable-name mapper:
+
+##### `VariableOptions.nameRe`
 
 ```ts
 // Default behaviour rejects the 'ö' character
 const v1 = variables({ töff: 'blue' }); // ❌ Error
 
 // Set custom pattern allowing a few accented letters.
-variables.setNameRe(/^[a-z0-9_-áðéíóúýþæö]+$/i);
-const v2 = variables({ töff: 'blue' }); // ✅ OK
+const v2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i };
+const v2 = variables({ töff: 'blue' }, v2opts); // ✅ OK
+```
 
-// Pass undefined to reset to the default pattern
-variables.setNameRe();
-const v3 = variables({ töff: 'blue' }); // ❌ Error
+##### `VariableOptions.toCSSName`
+
+```ts
+const v3opts: VariableOptions = {
+  toCSSName: (name) => name.replace(/_/g, '-'),
+};
+const v3 = variables({ link__color: 'blue' }, v3opts);
+
+v3.declarations; // `--link--color: blue;\n`
+v3.vars.link__color(); // `var(--link--color)`
 ```
 
 ### `scoped(prefix?: string): string`
