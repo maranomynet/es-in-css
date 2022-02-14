@@ -181,13 +181,13 @@ used as values … with the option of passing a default value.
 ```ts
 const { vars } = cssVars;
 
-vars.linkColor + ''; // invokes .toString()
+vars.linkColor(); // also works
 // `var(--linkColor)`
 
-vars.linkColor(`default`);
-// `var(--linkColor, default)`
+vars.linkColor(`fallback`); // pass fallback value
+// `var(--linkColor, fallback)`
 
-vars.linkColor(); // also works
+vars.linkColor + ''; // invokes .toString()
 // `var(--linkColor)`
 
 `color: ${vars.linkColor__hover};`;
@@ -197,12 +197,14 @@ vars.linkColor(); // also works
 #### `VariableData<T>.override(vars: { [P in T]?: string })`
 
 Returns string with redeclarations for any of the variables of type `T`.
+Property names not matching `T` are dropped/ignored.
 
 ```ts
 const { declarations } = cssVars;
 
-cssVars.override({
+const overrideStr = cssVars.override({
   linkColor: `#ff0000`,
+  newVariable: `#ffffff`, // ignored/dropped
 });
 /*`
   --linkColor: #ff0000;
@@ -210,6 +212,25 @@ cssVars.override({
 
 cssVars.declarations === declarations;
 // true
+```
+
+By default only "simple" ascii alphanumerical variable-names are allowed
+(`/^[a-z0-9_-]+$/i`). If unsuppored/malformed variables names are passed, the
+function throws an error. However, you can author your own `RegExp` to
+validate the variable names by using the `variables.setNameRe()` config
+function:
+
+```ts
+// Default behaviour rejects the 'ö' character
+const v1 = variables({ töff: 'blue' }); // ❌ Error
+
+// Set custom pattern allowing a few accented letters.
+variables.setNameRe(/^[a-z0-9_-áðéíóúýþæö]+$/i);
+const v2 = variables({ töff: 'blue' }); // ✅ OK
+
+// Pass undefined to reset to the default pattern
+variables.setNameRe();
+const v3 = variables({ töff: 'blue' }); // ❌ Error
 ```
 
 ### `scoped(prefix?: string): string`
