@@ -108,11 +108,13 @@ a[href]:focus-visible {
 }
 ```
 
-## Features
+## CSS Authoring Features
 
 The `js-in-css` module exports the following methods:
 
-### <code>css\`...`</code>
+### `css` Templater
+
+**Syntax:** <code>css\`...`: string</code>
 
 Dumb tagged template literal that returns a `string`. Mostly it guarantees
 nice syntax highlighting and code-completion in VSCode by using a well-known
@@ -143,108 +145,9 @@ export default css`
 `;
 ```
 
-### `variables<T extends string>(vars: Record<T, VariableValue>, options?: VariableOptions): VariableData<T>`
+### `scoped` Name Generator
 
-Helper to provide type-safety and code-completion when using CSS custom
-properties (CSS variables) at scale.
-
-```ts
-import { variables, css } from 'js-in-css';
-
-const cssVars = variables({
-  linkColor: `#0000ff`,
-  linkColor__hover: `#cc00cc`,
-});
-```
-
-The returned objects contains the following:
-
-#### `VariableData<T>.declarations`
-
-Is a CSS string with all the custom property declarations, ready to be dumped
-into a CSS rule block.
-
-```ts
-cssCars.declarations;
-/*`
-  --linkColor: #0000ff;
-  --linkColor__hover: #cc00cc;
-`*/
-```
-
-#### `VariableData<T>.vars`
-
-Holds a readonly `Record<T, VariablePrinter>` object where the
-`VariablePrinter`s emit the variable names wrapped in `var()`, ready to be
-used as values … with the option of passing a default value.
-
-```ts
-const { vars } = cssVars;
-
-vars.linkColor(); // also works
-// `var(--linkColor)`
-
-vars.linkColor(`fallback`); // pass fallback value
-// `var(--linkColor, fallback)`
-
-vars.linkColor + ''; // invokes .toString()
-// `var(--linkColor)`
-
-`color: ${vars.linkColor__hover};`;
-// `color: var(--linkColor__hover);`
-```
-
-#### `VariableData<T>.override(vars: { [P in T]?: string })`
-
-Returns string with redeclarations for any of the variables of type `T`.
-Property names not matching `T` are dropped/ignored.
-
-```ts
-const { declarations } = cssVars;
-
-const overrideStr = cssVars.override({
-  linkColor: `#ff0000`,
-  newVariable: `#ffffff`, // ignored/dropped
-});
-/*`
-  --linkColor: #ff0000;
-`*/
-
-cssVars.declarations === declarations;
-// true
-```
-
-#### `VariableOptions`
-
-By default only "simple" ascii alphanumerical variable-names are allowed
-(`/^[a-z0-9_-]+$/i`). If unsuppored/malformed variables names are passed, the
-function throws an error. However, you can author your own `RegExp` to
-validate the variable names, and a custom CSS variable-name mapper:
-
-##### `VariableOptions.nameRe`
-
-```ts
-// Default behaviour rejects the 'ö' character
-const v1 = variables({ töff: 'blue' }); // ❌ Error
-
-// Set custom pattern allowing a few accented letters.
-const v2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i };
-const v2 = variables({ töff: 'blue' }, v2opts); // ✅ OK
-```
-
-##### `VariableOptions.toCSSName`
-
-```ts
-const v3opts: VariableOptions = {
-  toCSSName: (name) => name.replace(/_/g, '-'),
-};
-const v3 = variables({ link__color: 'blue' }, v3opts);
-
-v3.declarations; // `--link--color: blue;\n`
-v3.vars.link__color(); // `var(--link--color)`
-```
-
-### `scoped(prefix?: string): string`
+**Syntax:** `scoped(prefix?: string): string`
 
 Returns a randomized/unique string token, with an optional `prefix`. These
 tokens can be using for naming `@keyframes` or for mangled class-names, if
@@ -273,7 +176,7 @@ export default css`
 `*/
 ```
 
-### Unit functions
+### Unit Value Helpers
 
 **Fixed sizes:** `px()` and `cm()`
 
@@ -327,7 +230,7 @@ export default css`
 `*/
 ```
 
-### Unit converters
+### Unit Converters
 
 100-based percentage values from proportions/fractions:  
 `pct_f()`, `vh_f()`, `vw_f()`, `vmin_f()` and `vmax_f()`.
@@ -350,6 +253,116 @@ Centimeters from other physical units:
 ```js
 cm_mm(33.3); // 3.33cm
 cm_in(1); // 2.54cm
+```
+
+### `variables` Helper
+
+**Syntax:**
+`variables<T extends string>(vars: Record<T, VariableValue>, options?: VariableOptions): VariableData<T>`
+
+Helper to provide type-safety and code-completion when using CSS custom
+properties (CSS variables) at scale.
+
+```ts
+import { variables, css } from 'js-in-css';
+
+const cssVars = variables({
+  linkColor: `#0000ff`,
+  linkColor__hover: `#cc00cc`,
+});
+```
+
+The returned objects contains the following:
+
+#### `VariableData.declarations`
+
+**Syntax:** `VariableData<T>.declarations: string`
+
+Is a CSS string with all the custom property declarations, ready to be dumped
+into a CSS rule block.
+
+```ts
+cssCars.declarations;
+/*`
+  --linkColor: #0000ff;
+  --linkColor__hover: #cc00cc;
+`*/
+```
+
+#### `VariableData.vars`
+
+**Syntax:** `VariableData<T>.vars: Record<T, VariablePrinter>`
+
+Holds a readonly `Record<T, VariablePrinter>` object where the
+`VariablePrinter`s emit the variable names wrapped in `var()`, ready to be
+used as values … with the option of passing a default value.
+
+```ts
+const { vars } = cssVars;
+
+vars.linkColor(); // also works
+// `var(--linkColor)`
+
+vars.linkColor(`fallback`); // pass fallback value
+// `var(--linkColor, fallback)`
+
+vars.linkColor + ''; // invokes .toString()
+// `var(--linkColor)`
+
+`color: ${vars.linkColor__hover};`;
+// `color: var(--linkColor__hover);`
+```
+
+#### `VariableData.override`
+
+**Syntax:** `VariableData<T>.override(vars: { [P in T]?: string }): string`
+
+Returns string with redeclarations for any of the variables of type `T`.
+Property names not matching `T` are dropped/ignored.
+
+```ts
+const { declarations } = cssVars;
+
+const overrideStr = cssVars.override({
+  linkColor: `#ff0000`,
+  newVariable: `#ffffff`, // ignored/dropped
+});
+/*`
+  --linkColor: #ff0000;
+`*/
+
+cssVars.declarations === declarations;
+// true
+```
+
+#### `VariableOptions`
+
+By default only "simple" ascii alphanumerical variable-names are allowed
+(`/^[a-z0-9_-]+$/i`). If unsuppored/malformed variables names are passed, the
+function throws an error. However, you can author your own `RegExp` to
+validate the variable names, and a custom CSS variable-name mapper:
+
+**`VariableOptions.nameRe?: RegExp`**
+
+```ts
+// Default behaviour rejects the 'ö' character
+const v1 = variables({ töff: 'blue' }); // ❌ Error
+
+// Set custom pattern allowing a few accented letters.
+const v2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i };
+const v2 = variables({ töff: 'blue' }, v2opts); // ✅ OK
+```
+
+**`VariableOptions.toCSSName?: (name: string) => string `**
+
+```ts
+const v3opts: VariableOptions = {
+  toCSSName: (name) => name.replace(/_/g, '-'),
+};
+const v3 = variables({ link__color: 'blue' }, v3opts);
+
+v3.declarations; // `--link--color: blue;\n`
+v3.vars.link__color(); // `var(--link--color)`
 ```
 
 ## Roadmap
