@@ -74,25 +74,58 @@ o.spec('variables helper', () => {
     }
   );
 
-  o('allows setting (and resetting) variable name RegExp', () => {
-    o(() => variables({ þú: 'red' })).throws(Error);
+  o('allows passing custom name RegExp', () => {
     // only allow two-letter names with the letters "þ" and "ú"
-    variables.setNameRe(/^[þú]{2}$/i);
-    o(variables({ þú: 'red', úþ: 'blue' }).declarations).equals(
-      '--þú: red;\n--úþ: blue;\n'
+    o(
+      variables(
+        {
+          þú: 'red',
+          úþ: 'blue',
+        },
+        { nameRe: /^[þú]{2}$/i }
+      ).declarations
+    ).equals('--þú: red;\n--úþ: blue;\n')('only "þ" and "ú" combos of length 2');
+    o(() => variables({ hi: 'red' }, { nameRe: /^[þú]{2}$/i })).throws(Error)(
+      'totally overrides the normal `nameRe`'
     );
-    o(() => variables({ link: 'red' })).throws(Error);
-    o(() => variables({ þúþú: 'red' })).throws(Error);
 
-    // reset back to the default name pattern
-    variables.setNameRe();
-    o(() => variables({ þú: 'red', úþ: 'blue' })).throws(Error);
-    o(() => variables({ link: 'red' })).notThrows(Error);
+    o(() => variables({ link: 'red' })).notThrows(Error)(
+      'default name patterns are unaffected'
+    );
+    o(() => variables({ þú: 'red', úþ: 'blue' })).throws(Error)(
+      'default name patterns are unaffected 2'
+    );
 
-    // rejects incomplete custom RegExp objects (must match from ^ to $)
-    o(() => variables.setNameRe(/[áúíó]+/)).throws(Error);
-    o(() => variables.setNameRe(/^[áúíó]+/)).throws(Error);
-    o(() => variables.setNameRe(/[áúíó]+$/)).throws(Error);
-    o(() => variables({ link: 'red' })).notThrows(Error);
+    // Rejects incomplete custom RegExp objects (must match from ^ to $)
+    o(() => variables({ þú: 'red' }, { nameRe: /[þú]{2}/i })).throws(Error)(
+      'rejects incomplete nameRe 1'
+    );
+    o(() => variables({ þú: 'red' }, { nameRe: /^[þú]{2}/ })).throws(Error)(
+      'rejects incomplete nameRe 2'
+    );
+    o(() => variables({ þú: 'red' }, { nameRe: /[þú]{2}$/ })).throws(Error)(
+      'rejects incomplete nameRe 3'
+    );
+  });
+
+  o('allows passing custom name toCSSName mapper', () => {
+    const res2 = variables(
+      { link__hover: 'red' },
+      { toCSSName: (name) => name.replace(/_/g, '-') }
+    );
+    o(res2.declarations).equals('--link--hover: red;\n');
+    o('link__hover' in res2.vars).equals(true);
+    o('link--hover' in res2.vars).equals(false);
+    o(
+      res2.override({
+        // @ts-expect-error  (Invalid key)
+        'link--hover': 'blue',
+      })
+    ).equals('');
+    o(res2.override({ link__hover: 'blue' })).equals('--link--hover: blue;\n');
+
+    o(() =>
+      variables({ link$$hover: 'red' }, { toCSSName: (name) => name.replace(/$/g, '-') })
+    ).throws(Error)('toCSSName does not obviate the `nameRe` validation');
   });
 });
