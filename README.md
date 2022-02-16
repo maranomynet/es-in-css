@@ -61,15 +61,15 @@ const colors = {
 
 const bp = { large: 850 };
 const mq = {
-  small: `screen and (max-width: ${px(bp.large - 1)})`
-  large: `screen and (min-width: ${px(bp.large)})`
+  small: `screen and (max-width: ${px(bp.large - 1)})`,
+  large: `screen and (min-width: ${px(bp.large)})`,
 };
 
 const cssVars = variables({
   linkColor: colors.red,
   'linkColor--hover': colors.purple, // dashes must be quoted
-  linkColor__focus: `var(--focusColor)`;
-  focusColor: `peach`;
+  linkColor__focus: `var(--focusColor)`,
+  focusColor: `peach`,
 });
 const vars = cssVars.vars;
 
@@ -95,7 +95,7 @@ export default css`
       background-color: ${colors.yellow};
     }
   }
-`
+`;
 ```
 
 Then build/compile the CSS file with the command:
@@ -322,8 +322,8 @@ cssCars.declarations;
 **Syntax:** `VariableData<T>.vars: Record<T, VariablePrinter>`
 
 Holds a readonly `Record<T, VariablePrinter>` object where the
-`VariablePrinter`s emit the variable names wrapped in `var()`, ready to be
-used as values … with the option of passing a default value.
+`VariablePrinter`s emit the CSS variable names wrapped in `var()`, ready to be
+used as CSS values … with the option of passing a default/fallback value.
 
 ```ts
 const { vars } = cssVars;
