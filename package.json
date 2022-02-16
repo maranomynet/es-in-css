@@ -1,19 +1,19 @@
 {
-  "name": "js-in-css",
-  "version": "0.0.0",
+  "name": "es-in-css",
+  "version": "0.1.0",
   "description": "Need to write CSS, but tired of SASS, LESS et al? Try JavaScript/TypeScript in CSS.",
   "scripts": {
     "format": "eslint --fix  \"*.{js,ts,tsx}\" \"src/**/*.{js,ts,tsx}\"  &&  prettier --write \"*.{json,md}\"  \"src/**/*.{json,md}\"",
-    "build": "tsc --noEmit  &&  node build.js  &&  yarn run test",
-    "dev": "yarn  &&  yarn concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"node build.js --dev\"  \"yarn run test:dev\"",
+    "build": "yarn install  &&  tsc --noEmit  &&  node build.js  &&  yarn run test",
+    "dev": "yarn install  &&  yarn run concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"node build.js --dev\"  \"yarn run test:dev\"",
     "prepublishOnly": "echo \"\nRun 'yarn run publishdist' to publish this package\n\n\"  && exit 1",
-    "publishdist": "yarn test  &&  yarn build  &&  cd dist  &&  npm publish",
+    "publishdist": "yarn run build  &&  cd dist  &&  npm publish",
     "test:dev": "sleep 1 \n yarn run test  \n yarn run test:watch",
     "test:watch": "onchange '__tests/**/*.tests.js' -d 500 -f add -f change -- ospec {{changed}}",
     "test": "ospec \"__tests/**/*.tests.js\"",
     "es-in-css": "node ./bin/compiler.js"
   },
-  "repository": "git@github.com:maranomynet/js-in-css.git",
+  "repository": "git@github.com:maranomynet/es-in-css.git",
   "author": "Már Örlygsson",
   "license": "MIT",
   "private": true,
@@ -25,7 +25,7 @@
     "module": "lib/index.esm.js",
     "types": "lib/index.d.ts",
     "bin": {
-      "js-in-css": "bin/compiler.js"
+      "es-in-css": "bin/compiler.js"
     }
   },
   "engines": {

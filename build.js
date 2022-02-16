@@ -13,6 +13,7 @@ const makePackageJson = (outdir) => {
   delete pkg.scripts;
   delete pkg.engines;
   delete pkg.private;
+  delete pkg.hxmstyle;
   delete pkg.devDependencies;
   delete pkg.dist_package_json;
 
@@ -73,6 +74,7 @@ esbuild
   .build({
     ...baseOpts,
     outdir: testsDir,
+    format: 'cjs',
     entryPoints: glob('src/**/*.tests.ts'),
   })
   .catch(exit1);
@@ -83,6 +85,7 @@ const build = (format, extraCfg) =>
   esbuild.build({
     ...baseOpts,
     platform: format === 'esm' ? 'neutral' : 'node',
+    format,
     outdir,
     entryPoints: ['src/index.ts'],
     entryNames: `lib/[name].${format}`,
