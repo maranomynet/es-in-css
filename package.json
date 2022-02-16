@@ -10,7 +10,8 @@
     "publishdist": "yarn test  &&  yarn build  &&  cd dist  &&  npm publish",
     "test:dev": "sleep 1 \n yarn run test  \n yarn run test:watch",
     "test:watch": "onchange '__tests/**/*.tests.js' -d 500 -f add -f change -- ospec {{changed}}",
-    "test": "ospec \"__tests/**/*.tests.js\""
+    "test": "ospec \"__tests/**/*.tests.js\"",
+    "es-in-css": "node ./bin/compiler.js"
   },
   "repository": "git@github.com:maranomynet/js-in-css.git",
   "author": "Már Örlygsson",
@@ -31,6 +32,7 @@
     "node": "^16"
   },
   "dependencies": {
+    "commander": "^9.0.0",
     "glob": "^7.2.0"
   },
   "devDependencies": {
