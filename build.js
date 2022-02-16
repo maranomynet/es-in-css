@@ -13,6 +13,7 @@ const makePackageJson = (outdir) => {
   delete pkg.scripts;
   delete pkg.engines;
   delete pkg.private;
+  delete pkg.hxmstyle;
   delete pkg.devDependencies;
   delete pkg.dist_package_json;
 
