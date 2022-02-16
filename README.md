@@ -483,14 +483,15 @@ dist/styles/css/component/formFields.css
 
 ## Roadmap
 
-- Make css minification optional
-- Add more helpful methods, including color functions, unit values, etc.
-- Expose a JavaScript build API
+- Add Color helpers for parsing, converting, adjusting, etc.
+- Expose a JavaScript build API with slightly more configurability
 
 ### Maybe:
 
-- `--watch` mode … although this might also be defined as out of scope
-- Ability to configure and/or chain more postcss plugins.
+- Add more helper utilities (ideas?)
+- `--watch` mode … may be out of scope
+- Ability to add more postcss plugins and more fine-grained plugin
+  configurability.
 
 ### Not planned:
 
