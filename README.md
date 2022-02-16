@@ -15,10 +15,10 @@ Selector nesting, `//` comment support and autoprefixer features are
 automatically provided by `postCSS`, but apart from that it's all pretty
 basic. Just you composing CSS.
 
-For good developer experience, it'd be best to use VSCode with the
-[**vscode-styled-components** extension](https://marketplace.visualstudio.com/items?itemName=stmponents.vscode-stmponents)
-for instant syntax highlighting and IntelliSense autocomplete inside the CSS
-template literals.
+For good developer experience, it'd be best to use VSCode with the official
+[**vscode-styled-components** extension](https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components)
+for instant syntax highlighting and IntelliSense autocompletion inside
+` css``  ` template literals.
 
 <!-- prettier-ignore-start -->
 
