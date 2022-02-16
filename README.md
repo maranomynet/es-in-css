@@ -12,7 +12,7 @@ Overall this is a "do less" toolkit with tiny API, that mainly tries to stay
 out of your way.
 
 Selector nesting, `//` comment support and autoprefixer features are
-automoatically provided by `postCSS`, but apart from that it's all pretty
+automatically provided by `postCSS`, but apart from that it's all pretty
 basic. Just you composing CSS.
 
 For good developer experience, it'd be best to use VSCode with the
