@@ -2,7 +2,7 @@
 
 ---
 
-# js-in-css
+# es-in-css
 
 This library serves much of the same purpose as SASS/SCSS, LESS and other CSS
 preprocessors, but uses plain JavaScript/TypeScript to provide the
@@ -45,13 +45,13 @@ for instant syntax highlighting and IntelliSense autocompletion inside
 ## Quick-Start Guide
 
 ```sh
-yarn add --dev js-in-css
+yarn add --dev es-in-css
 ```
 
 Create a file called `src/cool-design.css.js`:
 
 ```ts
-import { css, variables, px } from 'js-in-css';
+import { css, variables, px } from 'es-in-css';
 
 const colors = {
   yellow: `yellow`,
@@ -101,13 +101,13 @@ export default css`
 Then build/compile the CSS file with the command:
 
 ```sh
-yarn run js-in-css "src/*.css.js" --outdir=dist/styles
+yarn run es-in-css "src/*.css.js" --outdir=dist/styles
 ```
 
 or using npm:
 
 ```sh
-npm exec js-in-css "src/*.css.js" --outdir=dist/styles`
+npm exec es-in-css "src/*.css.js" --outdir=dist/styles`
 ```
 
 Now you have a file called `dest/styles/cool-design.css`:
@@ -138,7 +138,7 @@ a[href]:focus-visible {
 
 ## CSS Authoring Features
 
-The `js-in-css` module exports the following methods:
+The `es-in-css` module exports the following methods:
 
 ### `css` Templater
 
@@ -149,7 +149,7 @@ nice syntax highlighting and code-completion in VSCode by using a well-known
 name.
 
 ```ts
-import { css } from 'js-in-css';
+import { css } from 'es-in-css';
 
 const themeColors = {
   yellow: `yellow`,
@@ -182,7 +182,7 @@ tokens can be using for naming `@keyframes` or for mangled class-names, if
 that's what you need:
 
 ```ts
-import { scoped, css } from 'js-in-css';
+import { scoped, css } from 'es-in-css';
 
 export const blockName = scoped(`.Button`); // 'Button_4af51c0d267'
 
@@ -218,7 +218,7 @@ These return light-weight object instances that can still be mostly treated as
 string **and** number liters depending on the context.
 
 ```ts
-import { px, css } from 'js-in-css';
+import { px, css } from 'es-in-css';
 
 const leftColW = px(300);
 const mainColW = px(700);
@@ -292,7 +292,7 @@ Helper to provide type-safety and code-completion when using CSS custom
 properties (CSS variables) at scale.
 
 ```ts
-import { variables, css } from 'js-in-css';
+import { variables, css } from 'es-in-css';
 
 const cssVars = variables({
   linkColor: `#0000ff`,
@@ -395,18 +395,18 @@ v3.vars.link__color(); // `var(--link--color)`
 
 ## Compilation API
 
-The `js-in-css` package exposes a CLI script of the same name. (Use `yarn run`
+The `es-in-css` package exposes a CLI script of the same name. (Use `yarn run`
 or `npm exec` to run it, unless you have `./node_modules/.bin/` in PATH, or
-js-in-css is installed "globally".)
+es-in-css is installed "globally".)
 
-The `js-in-css` compiler imports/requires the default string export of the
+The `es-in-css` compiler imports/requires the default string export of the
 passed javascript modules and passes it through a series of `postcss` plugins
 before writing the resulting CSS to disc.
 
 ### CLI Syntax
 
 ```sh
-js-in-css "inputglob" --outbase=src/path --outdir=out/path --minify
+es-in-css "inputglob" --outbase=src/path --outdir=out/path --minify
 ```
 
 **`inputglob`**
@@ -443,7 +443,7 @@ All comments are stripped, except ones that start with `/*!`.
 ### CLI Example Usage
 
 ```sh
-js-in-css "src/css/**/*.js" --outdir=dist/styles
+es-in-css "src/css/**/*.js" --outdir=dist/styles
 ```
 
 Given the `src` folder contained the following files:
@@ -469,7 +469,7 @@ ancestor. If you want to make `src/` the base folder, you must use the
 `outbase` option, like so:
 
 ```sh
-js-in-css "src/css/**/*.js" --outbase=src --outdir=dist
+es-in-css "src/css/**/*.js" --outbase=src --outdir=dist
 ```
 
 The dist folder now contains:

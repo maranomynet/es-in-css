@@ -1,5 +1,5 @@
 {
-  "name": "js-in-css",
+  "name": "es-in-css",
   "version": "0.0.0",
   "description": "Need to write CSS, but tired of SASS, LESS et al? Try JavaScript/TypeScript in CSS.",
   "scripts": {
@@ -12,7 +12,7 @@
     "test:watch": "onchange '__tests/**/*.tests.js' -d 500 -f add -f change -- ospec {{changed}}",
     "test": "ospec \"__tests/**/*.tests.js\""
   },
-  "repository": "git@github.com:maranomynet/js-in-css.git",
+  "repository": "git@github.com:maranomynet/es-in-css.git",
   "author": "Már Örlygsson",
   "license": "MIT",
   "private": true,
@@ -24,7 +24,7 @@
     "module": "lib/index.esm.js",
     "types": "lib/index.d.ts",
     "bin": {
-      "js-in-css": "bin/compiler.js"
+      "es-in-css": "bin/compiler.js"
     }
   },
   "engines": {
