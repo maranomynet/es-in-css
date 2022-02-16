@@ -74,6 +74,7 @@ esbuild
   .build({
     ...baseOpts,
     outdir: testsDir,
+    format: 'cjs',
     entryPoints: glob('src/**/*.tests.ts'),
   })
   .catch(exit1);
@@ -84,6 +85,7 @@ const build = (format, extraCfg) =>
   esbuild.build({
     ...baseOpts,
     platform: format === 'esm' ? 'neutral' : 'node',
+    format,
     outdir,
     entryPoints: ['src/index.ts'],
     entryNames: `lib/[name].${format}`,
