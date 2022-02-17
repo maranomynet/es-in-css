@@ -488,7 +488,7 @@ ancestor. If you want to make `src/` the base folder, you must use the
 `outbase` option, like so:
 
 ```sh
-es-in-css "src/css/**/*.js" --outbase=src --outdir=dist
+es-in-css "src/css/**/*.js" --outbase=src --outdir=dist/styles
 ```
 
 The dist folder now contains:
