@@ -13,6 +13,7 @@ export type VariableStyles<T extends string> = {
 
 type VariablePrinter = {
   (defaultValue?: VariableValue): string;
+  type: string;
   toString(): string;
   toJSON(): string;
 };
@@ -24,24 +25,35 @@ export type VariableOptions = {
 
 // ---------------------------------------------------------------------------
 
-const newVariablePrinter = (name: string) => {
-  const value = `var(--${name})`;
+const resolveType = (value: unknown) =>
+  typeof value === 'number'
+    ? 'number'
+    : value instanceof UnitValue
+    ? 'unit:' + value.unit
+    : 'unknown';
+
+const newVariablePrinter = (name: string, value: unknown) => {
+  const varString = `var(--${name})`;
 
   const printer: VariablePrinter = (defaultValue) =>
-    defaultValue ? value.replace(/\)$/, `, ${defaultValue})`) : value;
+    defaultValue ? varString.replace(/\)$/, `, ${defaultValue})`) : varString;
 
-  printer.toString = printer.toJSON = () => value;
+  printer.toString = printer.toJSON = () => varString;
+  printer.type = resolveType(value);
 
   return printer;
 };
 
 const mapObject = <T extends string, V>(
   input: Record<T, unknown>,
-  makeValue: (name: string) => V,
+  makeValue: (name: string, value: unknown) => V,
   toCSSName: (name: string) => string
 ): Record<T, V> =>
   Object.fromEntries(
-    (Object.keys(input) as Array<T>).map((name) => [name, makeValue(toCSSName(name))])
+    (Object.entries(input) as Array<[T, unknown]>).map(([name, value]) => [
+      name,
+      makeValue(toCSSName(name), value),
+    ])
   ) as Record<T, V>;
 
 const makeDeclarations = (
@@ -60,8 +72,8 @@ const makeDeclarations = (
       if (allowed && !(name in allowed)) {
         return '';
       }
-      const value = String(vars[name]).trim();
-      return `--${toCSSName(name)}: ${value};\n`;
+      const valueStr = String(vars[name]).trim();
+      return `--${toCSSName(name)}: ${valueStr};\n`;
     })
     .join('');
 };

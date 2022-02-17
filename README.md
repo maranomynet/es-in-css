@@ -341,6 +341,25 @@ vars.linkColor + ''; // invokes .toString()
 // `color: var(--linkColor__hover);`
 ```
 
+`VariablePrinter`s also have a `type` property that describes the original
+input value when this CSS variable was declared.
+
+```ts
+const typeTest = variables({
+  a: px(123),
+  b: rem(1.5),
+  c: 123,
+  d: `0 ${px(123)}`,
+});
+test.vars.a.type === 'unit:px'; // true
+test.vars.b.type === 'unit:rem'; // true
+test.vars.c.type === 'number'; // true
+test.vars.d.type === 'unknown'; // true
+```
+
+_**NOTE:** This type information can be used for introspection, but may not
+reflect the actual resolved type of the CSS variable because … The Cascade._
+
 #### `VariableData.override`
 
 **Syntax:** `VariableData<T>.override(vars: { [P in T]?: string }): string`

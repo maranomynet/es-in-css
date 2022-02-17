@@ -55,6 +55,16 @@ o.spec('variables helper', () => {
     );
   });
 
+  o('variable printers know the type of the value', () => {
+    const cwType = res.vars.componentWidth.type;
+    const cwsType = res.vars['componentWidth--small'].type;
+    const cwlType = res.vars.componentWidth__large.type;
+
+    o(cwType).equals('unit:px');
+    o(cwsType).equals('unknown');
+    o(cwlType).equals('number');
+  });
+
   o(
     'errors on malformed variable names and variable name tokens that require escaping',
     () => {
