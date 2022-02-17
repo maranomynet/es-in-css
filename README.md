@@ -107,7 +107,7 @@ yarn run es-in-css "src/*.css.js" --outdir=dist/styles
 or using npm:
 
 ```sh
-npm exec es-in-css "src/*.css.js" --outdir=dist/styles`
+npm exec es-in-css "src/*.css.js" --outdir=dist/styles
 ```
 
 Now you have a file called `dest/styles/cool-design.css`:
