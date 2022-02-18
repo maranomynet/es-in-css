@@ -1,7 +1,7 @@
 import o from 'ospec';
 
+import { px } from './units';
 import { variables } from './variables';
-import { px } from '.';
 
 o.spec('variables helper', () => {
   const res = variables({
