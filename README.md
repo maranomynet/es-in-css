@@ -11,7 +11,9 @@ preprocessors, but uses plain JavaScript/TypeScript to provide the
 Overall this is a "do less" toolkit with tiny API, that mainly tries to stay
 out of your way.
 
-Selector nesting, `//` comment support and autoprefixer features are
+[SCSS-style selector nesting](https://www.npmjs.com/package/postcss-nested),
+[`// comments` support](https://www.npmjs.com/package/postcss-comment) and
+[autoprefixer](https://www.npmjs.com/package/autoprefixer) features are
 automatically provided by `postCSS`, but apart from that it's all pretty
 basic. Just you composing CSS.
 
