@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Log warnings on wonky `scoped()` prefixes (in dev mode)
 - feat: Add angle unit function `deg()` — and converters from `turn`, `rad`
   and `grad`
 - feat: Add `VariablePrinter.type`

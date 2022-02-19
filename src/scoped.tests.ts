@@ -1,8 +1,8 @@
 import o from 'ospec';
 
-import { scoped } from './scoped';
+import { _scoped as scoped } from './scoped.private';
 
-o.spec('scroped name generator', () => {
+o.spec('scoped name generator', () => {
   o('outputs a new string every time', () => {
     const name1 = scoped();
     const name2 = scoped();
