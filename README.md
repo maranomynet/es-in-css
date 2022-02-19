@@ -288,7 +288,7 @@ cm_in(1); // 2.54cm
 ```
 
 Degrees from other angle units:  
-`deg_rad()`, `deg_turn()`, `deg_grad()`,
+`deg_turn()`, `deg_rad()`, `deg_grad()`,
 
 ```js
 deg_turn(0.75); // 270deg
