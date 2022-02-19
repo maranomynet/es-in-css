@@ -74,3 +74,14 @@ export const cm_mm = (n: plainNumber) => cm(n * 0.1);
 export const cm_pt = (n: plainNumber) => cm(n * 0.0352777778);
 /** Multiplies the input by .42333333333 before returning a `cm` value */
 export const cm_pc = (n: plainNumber) => cm(n * 0.42333333333);
+
+export type DegValue = number & UnitValue<'deg'>;
+export const deg = (n: plainNumber | DegValue) => new UnitValue('deg', n) as DegValue;
+/** Multiplies the input by 360 before returning a `deg` value */
+export const deg_turn = (n: plainNumber) => deg(n * 360);
+const GRAD_TO_DEG = 360 / 400;
+/** Multiplies the input by 0.9 before returning a `deg` value */
+export const deg_grad = (n: plainNumber) => deg(n * GRAD_TO_DEG);
+const RAD_TO_DEG = 360 / (2 * Math.PI);
+/** Multiplies the input by 0.9 before returning a `deg` value */
+export const deg_rad = (n: plainNumber) => deg(n * RAD_TO_DEG);

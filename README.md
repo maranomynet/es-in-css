@@ -216,6 +216,8 @@ export default css`
 
 **Time:** `ms()`
 
+**Angle:** `deg()`
+
 These return light-weight object instances that can still be mostly treated as
 string **and** number liters depending on the context.
 
@@ -262,7 +264,7 @@ export default css`
 
 ### Unit Converters
 
-100-based percentage values from proportions/fractions:  
+Percentage values from proportions/fractions:  
 `pct_f()`, `vh_f()`, `vw_f()`, `vmin_f()` and `vmax_f()`.
 
 ```js
@@ -283,6 +285,14 @@ Centimeters from other physical units:
 ```js
 cm_mm(33.3); // 3.33cm
 cm_in(1); // 2.54cm
+```
+
+Degrees from other angle units:  
+`deg_rad()`, `deg_turn()`, `deg_grad()`,
+
+```js
+deg_turn(0.75); // 270deg
+deg_rad(-Math.PI); // -180deg
 ```
 
 ### `variables` Helper
