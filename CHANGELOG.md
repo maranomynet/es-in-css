@@ -3,9 +3,8 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
-- docs: Fix error in code example
 
-## 0.1.1
+## 0.1.1 — 1.1.2
 
 _2022-02-20_
 
@@ -15,6 +14,7 @@ _2022-02-20_
 - feat: Add new `VariableOptions` methods: `resolveType`, `isColor`
 - feat: Add `VariablePrinter.type`
 - feat: Log warnings on wonky `scoped()` prefixes (in dev mode)
+- docs: Fix error in code example
 
 ## 0.1.0
 
