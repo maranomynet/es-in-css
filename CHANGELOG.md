@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- docs: Fix error in code example
 
 ## 0.1.1
 

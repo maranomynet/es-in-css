@@ -187,7 +187,7 @@ that's what you need:
 ```ts
 import { scoped, css } from 'es-in-css';
 
-export const blockName = scoped(`.Button`); // 'Button_4af51c0d267'
+export const blockName = scoped(`Button`); // 'Button_4af51c0d267'
 
 export default css`
   .${blockName} {
