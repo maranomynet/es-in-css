@@ -505,7 +505,7 @@ v3.vars.link__color(); // `var(--link--color)`
 
 Runs ahead of the default type-resolution to detect custom types.
 
-If a falsy type name is returned, the default type resolver continuews running
+If a falsy type name is returned, the default type resolver continues running
 as normal.
 
 **`VariableOptions.isColor?: (value: unknown) => boolean`**
