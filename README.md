@@ -402,15 +402,38 @@ input value when this CSS variable was declared.
 
 ```ts
 const typeTest = variables({
-  a: px(123),
-  b: rem(1.5),
-  c: 123,
-  d: `0 ${px(123)}`,
+  z1: 0,
+  z2: '-0',
+  n1: 123,
+  n2: '1.23',
+  p: '50%',
+  s1: px(123),
+  s2: rem(1.5),
+  s3: '-2em',
+  t1: ms(500),
+  t2: '200ms',
+  a: deg(90),
+  c1: color('blue'),
+  c2: '#ff0000ff',
+  c3: 'rgba(123, 0, 0, .9)',
+  u: `0 ${px(123)}`,
 });
-test.vars.a.type === 'unit:px'; // true
-test.vars.b.type === 'unit:rem'; // true
-test.vars.c.type === 'number'; // true
-test.vars.d.type === 'unknown'; // true
+const tVars = typeTest.vars;
+
+tVars.z1.type === 'zero';
+tVars.z1.type === 'zero';
+tVars.n1.type === 'number';
+tVars.n2.type === 'number';
+tVars.p.type === 'percent';
+tVars.s2.type === 'size:rem';
+tVars.s3.type === 'size:em';
+tVars.t1.type === 'time:ms';
+tVars.t2.type === 'time:ms';
+tVars.a.type === 'angle:deg';
+tVars.c1.type === 'color';
+tVars.c2.type === 'color';
+tVars.c3.type === 'color';
+tVars.u.type === 'unknown';
 ```
 
 _**NOTE:** This type information can be used for introspection, but may not

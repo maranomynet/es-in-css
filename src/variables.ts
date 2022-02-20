@@ -1,6 +1,8 @@
+import { ColorValue } from './colors';
 import { UnitValue } from './units';
+import { resolveType } from './variables.resolveType';
 
-export type VariableValue = string | number | UnitValue;
+export type VariableValue = string | number | UnitValue | ColorValue;
 
 const DEFAULT_NAME_RE = /^[a-z0-9_-]+$/i;
 const DEFAULT_NAME_MAPPER = (name: string) => name;
@@ -37,34 +39,26 @@ export type VariableOptions = {
 
 // ---------------------------------------------------------------------------
 
-const resolveType = (value: unknown) =>
-  typeof value === 'number'
-    ? 'number'
-    : value instanceof UnitValue
-    ? 'unit:' + value.unit
-    : 'unknown';
-
-const newVariablePrinter = (name: string, value: unknown) => {
+const makeVariablePrinter = (name: string, type: string) => {
   const varString = `var(--${name})`;
 
   const printer: VariablePrinter = (defaultValue) =>
     defaultValue ? varString.replace(/\)$/, `, ${defaultValue})`) : varString;
 
   printer.toString = printer.toJSON = () => varString;
-  printer.type = resolveType(value);
+  printer.type = type;
 
   return printer;
 };
 
 const mapObject = <T extends string, V>(
   input: Record<T, unknown>,
-  makeValue: (name: string, value: unknown) => V,
-  toCSSName: (name: string) => string
+  makeValue: (name: string, value: unknown) => V
 ): Record<T, V> =>
   Object.fromEntries(
     (Object.entries(input) as Array<[T, unknown]>).map(([name, value]) => [
       name,
-      makeValue(toCSSName(name), value),
+      makeValue(name, value),
     ])
   ) as Record<T, V>;
 
@@ -106,7 +100,9 @@ export const variables = <T extends string>(
   };
   return {
     declarations: makeDeclarations(input, opts),
-    vars: mapObject(input, newVariablePrinter, opts.toCSSName),
+    vars: mapObject(input, (name, value) =>
+      makeVariablePrinter(toCSSName(name), resolveType(value))
+    ),
     override: (overrides) => makeDeclarations(overrides, opts, input),
   };
 };
