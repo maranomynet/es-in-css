@@ -3,12 +3,17 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.1.1
+
+_2022-02-20_
+
 - feat: Add `color` helpers
-- feat: Log warnings on wonky `scoped()` prefixes (in dev mode)
 - feat: Add angle unit function `deg()` — and converters from `turn`, `rad`
   and `grad`
 - feat: Add new `VariableOptions` methods: `resolveType`, `isColor`
 - feat: Add `VariablePrinter.type`
+- feat: Log warnings on wonky `scoped()` prefixes (in dev mode)
 
 ## 0.1.0
 
