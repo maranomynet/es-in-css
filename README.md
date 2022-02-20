@@ -30,6 +30,7 @@ for instant syntax highlighting and IntelliSense autocompletion inside
   - [`scoped` Name Generator](#scoped-name-generator)
   - [Unit Value Helpers](#unit-value-helpers)
   - [Unit Converters](#unit-converters)
+  - [Color Helper](#color-helper)
   - [`variables` Helper](#variables-helper)
     - [`VariableData.declarations`](#variabledatadeclarations)
     - [`VariableData.vars`](#variabledatavars)
@@ -294,6 +295,49 @@ Degrees from other angle units:
 deg_turn(0.75); // 270deg
 deg_rad(-Math.PI); // -180deg
 ```
+
+### Color Helper
+
+`es-in-css` bundles the [`color` package](https://www.npmjs.com/package/color)
+and simply exposes it as `color`.
+
+```ts
+import { color, css } from 'es-in-css';
+
+const c1 = color('red');
+const c2 = c1.fade(0.8).desaturate(0.5);
+
+export default css`
+  div {
+    color: ${c1};
+    background-color: ${c2};
+  }
+`;
+/*`
+  div {
+    color: rgb(255, 0, 0);
+    background-color: hsla(0, 50%, 50%, 0.2);
+  }
+`*/
+```
+
+It also exports `rgb()` and `hsl()` which are simply aliases of the `color`
+package's static class methods of the same names.
+
+```ts
+import { rgb, hsl, color } from 'es-in-css';
+
+const rgbRed = rgb(255, 0, 0);
+const hslRed = hsl(0, 100, 50);
+// With alpha channel
+const rgbRedFaded = rgb(255, 0, 0, 0.5);
+const hslRedFaded = hsl(0, 100, 50, 0.5);
+
+rgb === color.rgb; // true
+hsl === color.hsl; // true
+```
+
+Feel free to import your own color helper library, and use it instead.
 
 ### `variables` Helper
 
