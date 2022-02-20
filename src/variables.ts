@@ -35,6 +35,22 @@ export type VariableOptions = {
    * Default: `(name) => name`
    */
   toCSSName: (name: string) => string;
+  /**
+   * Use this option if you're using a custom color manipulation library.
+   *
+   * Runs **after** the default color-detection logic, so it
+   * does not need to check for common CSS color string formats.
+   *
+   * Example: `(value) => value instance of MyColorClass`
+   */
+  isColor?: (value: unknown) => boolean;
+  /**
+   * Runs ahead of the default type-resolution to detect custom types.
+   *
+   * If a falsy type name is returned, the default type resolver runs
+   * as normal.
+   */
+  resolveType?: (value: unknown) => string | undefined;
 };
 
 // ---------------------------------------------------------------------------
@@ -94,15 +110,22 @@ export const variables = <T extends string>(
       'Custom variable name RegExp must check the whole name (i.e. start with a `^` and end with a `$`)'
     );
   }
-  const opts = {
-    nameRe: options.nameRe || DEFAULT_NAME_RE,
-    toCSSName: options.toCSSName || DEFAULT_NAME_MAPPER,
-  };
+  const {
+    nameRe = DEFAULT_NAME_RE,
+    toCSSName = DEFAULT_NAME_MAPPER,
+    resolveType: getCustomType,
+    isColor,
+  } = options;
+  const opts = { nameRe, toCSSName };
   return {
     declarations: makeDeclarations(input, opts),
-    vars: mapObject(input, (name, value) =>
-      makeVariablePrinter(toCSSName(name), resolveType(value))
-    ),
+    vars: mapObject(input, (name, value) => {
+      let type = (getCustomType && getCustomType(value)) || resolveType(value);
+      if (isColor && type !== 'color' && isColor(value)) {
+        type = 'color';
+      }
+      return makeVariablePrinter(toCSSName(name), type);
+    }),
     override: (overrides) => makeDeclarations(overrides, opts, input),
   };
 };

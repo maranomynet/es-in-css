@@ -7,6 +7,7 @@
 - feat: Log warnings on wonky `scoped()` prefixes (in dev mode)
 - feat: Add angle unit function `deg()` — and converters from `turn`, `rad`
   and `grad`
+- feat: Add new `VariableOptions` methods: `resolveType`, `isColor`
 - feat: Add `VariablePrinter.type`
 
 ## 0.1.0

@@ -196,4 +196,23 @@ o.spec('variables helper', () => {
       variables({ link$$hover: 'red' }, { toCSSName: (name) => name.replace(/$/g, '-') })
     ).throws(Error)('toCSSName does not obviate the `nameRe` validation');
   });
+
+  o('allows passing custom resolveType and isColor function', () => {
+    const { vars } = variables(
+      {
+        normal: '40px',
+        custom: '42px',
+        color: 'blue',
+        customColor: 'blár',
+      },
+      {
+        resolveType: (value) => (value === '42px' ? 'ultimate' : undefined),
+        isColor: (value) => value === 'blár',
+      }
+    );
+    o(vars.normal.type).equals('size:px');
+    o(vars.custom.type).equals('ultimate');
+    o(vars.color.type).equals('color');
+    o(vars.customColor.type).equals('color');
+  });
 });

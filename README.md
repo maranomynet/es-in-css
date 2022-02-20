@@ -501,6 +501,22 @@ v3.declarations; // `--link--color: blue;\n`
 v3.vars.link__color(); // `var(--link--color)`
 ```
 
+**`VariableOptions.resolvetype?: (value: unknown) => string | undefined`**
+
+Runs ahead of the default type-resolution to detect custom types.
+
+If a falsy type name is returned, the default type resolver continuews running
+as normal.
+
+**`VariableOptions.isColor?: (value: unknown) => boolean`**
+
+Use this option if you're using a custom color manipulation library.
+
+Runs **after** the default color-detection logic, so it does not need to check
+for common CSS color string formats.
+
+Example: `(value) => value instance of MyColorClass`
+
 ## Compilation API
 
 The `es-in-css` package exposes a CLI script of the same name. (Use `yarn run`
