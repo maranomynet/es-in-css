@@ -19,7 +19,19 @@ type VariablePrinter = {
 };
 
 export type VariableOptions = {
+  /**
+   * Custom name validation RegExp, for if you want/need to allow names
+   * more complex than the default setting allows.
+   *
+   * Default: `/^[a-z0-9_-]+$/i`
+   */
   nameRe: RegExp;
+  /**
+   * Maps weird/wonky JavaScript property names to CSS-friendly
+   * css custom property names.
+   *
+   * Default: `(name) => name`
+   */
   toCSSName: (name: string) => string;
 };
 

@@ -403,6 +403,11 @@ validate the variable names, and a custom CSS variable-name mapper:
 
 **`VariableOptions.nameRe?: RegExp`**
 
+Custom name validation RegExp, for if you want/need to allow names more
+complex than the default setting allows.
+
+(Default: `/^[a-z0-9_-]+$/i`)
+
 ```ts
 // Default behaviour rejects the 'ö' character
 const v1 = variables({ töff: 'blue' }); // ❌ Error
@@ -412,7 +417,12 @@ const v2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i }
 const v2 = variables({ töff: 'blue' }, v2opts); // ✅ OK
 ```
 
-**`VariableOptions.toCSSName?: (name: string) => string `**
+**`VariableOptions.toCSSName?: (name: string) => string`**
+
+Maps weird/wonky JavaScript property names to CSS-friendly css custom property
+names.
+
+(Default: `(name) => name`)
 
 ```ts
 const v3opts: VariableOptions = {

@@ -73,8 +73,9 @@ o.spec('variables helper', () => {
       // Weird but ok...
       o(() => variables({ '--': '100px' })).notThrows(Error);
       o(() => variables({ '--xx': '100px' })).notThrows(Error);
-      // Technically allowed, but just dumb. Not supported by the variables helper.
-      // roll your own.
+      // Technically allowed, but just dumb.
+      // By default, not supported by the variables helper.
+      // Use the `nameRe` and `toCSSName` options.
       o(() => variables({ ' linkColor': 'red' })).throws(Error);
       o(() => variables({ þú: 'red' })).throws(Error);
       o(() => variables({ 'link color': 'blue' })).throws(Error);
