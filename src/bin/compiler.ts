@@ -44,7 +44,7 @@ const getExportedCSS = (filePath: string) =>
     }
     // Handle es6 modules converted to commonjs with exported.default.default
     if (defaultExport && typeof defaultExport === 'object') {
-      const maybeCSS = (defaultExport as { default: unknown }).default;
+      const maybeCSS = (defaultExport as Record<string, unknown>).default;
       if (typeof maybeCSS === 'string') {
         return maybeCSS;
       }
