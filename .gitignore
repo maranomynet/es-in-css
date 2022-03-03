@@ -1,8 +1,9 @@
 # --------------------------------------------------------------------
-# deps and build results
+# deps and build/test results
 node_modules
 /dist
 /__tests
+*.css
 
 # --------------------------------------------------------------------
 # junk
@@ -28,8 +29,3 @@ yarn-error.log*
 
 # If .yarnrc.yml says: `nodeLinker: node-modules`
 /.pnp.*
-
-# --------------------------------------------------------------------
-# test data
-*.css.js
-*.css

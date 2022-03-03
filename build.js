@@ -49,7 +49,7 @@ const exit1 = (err) => {
 
 // ---------------------------------------------------------------------------
 
-const testsDir = '__tests';
+const testsDir = '__tests/';
 const outdir = 'dist/';
 const baseOpts = {
   bundle: true,
@@ -77,6 +77,17 @@ esbuild
     ...baseOpts,
     entryPoints: glob('src/**/*.tests.ts'),
     outdir: testsDir,
+  })
+  .catch(exit1);
+
+// ---------------------------------------------------------------------------
+// Build Compiler Test CSS.js files
+
+esbuild
+  .build({
+    ...baseOpts,
+    entryPoints: glob('src/**/*.css.ts'),
+    outdir: testsDir + 'css/',
   })
   .catch(exit1);
 
