@@ -87,5 +87,6 @@
       "eslint-plugin-unused-imports",
       "prettier"
     ]
-  }
+  },
+  "packageManager": "yarn@3.2.0"
 }
