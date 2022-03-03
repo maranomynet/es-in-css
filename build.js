@@ -100,7 +100,7 @@ build('cjs').catch(exit1);
 esbuild.build({
   ...baseOpts,
   outdir: outdir + 'bin/',
-  entryPoints: ['bin/compiler.ts'],
+  entryPoints: ['src/bin/compiler.ts'],
   // define: {
   //   'process.env.DEV_FILE_SERVER': JSON.stringify(process.env.DEV_FILE_SERVER),
   // },
