@@ -12,7 +12,8 @@ Overall this is a "do less" toolkit with tiny API, that mainly tries to stay
 out of your way.
 
 SCSS-like [selector nesting](https://www.npmjs.com/package/postcss-nested),
-inline [`// comments` support](https://www.npmjs.com/package/postcss-comment)
+inline
+[`// comments` support](https://github.com/postcss/postcss-scss#2-inline-comments-for-postcss)
 and [autoprefixer](https://www.npmjs.com/package/autoprefixer) features are
 automatically provided by `postCSS`, but apart from that it's all pretty
 basic. Just you composing CSS.
