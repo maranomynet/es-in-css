@@ -54,6 +54,7 @@ const outdir = 'dist/';
 const baseOpts = {
   bundle: true,
   platform: 'node',
+  format: 'cjs',
   external: allDeps,
   watch: opts.dev,
   // define: {
@@ -69,39 +70,38 @@ exec('cp README.md CHANGELOG.md ' + outdir);
 makePackageJson(outdir);
 
 // ---------------------------------------------------------------------------
+// Build Unit Tests
 
 esbuild
   .build({
     ...baseOpts,
-    outdir: testsDir,
-    format: 'cjs',
     entryPoints: glob('src/**/*.tests.ts'),
+    outdir: testsDir,
   })
   .catch(exit1);
 
 // ---------------------------------------------------------------------------
+// Build Library
 
-const build = (format, extraCfg) =>
+const buildLib = (format, extraCfg) =>
   esbuild.build({
     ...baseOpts,
     platform: format === 'esm' ? 'neutral' : 'node',
     format,
-    outdir,
     entryPoints: ['src/index.ts'],
     entryNames: `lib/[name].${format}`,
+    outdir,
     ...extraCfg,
   });
 
-build('esm', { plugins: [dtsPlugin({ outDir: outdir + 'lib/' })] }).catch(exit1);
-build('cjs').catch(exit1);
+buildLib('esm', { plugins: [dtsPlugin({ outDir: outdir + 'lib/' })] }).catch(exit1);
+buildLib('cjs').catch(exit1);
 
 // ---------------------------------------------------------------------------
+// Build Compiler
 
 esbuild.build({
   ...baseOpts,
-  outdir: outdir + 'bin/',
   entryPoints: ['src/bin/compiler.ts'],
-  // define: {
-  //   'process.env.DEV_FILE_SERVER': JSON.stringify(process.env.DEV_FILE_SERVER),
-  // },
+  outdir: outdir + 'bin/',
 });
