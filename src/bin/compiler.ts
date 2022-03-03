@@ -64,8 +64,7 @@ function processFile(filePath: string) {
         // Converts inline comments to comment blocks
         parser: scss,
       })
-      .then((result: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      .then((result) => {
         makeFile(result.css, filePath);
       });
   });
@@ -73,7 +72,7 @@ function processFile(filePath: string) {
 
 const inputGlob = program.args[0];
 if (inputGlob !== undefined) {
-  glob(inputGlob, function (err: Error | null, files: Array<string>) {
+  glob(inputGlob, function (err, files) {
     files.forEach((file) => {
       processFile(file);
     });
