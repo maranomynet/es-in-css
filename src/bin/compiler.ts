@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 import autoprefixer from 'autoprefixer';
 import { Command } from 'commander';
+import cssnano from 'cssnano';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
-import postcss from 'postcss';
+import postcss, { AcceptedPlugin } from 'postcss';
 import nested from 'postcss-nested';
 import scss from 'postcss-scss';
 
@@ -13,7 +14,8 @@ const program = new Command('es-in-css');
 program
   .arguments('<glob>')
   .option('--outdir <dir>', 'output directory')
-  .option('--outbase <dir>', 'outbase directory');
+  .option('--outbase <dir>', 'outbase directory')
+  .option('--minify', 'minify the CSS output');
 
 program.parse();
 
@@ -54,7 +56,11 @@ const getExportedCSS = (filePath: string) =>
 
 function processFile(filePath: string) {
   getExportedCSS(filePath).then((css) => {
-    postcss([nested, autoprefixer])
+    const plugins: Array<AcceptedPlugin> = [nested, autoprefixer];
+    if (options.minify) {
+      plugins.push(cssnano({ preset: 'default' }));
+    }
+    postcss(plugins)
       .process(css, {
         from: undefined,
         // Converts inline comments to comment blocks

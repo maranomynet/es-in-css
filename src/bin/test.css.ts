@@ -23,6 +23,10 @@ const vars = cssVars.vars;
 // ---------------------------------------------------------------------------
 
 export default css`
+  /*!@deps
+    Button
+  */
+
   :root {
     ${cssVars.declarations}
   }
