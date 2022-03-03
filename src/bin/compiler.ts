@@ -2,7 +2,7 @@
 import autoprefixer from 'autoprefixer';
 import { Command } from 'commander';
 import cssnano from 'cssnano';
-import fs from 'fs';
+import { writeFile } from 'fs/promises';
 import glob from 'glob';
 import path from 'path';
 import postcss, { AcceptedPlugin } from 'postcss';
@@ -27,10 +27,8 @@ function makeFile(css: string, filePath: string) {
   if (path.extname(outFilePath) !== '.css') {
     outFilePath = outFilePath + '.css';
   }
-  fs.writeFile(outFilePath, css, (err: Error | null) => {
-    if (err) {
-      console.error(err);
-    }
+  writeFile(outFilePath, css).catch((err) => {
+    console.error(err);
   });
 }
 
