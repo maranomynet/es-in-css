@@ -32,10 +32,30 @@ function makeFile(css: string, filePath: string) {
   });
 }
 
+/**
+ * Imports default exported CSS from an input file.
+ * Resolves esm—commonjs wrappers if neccessary.
+ */
+const getExportedCSS = (filePath: string) =>
+  import(process.cwd() + '/' + filePath).then((exported: Record<string, unknown>) => {
+    const defaultExport = exported.default;
+    if (typeof defaultExport === 'string') {
+      return defaultExport;
+    }
+    // Handle es6 modules converted to commonjs with exported.default.default
+    if (defaultExport && typeof defaultExport === 'object') {
+      const maybeCSS = (defaultExport as { default: unknown }).default;
+      if (typeof maybeCSS === 'string') {
+        return maybeCSS;
+      }
+    }
+    throw new Error(`${filePath} has doesn't emit string as its default export`);
+  });
+
 function processFile(filePath: string) {
-  import(filePath).then((importedFile: { default: string }) => {
+  getExportedCSS(filePath).then((css) => {
     postcss([nested, autoprefixer])
-      .process(importedFile.default, { from: undefined })
+      .process(css, { from: undefined })
       .then((result: any) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         makeFile(result.css, filePath);
