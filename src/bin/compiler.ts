@@ -4,9 +4,9 @@ import { Command } from 'commander';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
-// import postcss from 'postcss-comment/hookRequire';
 import postcss from 'postcss';
 import nested from 'postcss-nested';
+import scss from 'postcss-scss';
 
 const program = new Command('es-in-css');
 
@@ -55,7 +55,11 @@ const getExportedCSS = (filePath: string) =>
 function processFile(filePath: string) {
   getExportedCSS(filePath).then((css) => {
     postcss([nested, autoprefixer])
-      .process(css, { from: undefined })
+      .process(css, {
+        from: undefined,
+        // Converts inline comments to comment blocks
+        parser: scss,
+      })
       .then((result: any) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         makeFile(result.css, filePath);
