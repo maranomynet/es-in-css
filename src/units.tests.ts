@@ -6,6 +6,9 @@ import {
   cm_mm,
   cm_pc,
   cm_pt,
+  deg_grad,
+  deg_rad,
+  deg_turn,
   ms_sec,
   pct_f,
   px,
@@ -59,15 +62,18 @@ o.spec('px helper', () => {
 
 o.spec('converters functions', () => {
   o('convert correctly', () => {
-    o(pct_f(0.5).toString()).equals('50%');
-    o(vw_f(0.5).toString()).equals('50vw');
-    o(vh_f(0.5).toString()).equals('50vh');
-    o(vmin_f(0.5).toString()).equals('50vmin');
-    o(vmax_f(0.5).toString()).equals('50vmax');
-    o(ms_sec(0.5).toString()).equals('500ms');
-    o(cm_in(0.5).toString()).equals('1.27cm');
-    o(cm_mm(0.5).toString()).equals('0.05cm');
-    o(cm_pc(0.5).toString()).equals('0.211666666665cm');
-    o(cm_pt(0.5).toString()).equals('0.0176388889cm');
+    o(pct_f(0.5).toString()).equals('50%')('pct_f');
+    o(vw_f(0.5).toString()).equals('50vw')('vw_f');
+    o(vh_f(0.5).toString()).equals('50vh')('vh_f');
+    o(vmin_f(0.5).toString()).equals('50vmin')('vmin_f');
+    o(vmax_f(0.5).toString()).equals('50vmax')('vmax_f');
+    o(ms_sec(0.5).toString()).equals('500ms')('ms_sec');
+    o(cm_in(0.5).toString()).equals('1.27cm')('cm_in');
+    o(cm_mm(0.5).toString()).equals('0.05cm')('cm_mm');
+    o(cm_pc(0.5).toString()).equals('0.211666666665cm')('cm_pc');
+    o(cm_pt(0.5).toString()).equals('0.0176388889cm')('cm_pt');
+    o(deg_turn(-0.5).toString()).equals('-180deg')('deg_turn');
+    o(deg_grad(-100).toString()).equals('-90deg')('deg_grad');
+    o(deg_rad(Math.PI).toString()).equals('180deg')('deg_rad');
   });
 });

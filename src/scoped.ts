@@ -1,5 +1,5 @@
-let count = 1;
-const rnd = () => Math.floor(100_000_000_000 * Math.random()).toString(36) + count++;
+import { _scoped } from './scoped.private';
 
-export const scoped = (prefix?: string): string =>
-  (prefix ? prefix.replace(/[\s/\\#{}@():;]/g, '_') + '_' : '') + rnd();
+const logWarnings = process.env.NODE_ENV !== 'production';
+
+export const scoped = (prefix?: string) => _scoped(prefix, logWarnings);

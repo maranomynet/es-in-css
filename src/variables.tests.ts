@@ -1,7 +1,9 @@
 import o from 'ospec';
 
+import { color } from './colors';
+import { px } from './units';
 import { variables } from './variables';
-import { px } from '.';
+import { deg, ms, pct, rem } from '.';
 
 o.spec('variables helper', () => {
   const res = variables({
@@ -55,6 +57,71 @@ o.spec('variables helper', () => {
     );
   });
 
+  o('variable printers know the type of the value', () => {
+    const vars = variables({
+      z1: 0,
+      z2: '0',
+      z3: '-0',
+      s1: px(123),
+      s2: rem(1.5),
+      s3: '-2em', // simple strings are paresed
+      t1: ms(500),
+      t2: '.5s',
+      a: deg(90),
+      p1: pct(1.5),
+      p2: '115.5%', // strings are paresed
+      c1: color('blue'),
+      c2: '#ff0000ff', // strings are parsed
+      c3: 'rgba(123, 0, 0, .9)',
+      c4: 'currentColor',
+      n1: 123,
+      n2: '1.23',
+      u1: `0 ${px(123)}`,
+      u2: '13furlong',
+    }).vars;
+
+    // TODO: Add typing support … maybe?
+    const z1 /* : 'zero' */ = vars.z1.type;
+    const z2 /* : 'zero' */ = vars.z2.type;
+    const z3 /* : 'zero' */ = vars.z3.type;
+    const s1 /* : 'size:px' */ = vars.s1.type;
+    const s2 /* : 'size:rem' */ = vars.s2.type;
+    const s3 /* : 'size:em' */ = vars.s3.type;
+    const t1 /* : 'time:ms' */ = vars.t1.type;
+    const t2 /* : 'time:ms' */ = vars.t2.type;
+    const a /* : 'angle:deg' */ = vars.a.type;
+    const p1 /* : 'color' */ = vars.p1.type;
+    const p2 /* : 'color' */ = vars.p2.type;
+    const c1 /* : 'color' */ = vars.c1.type;
+    const c2 /* : 'color' */ = vars.c2.type;
+    const c3 /* : 'color' */ = vars.c3.type;
+    const c4 /* : 'color' */ = vars.c4.type;
+    const n1 /* : 'number' */ = vars.n1.type;
+    const n2 /* : 'number' */ = vars.n2.type;
+    const u1 /* : 'unknown' */ = vars.u1.type;
+    const u2 /* : 'unknown' */ = vars.u2.type;
+
+    o(z1).equals('zero');
+    o(z2).equals('zero');
+    o(z3).equals('zero');
+    o(s1).equals('size:px');
+    o(s2).equals('size:rem');
+    o(s3).equals('size:em');
+    o(t1).equals('time:ms');
+    o(t2).equals('time:s');
+    o(a).equals('angle:deg');
+    o(p1).equals('percent');
+    o(p2).equals('percent');
+    o(c1).equals('color');
+    o(c2).equals('color');
+    o(c3).equals('color');
+    o(c4).equals('color');
+    o(n1).equals('number');
+    o(n2).equals('number');
+    o(u1).equals('unknown');
+    o(u2).equals('unknown');
+  });
+
   o(
     'errors on malformed variable names and variable name tokens that require escaping',
     () => {
@@ -63,8 +130,9 @@ o.spec('variables helper', () => {
       // Weird but ok...
       o(() => variables({ '--': '100px' })).notThrows(Error);
       o(() => variables({ '--xx': '100px' })).notThrows(Error);
-      // Technically allowed, but just dumb. Not supported by the variables helper.
-      // roll your own.
+      // Technically allowed, but just dumb.
+      // By default, not supported by the variables helper.
+      // Use the `nameRe` and `toCSSName` options.
       o(() => variables({ ' linkColor': 'red' })).throws(Error);
       o(() => variables({ þú: 'red' })).throws(Error);
       o(() => variables({ 'link color': 'blue' })).throws(Error);
@@ -127,5 +195,24 @@ o.spec('variables helper', () => {
     o(() =>
       variables({ link$$hover: 'red' }, { toCSSName: (name) => name.replace(/$/g, '-') })
     ).throws(Error)('toCSSName does not obviate the `nameRe` validation');
+  });
+
+  o('allows passing custom resolveType and isColor function', () => {
+    const { vars } = variables(
+      {
+        normal: '40px',
+        custom: '42px',
+        color: 'blue',
+        customColor: 'blár',
+      },
+      {
+        resolveType: (value) => (value === '42px' ? 'ultimate' : undefined),
+        isColor: (value) => value === 'blár',
+      }
+    );
+    o(vars.normal.type).equals('size:px');
+    o(vars.custom.type).equals('ultimate');
+    o(vars.color.type).equals('color');
+    o(vars.customColor.type).equals('color');
   });
 });

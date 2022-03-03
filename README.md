@@ -11,7 +11,9 @@ preprocessors, but uses plain JavaScript/TypeScript to provide the
 Overall this is a "do less" toolkit with tiny API, that mainly tries to stay
 out of your way.
 
-Selector nesting, `//` comment support and autoprefixer features are
+SCSS-like [selector nesting](https://www.npmjs.com/package/postcss-nested),
+inline [`// comments` support](https://www.npmjs.com/package/postcss-comment)
+and [autoprefixer](https://www.npmjs.com/package/autoprefixer) features are
 automatically provided by `postCSS`, but apart from that it's all pretty
 basic. Just you composing CSS.
 
@@ -28,6 +30,7 @@ for instant syntax highlighting and IntelliSense autocompletion inside
   - [`scoped` Name Generator](#scoped-name-generator)
   - [Unit Value Helpers](#unit-value-helpers)
   - [Unit Converters](#unit-converters)
+  - [Color Helper](#color-helper)
   - [`variables` Helper](#variables-helper)
     - [`VariableData.declarations`](#variabledatadeclarations)
     - [`VariableData.vars`](#variabledatavars)
@@ -107,7 +110,7 @@ yarn run es-in-css "src/*.css.js" --outdir=dist/styles
 or using npm:
 
 ```sh
-npm exec es-in-css "src/*.css.js" --outdir=dist/styles`
+npm exec es-in-css "src/*.css.js" --outdir=dist/styles
 ```
 
 Now you have a file called `dest/styles/cool-design.css`:
@@ -184,7 +187,7 @@ that's what you need:
 ```ts
 import { scoped, css } from 'es-in-css';
 
-export const blockName = scoped(`.Button`); // 'Button_4af51c0d267'
+export const blockName = scoped(`Button`); // 'Button_4af51c0d267'
 
 export default css`
   .${blockName} {
@@ -213,6 +216,8 @@ export default css`
 **Layout relative:** `pct()` (%), `vh()`, `vw()`, `vmin()` and `vmax()`
 
 **Time:** `ms()`
+
+**Angle:** `deg()`
 
 These return light-weight object instances that can still be mostly treated as
 string **and** number liters depending on the context.
@@ -260,7 +265,7 @@ export default css`
 
 ### Unit Converters
 
-100-based percentage values from proportions/fractions:  
+Percentage values from proportions/fractions:  
 `pct_f()`, `vh_f()`, `vw_f()`, `vmin_f()` and `vmax_f()`.
 
 ```js
@@ -282,6 +287,57 @@ Centimeters from other physical units:
 cm_mm(33.3); // 3.33cm
 cm_in(1); // 2.54cm
 ```
+
+Degrees from other angle units:  
+`deg_turn()`, `deg_rad()`, `deg_grad()`,
+
+```js
+deg_turn(0.75); // 270deg
+deg_rad(-Math.PI); // -180deg
+```
+
+### Color Helper
+
+`es-in-css` bundles the [`color` package](https://www.npmjs.com/package/color)
+and simply exposes it as `color`.
+
+```ts
+import { color, css } from 'es-in-css';
+
+const c1 = color('red');
+const c2 = c1.fade(0.8).desaturate(0.5);
+
+export default css`
+  div {
+    color: ${c1};
+    background-color: ${c2};
+  }
+`;
+/*`
+  div {
+    color: rgb(255, 0, 0);
+    background-color: hsla(0, 50%, 50%, 0.2);
+  }
+`*/
+```
+
+It also exports `rgb()` and `hsl()` which are simply aliases of the `color`
+package's static class methods of the same names.
+
+```ts
+import { rgb, hsl, color } from 'es-in-css';
+
+const rgbRed = rgb(255, 0, 0);
+const hslRed = hsl(0, 100, 50);
+// With alpha channel
+const rgbRedFaded = rgb(255, 0, 0, 0.5);
+const hslRedFaded = hsl(0, 100, 50, 0.5);
+
+rgb === color.rgb; // true
+hsl === color.hsl; // true
+```
+
+Feel free to import your own color helper library, and use it instead.
 
 ### `variables` Helper
 
@@ -341,6 +397,48 @@ vars.linkColor + ''; // invokes .toString()
 // `color: var(--linkColor__hover);`
 ```
 
+`VariablePrinter`s also have a `type` property that describes the original
+input value when this CSS variable was declared.
+
+```ts
+const typeTest = variables({
+  z1: 0,
+  z2: '-0',
+  n1: 123,
+  n2: '1.23',
+  p: '50%',
+  s1: px(123),
+  s2: rem(1.5),
+  s3: '-2em',
+  t1: ms(500),
+  t2: '200ms',
+  a: deg(90),
+  c1: color('blue'),
+  c2: '#ff0000ff',
+  c3: 'rgba(123, 0, 0, .9)',
+  u: `0 ${px(123)}`,
+});
+const tVars = typeTest.vars;
+
+tVars.z1.type === 'zero';
+tVars.z1.type === 'zero';
+tVars.n1.type === 'number';
+tVars.n2.type === 'number';
+tVars.p.type === 'percent';
+tVars.s2.type === 'size:rem';
+tVars.s3.type === 'size:em';
+tVars.t1.type === 'time:ms';
+tVars.t2.type === 'time:ms';
+tVars.a.type === 'angle:deg';
+tVars.c1.type === 'color';
+tVars.c2.type === 'color';
+tVars.c3.type === 'color';
+tVars.u.type === 'unknown';
+```
+
+_**NOTE:** This type information can be used for introspection, but may not
+reflect the actual resolved type of the CSS variable because … The Cascade._
+
 #### `VariableData.override`
 
 **Syntax:** `VariableData<T>.override(vars: { [P in T]?: string }): string`
@@ -372,6 +470,11 @@ validate the variable names, and a custom CSS variable-name mapper:
 
 **`VariableOptions.nameRe?: RegExp`**
 
+Custom name validation RegExp, for if you want/need to allow names more
+complex than the default setting allows.
+
+(Default: `/^[a-z0-9_-]+$/i`)
+
 ```ts
 // Default behaviour rejects the 'ö' character
 const v1 = variables({ töff: 'blue' }); // ❌ Error
@@ -381,7 +484,12 @@ const v2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i }
 const v2 = variables({ töff: 'blue' }, v2opts); // ✅ OK
 ```
 
-**`VariableOptions.toCSSName?: (name: string) => string `**
+**`VariableOptions.toCSSName?: (name: string) => string`**
+
+Maps weird/wonky JavaScript property names to CSS-friendly css custom property
+names.
+
+(Default: `(name) => name`)
 
 ```ts
 const v3opts: VariableOptions = {
@@ -392,6 +500,22 @@ const v3 = variables({ link__color: 'blue' }, v3opts);
 v3.declarations; // `--link--color: blue;\n`
 v3.vars.link__color(); // `var(--link--color)`
 ```
+
+**`VariableOptions.resolvetype?: (value: unknown) => string | undefined`**
+
+Runs ahead of the default type-resolution to detect custom types.
+
+If a falsy type name is returned, the default type resolver continues running
+as normal.
+
+**`VariableOptions.isColor?: (value: unknown) => boolean`**
+
+Use this option if you're using a custom color manipulation library.
+
+Runs **after** the default color-detection logic, so it does not need to check
+for common CSS color string formats.
+
+Example: `(value) => value instance of MyColorClass`
 
 ## Compilation API
 
@@ -469,7 +593,7 @@ ancestor. If you want to make `src/` the base folder, you must use the
 `outbase` option, like so:
 
 ```sh
-es-in-css "src/css/**/*.js" --outbase=src --outdir=dist
+es-in-css "src/css/**/*.js" --outbase=src --outdir=dist/styles
 ```
 
 The dist folder now contains:

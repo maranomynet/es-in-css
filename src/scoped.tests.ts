@@ -1,8 +1,8 @@
 import o from 'ospec';
 
-import { scoped } from './scoped';
+import { _scoped as scoped } from './scoped.private';
 
-o.spec('scroped name generator', () => {
+o.spec('scoped name generator', () => {
   o('outputs a new string every time', () => {
     const name1 = scoped();
     const name2 = scoped();
@@ -20,12 +20,18 @@ o.spec('scroped name generator', () => {
   o('accepts a prefix', () => {
     const prefixed = scoped('myPrefix');
     o(/^myPrefix_[0-9a-z]{6,}$/.test(prefixed)).equals(true);
+    o(scoped('.fúú_bar-baz$').startsWith('.fúú_bar-baz$_')).equals(true)(
+      'Allows periods and accented characters'
+    );
   });
 
   o('attempts to make wonky prefixes CSS safe', () => {
-    o(scoped('.foo bar').startsWith('.foo_bar')).equals(true);
-    o(scoped('.foo { bar: baz; }').startsWith('.foo___bar__baz____')).equals(true);
-    o(scoped('(foo)').startsWith('_foo__')).equals(true);
-    o(scoped('@media').startsWith('_media_')).equals(true);
+    o(scoped(' foo--bar ').startsWith('foo--bar_')).equals(true)('Trims prefixes');
+    o(scoped('.foo#id { bar:  baz; } ').startsWith('.foo_id___bar___baz____')).equals(
+      true
+    )('Does not collapse unsafe tokens');
+    o(scoped('@media screen and (foo) ').startsWith('_media_screen_and__foo__')).equals(
+      true
+    )('@ symbols and parentheses are unsafe');
   });
 });

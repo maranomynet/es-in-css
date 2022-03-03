@@ -1,6 +1,8 @@
+import { ColorValue } from './colors';
 import { UnitValue } from './units';
+import { resolveType } from './variables.resolveType';
 
-export type VariableValue = string | number | UnitValue;
+export type VariableValue = string | number | UnitValue | ColorValue;
 
 const DEFAULT_NAME_RE = /^[a-z0-9_-]+$/i;
 const DEFAULT_NAME_MAPPER = (name: string) => name;
@@ -13,35 +15,67 @@ export type VariableStyles<T extends string> = {
 
 type VariablePrinter = {
   (defaultValue?: VariableValue): string;
+  type: string;
   toString(): string;
   toJSON(): string;
 };
 
 export type VariableOptions = {
+  /**
+   * Custom name validation RegExp, for if you want/need to allow names
+   * more complex than the default setting allows.
+   *
+   * Default: `/^[a-z0-9_-]+$/i`
+   */
   nameRe: RegExp;
+  /**
+   * Maps weird/wonky JavaScript property names to CSS-friendly
+   * css custom property names.
+   *
+   * Default: `(name) => name`
+   */
   toCSSName: (name: string) => string;
+  /**
+   * Use this option if you're using a custom color manipulation library.
+   *
+   * Runs **after** the default color-detection logic, so it
+   * does not need to check for common CSS color string formats.
+   *
+   * Example: `(value) => value instance of MyColorClass`
+   */
+  isColor?: (value: unknown) => boolean;
+  /**
+   * Runs ahead of the default type-resolution to detect custom types.
+   *
+   * If a falsy type name is returned, the default type resolver runs
+   * as normal.
+   */
+  resolveType?: (value: unknown) => string | undefined;
 };
 
 // ---------------------------------------------------------------------------
 
-const newVariablePrinter = (name: string) => {
-  const value = `var(--${name})`;
+const makeVariablePrinter = (name: string, type: string) => {
+  const varString = `var(--${name})`;
 
   const printer: VariablePrinter = (defaultValue) =>
-    defaultValue ? value.replace(/\)$/, `, ${defaultValue})`) : value;
+    defaultValue ? varString.replace(/\)$/, `, ${defaultValue})`) : varString;
 
-  printer.toString = printer.toJSON = () => value;
+  printer.toString = printer.toJSON = () => varString;
+  printer.type = type;
 
   return printer;
 };
 
 const mapObject = <T extends string, V>(
   input: Record<T, unknown>,
-  makeValue: (name: string) => V,
-  toCSSName: (name: string) => string
+  makeValue: (name: string, value: unknown) => V
 ): Record<T, V> =>
   Object.fromEntries(
-    (Object.keys(input) as Array<T>).map((name) => [name, makeValue(toCSSName(name))])
+    (Object.entries(input) as Array<[T, unknown]>).map(([name, value]) => [
+      name,
+      makeValue(name, value),
+    ])
   ) as Record<T, V>;
 
 const makeDeclarations = (
@@ -60,8 +94,8 @@ const makeDeclarations = (
       if (allowed && !(name in allowed)) {
         return '';
       }
-      const value = String(vars[name]).trim();
-      return `--${toCSSName(name)}: ${value};\n`;
+      const valueStr = String(vars[name]).trim();
+      return `--${toCSSName(name)}: ${valueStr};\n`;
     })
     .join('');
 };
@@ -76,13 +110,22 @@ export const variables = <T extends string>(
       'Custom variable name RegExp must check the whole name (i.e. start with a `^` and end with a `$`)'
     );
   }
-  const opts = {
-    nameRe: options.nameRe || DEFAULT_NAME_RE,
-    toCSSName: options.toCSSName || DEFAULT_NAME_MAPPER,
-  };
+  const {
+    nameRe = DEFAULT_NAME_RE,
+    toCSSName = DEFAULT_NAME_MAPPER,
+    resolveType: getCustomType,
+    isColor,
+  } = options;
+  const opts = { nameRe, toCSSName };
   return {
     declarations: makeDeclarations(input, opts),
-    vars: mapObject(input, newVariablePrinter, opts.toCSSName),
+    vars: mapObject(input, (name, value) => {
+      let type = (getCustomType && getCustomType(value)) || resolveType(value);
+      if (isColor && type !== 'color' && isColor(value)) {
+        type = 'color';
+      }
+      return makeVariablePrinter(toCSSName(name), type);
+    }),
     override: (overrides) => makeDeclarations(overrides, opts, input),
   };
 };
