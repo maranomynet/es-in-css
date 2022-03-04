@@ -12,10 +12,18 @@ import scss from 'postcss-scss';
 const program = new Command('es-in-css');
 
 program
-  .arguments('<glob>')
-  .option('--outdir <dir>', 'output directory')
-  .option('--outbase <dir>', 'outbase directory')
-  .option('--minify', 'minify the CSS output');
+  .arguments('<inputglob>')
+  .option('--outdir <dir>', 'Output directory')
+  .option(
+    '--outbase <dir>',
+    'Specific common parent directory for the input glob file list — auto-detected by default.'
+  )
+  .option('--minify', 'Minify the CSS output. Uses cssnano with its "default" preset.');
+// // Feature idea:
+// .option(
+//   '--prettify',
+//   "Runs the result CSS through Prettier. Respects project's .prettierrc. Ignored if mixed with --minify."
+// );
 
 program.parse();
 
