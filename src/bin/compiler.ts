@@ -3,7 +3,7 @@ import autoprefixer from 'autoprefixer';
 import { Command } from 'commander';
 import cssnano from 'cssnano';
 import { writeFile } from 'fs/promises';
-import glob from 'glob';
+import { sync as glob } from 'glob';
 import path from 'path';
 import postcss, { AcceptedPlugin } from 'postcss';
 import nested from 'postcss-nested';
@@ -79,10 +79,6 @@ function processFile(filePath: string) {
 }
 
 const inputGlob = program.args[0];
-if (inputGlob !== undefined) {
-  glob(inputGlob, function (err, files) {
-    files.forEach((file) => {
-      processFile(file);
-    });
-  });
+if (inputGlob) {
+  glob(inputGlob).forEach(processFile);
 }
