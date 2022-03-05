@@ -9,6 +9,8 @@ import postcss, { AcceptedPlugin } from 'postcss';
 import nested from 'postcss-nested';
 import scss from 'postcss-scss';
 
+import { getExportedCSS } from './getExportedCSS';
+
 const program = new Command('es-in-css');
 
 program
@@ -39,26 +41,6 @@ function makeFile(css: string, filePath: string) {
     console.error(err);
   });
 }
-
-/**
- * Imports default exported CSS from an input file.
- * Resolves esm—commonjs wrappers if neccessary.
- */
-const getExportedCSS = (filePath: string) =>
-  import(process.cwd() + '/' + filePath).then((exported: Record<string, unknown>) => {
-    const defaultExport = exported.default;
-    if (typeof defaultExport === 'string') {
-      return defaultExport;
-    }
-    // Handle es6 modules converted to commonjs with exported.default.default
-    if (defaultExport && typeof defaultExport === 'object') {
-      const maybeCSS = (defaultExport as Record<string, unknown>).default;
-      if (typeof maybeCSS === 'string') {
-        return maybeCSS;
-      }
-    }
-    throw new Error(`${filePath} has doesn't emit string as its default export`);
-  });
 
 function processFile(filePath: string) {
   getExportedCSS(filePath).then((css) => {
