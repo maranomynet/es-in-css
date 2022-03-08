@@ -2,7 +2,8 @@
 import autoprefixer from 'autoprefixer';
 import { Command } from 'commander';
 import cssnano from 'cssnano';
-import { writeFile } from 'fs/promises';
+import { existsSync } from 'fs';
+import { mkdir, writeFile } from 'fs/promises';
 import { sync as glob } from 'glob';
 import path from 'path';
 import postcss, { AcceptedPlugin } from 'postcss';
@@ -30,19 +31,27 @@ program
 program.parse();
 
 const options = program.opts();
+const outdir = ((options.outdir || '.') + '/').replace(/\/\/$/, '/');
+const outbase = options.outbase
+  ? (options.outbase + '/').replace(/\/\/$/, '/')
+  : undefined;
 
-function makeFile(css: string, filePath: string) {
+async function makeFile(css: string, filePath: string) {
   const extention = path.extname(filePath);
   let outFilePath = filePath.slice(0, -extention.length);
   if (path.extname(outFilePath) !== '.css') {
     outFilePath = outFilePath + '.css';
+  }
+  const outDirPath = path.dirname(outFilePath);
+  if (!existsSync(outDirPath)) {
+    await mkdir(outDirPath, { recursive: true });
   }
   writeFile(outFilePath, css).catch((err) => {
     console.error(err);
   });
 }
 
-function processFile(filePath: string) {
+function processFile(filePath: string, outPath: string) {
   getExportedCSS(filePath).then((css) => {
     const plugins: Array<AcceptedPlugin> = [nested, autoprefixer];
     if (options.minify) {
@@ -55,12 +64,40 @@ function processFile(filePath: string) {
         parser: scss,
       })
       .then((result) => {
-        makeFile(result.css, filePath);
+        makeFile(result.css, outPath);
       });
   });
 }
 
+const getCommonPath = (files: Array<string>) => {
+  if (files[0]) {
+    const commonPath = files[0].split('/').slice(-1);
+    files.slice(1).forEach((file) => {
+      const path = file.split('/');
+      let i = commonPath.length - 1;
+      while (commonPath[i] !== path[i]) {
+        commonPath.pop();
+        i--;
+      }
+    });
+    return commonPath;
+  }
+  return '';
+};
+
 const inputGlob = program.args[0];
 if (inputGlob) {
-  glob(inputGlob).forEach(processFile);
+  const filePaths = glob(inputGlob);
+  const commonPath = getCommonPath(filePaths);
+  const getOutPaths = filePaths.map((file) => {
+    const outPath =
+      outbase && file.startsWith(outbase)
+        ? file.substring(outbase.length)
+        : file.substring(commonPath.length);
+    return {
+      file,
+      outPath: outdir + outPath,
+    };
+  });
+  getOutPaths.forEach((file) => processFile(file.file, file.outPath));
 }
