@@ -46,7 +46,7 @@
     "postcss-scss": "^4.0.3"
   },
   "devDependencies": {
-    "@hugsmidjan/hxmstyle": "^6.0.0",
+    "@hugsmidjan/hxmstyle": "^6.1.0",
     "@types/glob": "^7.2.0",
     "@types/node": "^17.0.17",
     "@types/ospec": "^4.0.2",
@@ -68,7 +68,7 @@
     "onchange": "^7.1.0",
     "ospec": "^4.1.1",
     "prettier": "^2.5.1",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.2"
   },
   "hxmstyle": {
     "options": {

@@ -43,9 +43,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hugsmidjan/hxmstyle@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@hugsmidjan/hxmstyle@npm:6.0.0"
+"@hugsmidjan/hxmstyle@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "@hugsmidjan/hxmstyle@npm:6.1.0"
   peerDependencies:
     eslint: ^8.7.0
     eslint-config-prettier: ^8.3.0
@@ -59,7 +59,7 @@ __metadata:
     prettier: ^2.5.1
   bin:
     hxmstyle: bin/installer.js
-  checksum: 3c9c6862e0d4f838c0bcce8e281acfe9f7f0ea95384080029eeff3ccc477f0f6e460374c8e444c58a66f9ac7d1dfce1683feb6238ba395826df624c04dbfe511
+  checksum: f8c1b915590a984717e0a7681ec9361d785698c088a33b3658db5f17db0698228de7222d7faa41401df2a622de7972dc8a776a99fcc809c625eef2d451252f01
   languageName: node
   linkType: hard
 
@@ -1153,7 +1153,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "es-in-css@workspace:."
   dependencies:
-    "@hugsmidjan/hxmstyle": ^6.0.0
+    "@hugsmidjan/hxmstyle": ^6.1.0
     "@types/color": ^3.0.3
     "@types/color-name": ^1.1.1
     "@types/glob": ^7.2.0
@@ -1186,7 +1186,7 @@ __metadata:
     postcss-nested: ^5.0.6
     postcss-scss: ^4.0.3
     prettier: ^2.5.1
-    typescript: ^4.5.5
+    typescript: ^4.6.2
   languageName: unknown
   linkType: soft
 
@@ -4028,7 +4028,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.5.5":
+"typescript@npm:^4.6.2":
   version: 4.6.2
   resolution: "typescript@npm:4.6.2"
   bin:
@@ -4038,7 +4038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.5.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.6.2#~builtin<compat/typescript>":
   version: 4.6.2
   resolution: "typescript@patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"
   bin:
