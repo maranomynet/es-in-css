@@ -20,7 +20,7 @@
   "private": true,
   "dist_package_json": {
     "engines": {
-      "node": ">=12"
+      "node": ">=14"
     },
     "main": "lib/index.cjs.js",
     "module": "lib/index.esm.js",

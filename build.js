@@ -54,6 +54,7 @@ const outdir = 'dist/';
 const baseOpts = {
   bundle: true,
   platform: 'node',
+  target: ['node14'],
   format: 'cjs',
   external: allDeps,
   watch: opts.dev,
