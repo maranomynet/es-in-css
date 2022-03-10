@@ -36,7 +36,7 @@ const outbase = options.outbase
   ? (options.outbase + '/').replace(/\/\/$/, '/')
   : undefined;
 
-async function makeFile(css: string, filePath: string) {
+const makeFile = async (css: string, filePath: string) => {
   const extention = path.extname(filePath);
   let outFilePath = filePath.slice(0, -extention.length);
   if (path.extname(outFilePath) !== '.css') {
@@ -49,14 +49,14 @@ async function makeFile(css: string, filePath: string) {
   writeFile(outFilePath, css).catch((err) => {
     console.error(err);
   });
-}
+};
 
 const postcssPlugins: Array<AcceptedPlugin> = [nested, autoprefixer];
 if (options.minify) {
   postcssPlugins.push(cssnano({ preset: 'default' }));
 }
 
-function processFile(filePath: string, outPath: string) {
+const processFile = (filePath: string, outPath: string) => {
   getExportedCSS(filePath).then((css) => {
     postcss(postcssPlugins)
       .process(css, {
@@ -68,7 +68,7 @@ function processFile(filePath: string, outPath: string) {
         makeFile(result.css, outPath);
       });
   });
-}
+};
 
 const getCommonPath = (files: Array<string>) => {
   if (files[0]) {
