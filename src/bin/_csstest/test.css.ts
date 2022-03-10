@@ -1,4 +1,4 @@
-import { css, px, variables } from '../';
+import { css, px, variables } from '../../';
 
 const colors = {
   yellow: `yellow`,

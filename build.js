@@ -88,7 +88,7 @@ esbuild
   .build({
     ...baseOpts,
     entryPoints: glob('src/**/*.css.ts'),
-    outdir: testsDir + 'css/',
+    outdir: testsDir + 'css/styles/',
   })
   .catch(exit1);
 
