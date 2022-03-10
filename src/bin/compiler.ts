@@ -51,13 +51,14 @@ async function makeFile(css: string, filePath: string) {
   });
 }
 
+const postcssPlugins: Array<AcceptedPlugin> = [nested, autoprefixer];
+if (options.minify) {
+  postcssPlugins.push(cssnano({ preset: 'default' }));
+}
+
 function processFile(filePath: string, outPath: string) {
   getExportedCSS(filePath).then((css) => {
-    const plugins: Array<AcceptedPlugin> = [nested, autoprefixer];
-    if (options.minify) {
-      plugins.push(cssnano({ preset: 'default' }));
-    }
-    postcss(plugins)
+    postcss(postcssPlugins)
       .process(css, {
         from: undefined,
         // Converts inline comments to comment blocks
