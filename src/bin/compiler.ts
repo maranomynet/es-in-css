@@ -38,12 +38,12 @@ const outbase = options.outbase
 
 // ---------------------------------------------------------------------------
 
-const makeFile = async (css: string, filePath: string) => {
-  const targetDir = path.dirname(filePath);
+const makeFile = async (css: string, outFile: string) => {
+  const targetDir = path.dirname(outFile);
   if (!existsSync(targetDir)) {
     await mkdir(targetDir, { recursive: true });
   }
-  writeFile(filePath, css).catch((err) => {
+  writeFile(outFile, css).catch((err) => {
     console.error(err);
   });
 };
@@ -53,8 +53,13 @@ if (options.minify) {
   postcssPlugins.push(cssnano({ preset: 'default' }));
 }
 
-const processFile = (filePath: string, outPath: string) => {
-  getExportedCSS(filePath).then((css) => {
+type InOutMap = {
+  inFile: string;
+  outFile: string;
+};
+
+const processFile = (args: InOutMap) => {
+  getExportedCSS(args.inFile).then((css) => {
     postcss(postcssPlugins)
       .process(css, {
         from: undefined,
@@ -62,15 +67,15 @@ const processFile = (filePath: string, outPath: string) => {
         parser: scss,
       })
       .then((result) => {
-        makeFile(result.css, outPath);
+        makeFile(result.css, args.outFile);
       });
   });
 };
 
-const getCommonPath = (files: Array<string>) => {
-  if (files[0]) {
-    const commonPath = files[0].split('/').slice(-1);
-    files.slice(1).forEach((file) => {
+const getCommonPath = (fileNames: Array<string>) => {
+  if (fileNames[0]) {
+    const commonPath = fileNames[0].split('/').slice(-1);
+    fileNames.slice(1).forEach((file) => {
       const path = file.split('/');
       let i = commonPath.length - 1;
       while (commonPath[i] !== path[i]) {
@@ -83,30 +88,30 @@ const getCommonPath = (files: Array<string>) => {
   return '';
 };
 
-const resolveOutputFiles = (filePaths: Array<string>) => {
-  const commonPath = getCommonPath(filePaths);
+const resolveOutputFiles = (inputFiles: Array<string>) => {
+  const commonPath = getCommonPath(inputFiles);
 
-  return filePaths.map((file) => {
-    const extention = path.extname(file);
-    file = file.slice(0, -extention.length);
-    if (path.extname(file) !== '.css') {
-      file = file + '.css';
+  return inputFiles.map((inFile): InOutMap => {
+    const extention = path.extname(inFile);
+    inFile = inFile.slice(0, -extention.length);
+    if (path.extname(inFile) !== '.css') {
+      inFile = inFile + '.css';
     }
 
-    const outPath =
-      outbase && file.startsWith(outbase)
-        ? file.substring(outbase.length)
-        : file.substring(commonPath.length);
+    const outFile =
+      outbase && inFile.startsWith(outbase)
+        ? inFile.substring(outbase.length)
+        : inFile.substring(commonPath.length);
     return {
-      file,
-      outPath: outdir + outPath,
+      inFile,
+      outFile: outdir + outFile,
     };
   });
 };
 
 const inputGlob = program.args[0];
 if (inputGlob) {
-  const filePaths = glob(inputGlob);
+  const inputFiles = glob(inputGlob);
 
-  resolveOutputFiles(filePaths).forEach((file) => processFile(file.file, file.outPath));
+  resolveOutputFiles(inputFiles).forEach(processFile);
 }
