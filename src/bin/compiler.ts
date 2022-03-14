@@ -32,10 +32,6 @@ program
 program.parse();
 
 const options = program.opts();
-const outdir = ((options.outdir || '.') + '/').replace(/\/\/$/, '/');
-const outbase = options.outbase
-  ? (options.outbase + '/').replace(/\/\/$/, '/')
-  : undefined;
 
 // ---------------------------------------------------------------------------
 
@@ -72,8 +68,5 @@ const inputGlob = program.args[0];
 if (inputGlob) {
   const inputFiles = glob(inputGlob);
 
-  resolveOutputFiles(inputFiles, {
-    outdir,
-    outbase,
-  }).forEach(processFile);
+  resolveOutputFiles(inputFiles, options).forEach(processFile);
 }
