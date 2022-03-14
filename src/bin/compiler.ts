@@ -93,15 +93,17 @@ const resolveOutputFiles = (inputFiles: Array<string>) => {
 
   return inputFiles.map((inFile): InOutMap => {
     const extention = path.extname(inFile);
-    inFile = inFile.slice(0, -extention.length);
-    if (path.extname(inFile) !== '.css') {
-      inFile = inFile + '.css';
-    }
 
-    const outFile =
+    let outFile =
       outbase && inFile.startsWith(outbase)
         ? inFile.substring(outbase.length)
         : inFile.substring(commonPath.length);
+
+    outFile = outFile.slice(0, -extention.length);
+    if (path.extname(outFile) !== '.css') {
+      outFile = outFile + '.css';
+    }
+
     return {
       inFile,
       outFile: outdir + outFile,
