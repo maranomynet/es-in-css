@@ -48,7 +48,7 @@ const tokens = [
 
 o.spec('es-in-css entry point', () => {
   o('exports all the things', (done) => {
-    import('./').then((exports) => {
+    import('./index').then((exports) => {
       tokens.forEach((token) => {
         o(token in exports).equals(true)('including ' + token);
       });
