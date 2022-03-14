@@ -21,7 +21,7 @@ export const getCommonPath = (fileNames: Array<string>) => {
   return '';
 };
 
-type DestinationOpts = { outbase?: string; outdir: string };
+export type DestinationOpts = { outbase?: string; outdir?: string };
 
 export const resolveOutputFiles = (
   inputFiles: Array<string>,
