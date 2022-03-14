@@ -11,6 +11,7 @@ import nested from 'postcss-nested';
 import scss from 'postcss-scss';
 
 import { getExportedCSS } from './getExportedCSS';
+import { InOutMap, resolveOutputFiles } from './resolveOutputFiles';
 
 const program = new Command('es-in-css');
 
@@ -53,11 +54,6 @@ if (options.minify) {
   postcssPlugins.push(cssnano({ preset: 'default' }));
 }
 
-type InOutMap = {
-  inFile: string;
-  outFile: string;
-};
-
 const processFile = (args: InOutMap) => {
   getExportedCSS(args.inFile).then((css) => {
     postcss(postcssPlugins)
@@ -72,48 +68,12 @@ const processFile = (args: InOutMap) => {
   });
 };
 
-const getCommonPath = (fileNames: Array<string>) => {
-  if (fileNames[0]) {
-    const commonPath = fileNames[0].split('/').slice(-1);
-    fileNames.slice(1).forEach((file) => {
-      const path = file.split('/');
-      let i = commonPath.length - 1;
-      while (commonPath[i] !== path[i]) {
-        commonPath.pop();
-        i--;
-      }
-    });
-    return commonPath;
-  }
-  return '';
-};
-
-const resolveOutputFiles = (inputFiles: Array<string>) => {
-  const commonPath = getCommonPath(inputFiles);
-
-  return inputFiles.map((inFile): InOutMap => {
-    const extention = path.extname(inFile);
-
-    let outFile =
-      outbase && inFile.startsWith(outbase)
-        ? inFile.substring(outbase.length)
-        : inFile.substring(commonPath.length);
-
-    outFile = outFile.slice(0, -extention.length);
-    if (path.extname(outFile) !== '.css') {
-      outFile = outFile + '.css';
-    }
-
-    return {
-      inFile,
-      outFile: outdir + outFile,
-    };
-  });
-};
-
 const inputGlob = program.args[0];
 if (inputGlob) {
   const inputFiles = glob(inputGlob);
 
-  resolveOutputFiles(inputFiles).forEach(processFile);
+  resolveOutputFiles(inputFiles, {
+    outdir,
+    outbase,
+  }).forEach(processFile);
 }
