@@ -34,7 +34,17 @@ export const resolveOutputFiles = (
     ? (relative('', options.outbase) || '.') + '/'
     : undefined;
 
-  const commonPath = getCommonPath(inputFiles);
+  let commonPath = getCommonPath(inputFiles);
+  if (outbase) {
+    if (commonPath.startsWith(outbase)) {
+      commonPath = outbase;
+    } else {
+      console.warn(
+        'Ignoring `outbase` option beacuse it does not match ' +
+          'the common path of the input files.'
+      );
+    }
+  }
 
   return inputFiles.map((inFile): InOutMap => {
     let outFile = inFile;
@@ -50,14 +60,9 @@ export const resolveOutputFiles = (
       return { inFile, outFile };
     }
 
-    outFile =
-      outbase && outFile.startsWith(outbase)
-        ? outFile.substring(outbase.length)
-        : outFile.substring(commonPath.length);
-
     return {
       inFile,
-      outFile: (outdir || '') + outFile,
+      outFile: (outdir || '') + outFile.substring(commonPath.length),
     };
   });
 };
