@@ -539,7 +539,7 @@ es-in-css "inputglob" --outbase=src/path --outdir=out/path --minify
 Must be quoted. Handles all the patterns supported by the
 [`glob` module](https://www.npmjs.com/package/glob).
 
-**`--outdir`**
+**`--outdir <path>`**
 
 By default the compiled CSS files are saved in the same folder as the source
 file. This is rarely the desired behavior so by setting `outdir` you choose
@@ -549,7 +549,7 @@ The output file names replace the input-modules file-extension with `.css` —
 unless if the source file name ends in `.css.js`, in which case the `.js`
 ending is simply dropped.
 
-**`--outbase`**
+**`--outbase <path>`**
 
 If your inputglob file list contains multiple entry points in separate
 directories, the directory structure will be replicated into the `outdir`
@@ -564,6 +564,13 @@ Opts into moderately aggressive, yet safe [cssnano](https://cssnano.co/)
 minification of the resulting CSS.
 
 All comments are stripped, except ones that start with `/*!`.
+
+**`--prettify [configFilePath]`**
+
+Runs the result CSS through Prettier. Accepts optional `configFilePath`, but
+defaults to resolving `.prettierrc` for `--outdir` or the current directory.
+
+Ignored if mixed with `--minify`.
 
 ### CLI Example Usage
 

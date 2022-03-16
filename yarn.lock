@@ -212,6 +212,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prettier@npm:^2.4.4":
+  version: 2.4.4
+  resolution: "@types/prettier@npm:2.4.4"
+  checksum: 2c2cc57efd49c7d8907415a72f96c84a6dd8696dd3bf8aa4ca3a667427bebf71cbfbc912673624bdfc935d272d1c008c639cf155f6449315990a4dc110f0d216
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/eslint-plugin@npm:^5.8.0":
   version: 5.13.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.13.0"
@@ -1159,6 +1166,7 @@ __metadata:
     "@types/glob": ^7.2.0
     "@types/node": ^17.0.17
     "@types/ospec": ^4.0.2
+    "@types/prettier": ^2.4.4
     "@typescript-eslint/eslint-plugin": ^5.8.0
     "@typescript-eslint/parser": ^5.8.0
     autoprefixer: ^10.4.2
@@ -1185,7 +1193,7 @@ __metadata:
     postcss: ^8.4.6
     postcss-nested: ^5.0.6
     postcss-scss: ^4.0.3
-    prettier: ^2.5.1
+    prettier: ^2.6.0
     typescript: ^4.6.2
   languageName: unknown
   linkType: soft
@@ -3399,12 +3407,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.5.1":
-  version: 2.5.1
-  resolution: "prettier@npm:2.5.1"
+"prettier@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "prettier@npm:2.6.0"
   bin:
     prettier: bin-prettier.js
-  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
+  checksum: 3e527ad62279676778a8404d18174d7ca2365ada4caba6eebbcdd9907d1187afd3bc6ade5b4e5f5d4549bb9fb71e45ca8930d71500017635524f8fc05bc52e93
   languageName: node
   linkType: hard
 

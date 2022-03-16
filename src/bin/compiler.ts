@@ -11,31 +11,51 @@ import nested from 'postcss-nested';
 import scss from 'postcss-scss';
 
 import { getExportedCSS } from './getExportedCSS';
+import { makePrettifyCSS } from './prettifyCSS';
 import { InOutMap, resolveOutputFiles } from './resolveOutputFiles';
 
 const program = new Command('es-in-css');
 
 program
   .arguments('<inputglob>')
-  .option('--outdir <dir>', 'Output directory')
+  .option('-d, --outdir <path>', 'Output directory')
   .option(
-    '--outbase <dir>',
+    '-b, --outbase <path>',
     'Specific common parent directory for the input glob file list — auto-detected by default.'
   )
-  .option('--minify', 'Minify the CSS output. Uses cssnano with its "default" preset.');
-// // Feature idea:
-// .option(
-//   '--prettify',
-//   "Runs the result CSS through Prettier. Respects project's .prettierrc. Ignored if mixed with --minify."
-// );
+  .option(
+    '-m, --minify',
+    'Minify the CSS output. Uses cssnano with its "default" preset.'
+  )
+  .option(
+    '-p, --prettify [configFilePath]',
+    'Runs the result CSS through Prettier. Accepts optional `configFilePath`, but defaults to resolving `.prettierrc` of `--outdir` or the current directory. Ignored if mixed with `--minify`.'
+  );
 
 program.parse();
 
-const options = program.opts();
+const options = program.opts<{
+  outdir?: string;
+  outbase?: string;
+  minify?: true;
+  prettify?: true | string;
+}>();
 
 // ---------------------------------------------------------------------------
 
-const makeFile = async (css: string, outFile: string) => {
+const postcssPlugins: Array<AcceptedPlugin> = [nested, autoprefixer];
+if (options.minify) {
+  postcssPlugins.push(cssnano({ preset: 'default' }));
+}
+
+const postPostss =
+  !options.minify && !!options.prettify
+    ? makePrettifyCSS(options.prettify, options.outdir)
+    : (css: string) => css;
+
+// ---------------------------------------------------------------------------
+
+const makeFile = (outFile: string) => async (css: string) => {
   const targetDir = path.dirname(outFile);
   if (!existsSync(targetDir)) {
     await mkdir(targetDir, { recursive: true });
@@ -45,11 +65,6 @@ const makeFile = async (css: string, outFile: string) => {
   });
 };
 
-const postcssPlugins: Array<AcceptedPlugin> = [nested, autoprefixer];
-if (options.minify) {
-  postcssPlugins.push(cssnano({ preset: 'default' }));
-}
-
 const processFile = (args: InOutMap) => {
   getExportedCSS(args.inFile).then((css) => {
     postcss(postcssPlugins)
@@ -58,9 +73,8 @@ const processFile = (args: InOutMap) => {
         // Converts inline comments to comment blocks
         parser: scss,
       })
-      .then((result) => {
-        makeFile(result.css, args.outFile);
-      });
+      .then((result) => postPostss(result.css))
+      .then(makeFile(args.outFile));
   });
 };
 
