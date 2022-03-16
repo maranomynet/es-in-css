@@ -162,7 +162,56 @@ o.spec('resolveOutputFiles', () => {
         },
       ],
     },
-    // TODO: Test outbase more thoroughly
+
+    {
+      name: 'Avoids overwriting the source file by its own output',
+      input: [
+        'src/resets.es-in-css.css', // makes no sense but hey!
+      ],
+      options: [{}],
+      expected: [
+        {
+          inFile: 'src/resets.es-in-css.css',
+          outFile: 'src/resets.es-in-css.css.css',
+        },
+      ],
+    },
+
+    {
+      name: 'Ingores invalid/nonsensical outbase',
+      input: ['src/skin/resets.js', 'src/skin/sub/styles.js'],
+      options: [{ outbase: 'foo/bar' }],
+      expected: [
+        {
+          inFile: 'src/skin/css/resets.js',
+          outFile: 'css/resets.css',
+        },
+        {
+          inFile: 'src/skin/sub/styles.js',
+          outFile: 'sub/styles.css',
+        },
+      ],
+    },
+
+    {
+      name: 'Ignores partially invalid/nonsensical outbase',
+      input: ['foo/bar/resets.js', 'foo/bar/sub/styles.js', 'src/styles/buttons.js'],
+      options: [{ outbase: 'foo/bar' }],
+      expected: [
+        {
+          inFile: 'foo/bar/resets.js',
+          outFile: 'foo/bar/resets.css',
+        },
+        {
+          inFile: 'foo/bar/sub/styles.js',
+          outFile: 'foo/bar/sub/styles.css',
+        },
+        {
+          inFile: 'src/styles/button.js',
+          outFile: 'src/styles/button.css',
+        },
+      ],
+    },
   ];
 
   tests.forEach(({ name, input, options, expected }) => {
