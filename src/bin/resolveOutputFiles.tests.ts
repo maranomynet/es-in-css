@@ -34,6 +34,7 @@ o.spec('getCommonPath', () => {
 
 o.spec('resolveOutputFiles', () => {
   type Test = {
+    name: string;
     input: Array<string>;
     options: Array<DestinationOpts>;
     expected: Array<InOutMap>;
@@ -41,6 +42,7 @@ o.spec('resolveOutputFiles', () => {
 
   const tests: Array<Test> = [
     {
+      name: 'works and resolves file-extensions correctly',
       input: [
         '__tests/css/styles/test.css.js',
         '__tests/css/styles/sub/test2.css.js',
@@ -69,6 +71,7 @@ o.spec('resolveOutputFiles', () => {
     },
 
     {
+      name: 'handles outdir correctly',
       input: ['test2/css/styles/test.css.js', 'test2/css/styles/sub/test2.css.js'],
       options: [
         { outdir: 'output' },
@@ -88,6 +91,7 @@ o.spec('resolveOutputFiles', () => {
     },
 
     {
+      name: 'resolves outdir pointing to cwd',
       input: ['test3/css/styles/test.css.js', 'test3/css/styles/sub/test2.css.js'],
       options: [{ outdir: './' }, { outdir: '.' }],
       expected: [
@@ -101,8 +105,8 @@ o.spec('resolveOutputFiles', () => {
         },
       ],
     },
-    // Example 1 from README.md
     {
+      name: 'Example 1 from README.md',
       input: [
         'src/css/styles.css.js',
         'src/css/resets.js',
@@ -129,8 +133,9 @@ o.spec('resolveOutputFiles', () => {
         },
       ],
     },
-    // Example 2 from README.md
+
     {
+      name: 'Example 2 from README.md',
       input: [
         'src/skin/css/styles.css.js',
         'src/skin/css/resets.js',
@@ -160,8 +165,8 @@ o.spec('resolveOutputFiles', () => {
     // TODO: Test outbase more thoroughly
   ];
 
-  o('works', () => {
-    tests.forEach(({ input, options, expected }) => {
+  tests.forEach(({ name, input, options, expected }) => {
+    o(name, () => {
       options.forEach((opts) => {
         o(resolveOutputFiles(input, opts)).deepEquals(expected);
       });
