@@ -9,7 +9,7 @@
     "prepublishOnly": "echo \"\nRun 'yarn run publishdist' to publish this package\n\n\"  && exit 1",
     "publishdist": "yarn run build  &&  cd dist  &&  npm publish",
     "test:dev": "sleep 1  &&  (yarn run test || true)  &&  yarn run test:watch",
-    "test:watch": "yarn run onchange '__tests/**/*.tests.js' -d 500 -f add -f change -- yarn run ospec '{{changed}}'",
+    "test:watch": "yarn run onchange '__tests/**/*.tests.js' -f add -f change -- yarn run ospec '{{file}}'",
     "test:compiler": "node dist/bin/compiler.js \"__tests/**/*.css.js\"",
     "test": "yarn run ospec \"__tests/**/*.tests.js\"",
     "es-in-css": "node ./dist/bin/compiler.js"
