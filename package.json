@@ -26,7 +26,7 @@
     "module": "lib/index.esm.js",
     "types": "lib/index.d.ts",
     "bin": {
-      "es-in-css": "bin/compiler.ts"
+      "es-in-css": "bin/compiler.js"
     }
   },
   "engines": {
