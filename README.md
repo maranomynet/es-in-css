@@ -37,8 +37,6 @@ for instant syntax highlighting and IntelliSense autocompletion inside
   - [CLI Syntax](#cli-syntax)
   - [CLI Example Usage](#cli-example-usage)
 - [Roadmap](#roadmap)
-  - [Maybe:](#maybe)
-  - [Not planned:](#not-planned)
 
 <!-- prettier-ignore-end -->
 
@@ -611,17 +609,18 @@ dist/styles/css/component/formFields.css
 
 ## Roadmap
 
-- Add Color helpers for parsing, converting, adjusting, etc.
+- CLI `--ext` flag to control the CSS file extension.
 - Expose a JavaScript build API with slightly more configurability
+- **Help wanted:** Loaders/config for Webpack, esbuild, Next.js builds, etc.
 
-### Maybe:
+**Maybes:**
 
-- Add more helper utilities (ideas?)
+- Add more CSS authoring helpers/utilities (ideas? PRs welcome)
 - `--watch` mode … may be out of scope
 - Ability to add more postcss plugins and more fine-grained plugin
   configurability.
 
-### Not planned:
+**Not planned:**
 
 - Emitting source maps.
 - Complicated config files, etc.
