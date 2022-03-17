@@ -9,7 +9,8 @@
 _2022-03-17_
 
 - feat: Add simple CLI compiler
-- fix: Patch `color` library's lossy `.hex()` method
+- fix: [Patch](https://github.com/maranomynet/es-in-css/commit/56b9dd0a)
+  `color` library's lossy `.hex()` method
 
 ## 0.1.1 — 0.1.3
 
