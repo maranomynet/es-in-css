@@ -23,7 +23,7 @@ export const extractDefaultExport = (exported: unknown) => {
 export const getExportedCSS = (filePath: string) =>
   import(process.cwd() + '/' + filePath).then(extractDefaultExport).then((css) => {
     if (css == null) {
-      throw new Error(`${filePath} does not emit string as its default export`);
+      throw new Error(`Module does not emit string as its default export`);
     }
     return css;
   });

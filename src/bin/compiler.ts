@@ -34,6 +34,8 @@ program
 
 program.parse();
 
+const inputGlob = program.args[0] as string;
+
 const options = program.opts<{
   outdir?: string;
   outbase?: string;
@@ -65,22 +67,35 @@ const makeFile = (outFile: string) => async (css: string) => {
   });
 };
 
-const processFile = (args: InOutMap) => {
-  getExportedCSS(args.inFile).then((css) => {
-    postcss(postcssPlugins)
-      .process(css, {
+const processFile = (args: InOutMap) =>
+  getExportedCSS(args.inFile)
+    .then((css) =>
+      postcss(postcssPlugins).process(css, {
         from: undefined,
         // Converts inline comments to comment blocks
         parser: scss,
       })
-      .then((result) => postPostss(result.css))
-      .then(makeFile(args.outFile));
-  });
-};
+    )
+    .then((result) => postPostss(result.css))
+    .then(makeFile(args.outFile))
+    .catch((e: unknown) => {
+      const message = e instanceof Error ? e.message : String(e);
+      throw new Error(`Processing ${args.inFile}\n  ` + message.replace(/\n/g, '\n  '));
+    });
 
-const inputGlob = program.args[0];
-if (inputGlob) {
-  const inputFiles = glob(inputGlob);
+// ---------------------------------------------------------------------------
 
-  resolveOutputFiles(inputFiles, options).forEach(processFile);
+const inputFiles = inputGlob ? glob(inputGlob) : [];
+
+if (!inputFiles.length) {
+  console.info(`No files found matching '${inputGlob}'`);
+  process.exit();
 }
+
+Promise.all(resolveOutputFiles(inputFiles, options).map(processFile)).catch(
+  (e: unknown) => {
+    const message = e instanceof Error ? e.message : String(e);
+    console.warn('ERROR: ', message);
+    process.exit(1);
+  }
+);
