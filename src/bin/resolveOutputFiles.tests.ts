@@ -137,27 +137,27 @@ o.spec('resolveOutputFiles', () => {
     {
       name: 'Example 2 from README.md',
       input: [
-        'src/skin/css/styles.css.js',
-        'src/skin/css/resets.js',
-        'src/skin/css/component/buttons.css.js',
-        'src/skin/css/component/formFields.js',
+        'src/css/styles.css.js',
+        'src/css/resets.js',
+        'src/css/component/buttons.css.js',
+        'src/css/component/formFields.js',
       ],
-      options: [{ outdir: 'dist/styles', outbase: './src/skin' }],
+      options: [{ outdir: 'dist/styles', outbase: './src' }],
       expected: [
         {
-          inFile: 'src/skin/css/styles.css.js',
+          inFile: 'src/css/styles.css.js',
           outFile: 'dist/styles/css/styles.css',
         },
         {
-          inFile: 'src/skin/css/resets.js',
+          inFile: 'src/css/resets.js',
           outFile: 'dist/styles/css/resets.css',
         },
         {
-          inFile: 'src/skin/css/component/buttons.css.js',
+          inFile: 'src/css/component/buttons.css.js',
           outFile: 'dist/styles/css/component/buttons.css',
         },
         {
-          inFile: 'src/skin/css/component/formFields.js',
+          inFile: 'src/css/component/formFields.js',
           outFile: 'dist/styles/css/component/formFields.css',
         },
       ],
