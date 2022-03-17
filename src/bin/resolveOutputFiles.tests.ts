@@ -87,6 +87,22 @@ o.spec('resolveOutputFiles', () => {
     },
 
     {
+      name: 'custom file-extensions can be weird',
+      input: ['css/test.css.js', 'css/sub/test2.bar.js'],
+      options: [{ ext: 'foo..bar' }],
+      expected: [
+        {
+          inFile: 'css/test.css.js',
+          outFile: 'css/test.css.foo..bar',
+        },
+        {
+          inFile: 'css/sub/test2.bar.js',
+          outFile: 'css/sub/test2.bar.foo..bar',
+        },
+      ],
+    },
+
+    {
       name: 'handles outdir correctly',
       input: ['test2/css/styles/test.css.js', 'test2/css/styles/sub/test2.css.js'],
       options: [
