@@ -166,15 +166,15 @@ o.spec('resolveOutputFiles', () => {
     {
       name: 'Ingores invalid/nonsensical outbase',
       input: ['src/skin/resets.js', 'src/skin/sub/styles.js'],
-      options: [{ outbase: 'foo/bar' }],
+      options: [{ outbase: 'foo/bar', outdir: 'out' }],
       expected: [
         {
-          inFile: 'src/skin/css/resets.js',
-          outFile: 'css/resets.css',
+          inFile: 'src/skin/resets.js',
+          outFile: 'out/resets.css',
         },
         {
           inFile: 'src/skin/sub/styles.js',
-          outFile: 'sub/styles.css',
+          outFile: 'out/sub/styles.css',
         },
       ],
     },
@@ -193,8 +193,8 @@ o.spec('resolveOutputFiles', () => {
           outFile: 'foo/bar/sub/styles.css',
         },
         {
-          inFile: 'src/styles/button.js',
-          outFile: 'src/styles/button.css',
+          inFile: 'src/styles/buttons.js',
+          outFile: 'src/styles/buttons.css',
         },
       ],
     },
