@@ -24,6 +24,10 @@ program
     'Specific common parent directory for the input glob file list — auto-detected by default.'
   )
   .option(
+    '-e, --ext <file-extension>',
+    'Custom file extension for the output files. Defaults to `.css`'
+  )
+  .option(
     '-m, --minify',
     'Minify the CSS output. Uses cssnano with its "default" preset.'
   )
@@ -40,6 +44,7 @@ const options = program.opts<{
   outdir?: string;
   outbase?: string;
   minify?: true;
+  ext?: string;
   prettify?: true | string;
 }>();
 

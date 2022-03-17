@@ -21,7 +21,11 @@ export const getCommonPath = (fileNames: Array<string>): string => {
   return '';
 };
 
-export type DestinationOpts = { outbase?: string; outdir?: string };
+export type DestinationOpts = {
+  outbase?: string;
+  outdir?: string;
+  ext?: string;
+};
 
 export const resolveOutputFiles = (
   inputFiles: Array<string>,
@@ -33,6 +37,8 @@ export const resolveOutputFiles = (
   const outbase = options.outbase
     ? (relative('', options.outbase) || '.') + '/'
     : undefined;
+
+  const ext = options.ext ? '.' + options.ext.replace(/^\./, '') : '.css';
 
   let commonPath = getCommonPath(inputFiles);
   if (outbase) {
@@ -52,8 +58,8 @@ export const resolveOutputFiles = (
     if (extention) {
       outFile = outFile.slice(0, -extention.length);
     }
-    if (extname(outFile) !== '.css') {
-      outFile = outFile + '.css';
+    if (extname(outFile) !== ext) {
+      outFile = outFile + ext;
     }
 
     if (outdir == null) {

@@ -552,6 +552,10 @@ paths.
 
 If you want to customize this behavior, you should set the `outbase` path.
 
+**`--ext <file-extension>`**
+
+Minify the CSS output. Uses cssnano with its "default" preset.
+
 **`--minify`**
 
 Opts into moderately aggressive, yet safe [cssnano](https://cssnano.co/)

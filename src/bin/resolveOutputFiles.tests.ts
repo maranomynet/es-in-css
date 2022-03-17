@@ -45,7 +45,7 @@ o.spec('resolveOutputFiles', () => {
       name: 'works and resolves file-extensions correctly',
       input: [
         '__tests/css/styles/test.css.js',
-        '__tests/css/styles/sub/test2.css.js',
+        '__tests/css/styles/sub/test2.scss.js',
         '__tests/css/styles/sub/test3.js',
         '__tests/css/styles/sub/test4',
       ],
@@ -56,8 +56,8 @@ o.spec('resolveOutputFiles', () => {
           outFile: '__tests/css/styles/test.css',
         },
         {
-          inFile: '__tests/css/styles/sub/test2.css.js',
-          outFile: '__tests/css/styles/sub/test2.css',
+          inFile: '__tests/css/styles/sub/test2.scss.js',
+          outFile: '__tests/css/styles/sub/test2.scss.css',
         },
         {
           inFile: '__tests/css/styles/sub/test3.js',
@@ -66,6 +66,22 @@ o.spec('resolveOutputFiles', () => {
         {
           inFile: '__tests/css/styles/sub/test4',
           outFile: '__tests/css/styles/sub/test4.css',
+        },
+      ],
+    },
+
+    {
+      name: 'accepts custom file-extension',
+      input: ['__tests/css/styles/test.css.js', '__tests/css/styles/sub/test2.scss.js'],
+      options: [{ ext: 'scss' }, { ext: '.scss' }],
+      expected: [
+        {
+          inFile: '__tests/css/styles/test.css.js',
+          outFile: '__tests/css/styles/test.css.scss',
+        },
+        {
+          inFile: '__tests/css/styles/sub/test2.scss.js',
+          outFile: '__tests/css/styles/sub/test2.scss',
         },
       ],
     },
