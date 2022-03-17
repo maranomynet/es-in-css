@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.2.0
+
+_2022-03-17_
+
 - feat: Add simple CLI compiler
 - fix: Patch `color` library's lossy `.hex()` method
 
