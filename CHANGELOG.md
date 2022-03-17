@@ -3,6 +3,8 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add simple CLI compiler
+- fix: Patch `color` library's lossy `.hex()` method
 
 ## 0.1.1 — 0.1.3
 

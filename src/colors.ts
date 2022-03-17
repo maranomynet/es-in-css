@@ -14,7 +14,7 @@ export const color = Color as ColorPlus;
 export const rgb = color.rgb;
 export const hsl = color.hsl;
 
-// Patch color's lozzy hex method.
+// Patch color's lossy hex method.
 // See: https://github.com/Qix-/color/issues/243
 const oldHex = (color.prototype as Color).hex;
 (color.prototype as Color).hex = function (value) {
