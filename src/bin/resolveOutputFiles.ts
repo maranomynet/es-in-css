@@ -29,7 +29,8 @@ export type DestinationOpts = {
 
 export const resolveOutputFiles = (
   inputFiles: Array<string>,
-  options: DestinationOpts
+  options: DestinationOpts,
+  silent?: boolean
 ) => {
   const outdir = options.outdir
     ? (relative('', options.outdir + '/') || '.') + '/'
@@ -45,10 +46,11 @@ export const resolveOutputFiles = (
     if (commonPath.startsWith(outbase)) {
       commonPath = outbase;
     } else {
-      console.warn(
-        'Ignoring `outbase` option beacuse it does not match ' +
-          'the common path of the input files.'
-      );
+      !silent &&
+        console.warn(
+          'Ignoring `outbase` option beacuse it does not match ' +
+            'the common path of the input files.'
+        );
     }
   }
 

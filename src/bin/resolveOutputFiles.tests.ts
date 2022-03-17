@@ -216,10 +216,10 @@ o.spec('resolveOutputFiles', () => {
     },
   ];
 
-  tests.forEach(({ name, input, options, expected }) => {
-    o(name, () => {
+  tests.forEach(({ name, input, options, expected }, i) => {
+    o(`${name} (opts #${i})`, () => {
       options.forEach((opts) => {
-        o(resolveOutputFiles(input, opts)).deepEquals(expected);
+        o(resolveOutputFiles(input, opts, true)).deepEquals(expected);
       });
     });
   });
