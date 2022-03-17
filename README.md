@@ -1,7 +1,3 @@
-**Concept work in progress. Some documented features are still missing.**
-
----
-
 # es-in-css
 
 This library serves much of the same purpose as SASS/SCSS, LESS and other CSS
