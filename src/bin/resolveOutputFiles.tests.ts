@@ -164,20 +164,6 @@ o.spec('resolveOutputFiles', () => {
     },
 
     {
-      name: 'Avoids overwriting the source file by its own output',
-      input: [
-        'src/resets.es-in-css.css', // makes no sense but hey!
-      ],
-      options: [{}],
-      expected: [
-        {
-          inFile: 'src/resets.es-in-css.css',
-          outFile: 'src/resets.es-in-css.css.css',
-        },
-      ],
-    },
-
-    {
       name: 'Ingores invalid/nonsensical outbase',
       input: ['src/skin/resets.js', 'src/skin/sub/styles.js'],
       options: [{ outbase: 'foo/bar' }],
