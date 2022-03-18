@@ -613,7 +613,6 @@ dist/styles/css/component/formFields.css
 
 ## Roadmap
 
-- CLI `--ext` flag to control the CSS file extension.
 - Expose a JavaScript build API with slightly more configurability
 - **Help wanted:** Loaders/config for Webpack, esbuild, Next.js builds, etc.
 
