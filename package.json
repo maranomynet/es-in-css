@@ -16,6 +16,10 @@
   },
   "repository": "git@github.com:maranomynet/es-in-css.git",
   "author": "Már Örlygsson",
+  "contributors": [
+    "Ragnheiður Ásta Karlsdóttir <ragnheidur.asta.karlsdottir@reykjavik.is>",
+    "Már Örlygsson <mar.orlygsson@anomy.net>"
+  ],
   "license": "MIT",
   "private": true,
   "dist_package_json": {
