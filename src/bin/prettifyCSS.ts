@@ -1,4 +1,4 @@
-import prettier from 'prettier';
+import prettier from 'css-prettier';
 
 export const makePrettifyCSS = (cliArg: string | true, outdir?: string) => {
   const cfgPath = typeof cliArg === 'string' ? cliArg : undefined;
