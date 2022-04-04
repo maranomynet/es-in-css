@@ -122,6 +122,14 @@ o.spec('variables helper', () => {
     o(u2).equals('unknown');
   });
 
+  o('accepts `VariablePrinter`s as values', () => {
+    const { bar } = variables({ bar: '#f98' }).vars;
+    const { vars, declarations } = variables({ foo: bar });
+
+    o(declarations + '').equals('--foo: var(--bar);\n');
+    o(vars.foo.type).equals('color');
+  });
+
   o(
     'errors on malformed variable names and variable name tokens that require escaping',
     () => {

@@ -1,5 +1,6 @@
 import { color } from './colors';
 import { UnitValue } from './units';
+import { variables } from './variables';
 
 const isStr = (value: unknown): value is string => typeof value === 'string';
 
@@ -90,9 +91,23 @@ const getColorType = (value: unknown): string => {
   return '';
 };
 
+// ---------------------------------------------------------------------------
+
+const getVarType = (value: unknown): string => {
+  if (variables.isVar(value)) {
+    return value.type;
+  }
+  return '';
+};
+
 // ===========================================================================
 
 export const resolveType = (value: unknown) => {
-  const type = getNumberType(value) || getUnitType(value) || getColorType(value);
+  const type =
+    getNumberType(value) ||
+    getUnitType(value) ||
+    getColorType(value) ||
+    getVarType(value);
+
   return type || 'unknown';
 };

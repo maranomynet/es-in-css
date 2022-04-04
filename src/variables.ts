@@ -2,7 +2,9 @@ import { ColorValue } from './colors';
 import { UnitValue } from './units';
 import { resolveType } from './variables.resolveType';
 
-export type VariableValue = string | number | UnitValue | ColorValue;
+export type VariableValue = string | number | UnitValue | ColorValue | VariablePrinter;
+
+const IS_PRINTER = Symbol();
 
 const DEFAULT_NAME_RE = /^[a-z0-9_-]+$/i;
 const DEFAULT_NAME_MAPPER = (name: string) => name;
@@ -18,6 +20,7 @@ type VariablePrinter = {
   type: string;
   toString(): string;
   toJSON(): string;
+  [IS_PRINTER]: true;
 };
 
 export type VariableOptions = {
@@ -58,9 +61,11 @@ export type VariableOptions = {
 const makeVariablePrinter = (name: string, type: string) => {
   const varString = `var(--${name})`;
 
-  const printer: VariablePrinter = (defaultValue) =>
-    defaultValue ? varString.replace(/\)$/, `, ${defaultValue})`) : varString;
-
+  const printer = ((defaultValue) =>
+    defaultValue
+      ? varString.replace(/\)$/, `, ${defaultValue})`)
+      : varString) as VariablePrinter;
+  printer[IS_PRINTER] = true;
   printer.toString = printer.toJSON = () => varString;
   printer.type = type;
 
@@ -129,3 +134,6 @@ export const variables = <T extends string>(
     override: (overrides) => makeDeclarations(overrides, opts, input),
   };
 };
+
+variables.isVar = (value: unknown): value is VariablePrinter =>
+  typeof value === 'function' && IS_PRINTER in value;

@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Expand `VariableValue` to allow `VariablePrinter`, forwarding `type`
 - feat: Add `--ext` option to the CLI compiler
 
 ## 0.2.0 – 0.2.2
