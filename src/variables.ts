@@ -10,7 +10,7 @@ const DEFAULT_NAME_RE = /^[a-z0-9_-]+$/i;
 const DEFAULT_NAME_MAPPER = (name: string) => name;
 
 export type VariableStyles<T extends string> = {
-  readonly declarations: string;
+  declarations: string;
   readonly vars: Record<T, VariablePrinter>;
   override<K extends T>(vars: Record<K, string>): string;
 };

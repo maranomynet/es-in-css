@@ -13,12 +13,17 @@ o.spec('variables helper', () => {
   });
 
   o('generates CSS declarations', () => {
-    o(res.declarations).equals(
-      [
-        '--componentWidth: 999px;\n',
-        '--componentWidth--small: 123px;\n',
-        '--componentWidth__large: 1500;\n',
-      ].join('')
+    const expectedDecls = [
+      '--componentWidth: 999px;\n',
+      '--componentWidth--small: 123px;\n',
+      '--componentWidth__large: 1500;\n',
+    ].join('');
+    o(res.declarations).equals(expectedDecls);
+
+    const extraDecls = '@media  (prefers-color-scheme: dark) { componentWidth: 999px; }';
+    res.declarations += extraDecls;
+    o(res.declarations).equals(expectedDecls + extraDecls)(
+      'declarations property is mutable'
     );
   });
 

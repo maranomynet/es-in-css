@@ -346,7 +346,7 @@ properties (CSS variables) at scale.
 import { variables, css } from 'es-in-css';
 
 const cssVars = variables({
-  linkColor: `#0000ff`,
+  linkColor: `#0000cc`,
   linkColor__hover: `#cc00cc`,
 });
 ```
@@ -363,9 +363,23 @@ into a CSS rule block.
 ```ts
 cssCars.declarations;
 /*`
-  --linkColor: #0000ff;
+  --linkColor: #0000cc;
   --linkColor__hover: #cc00cc;
 `*/
+```
+
+**NOTE:** This property is mutable, and appending `@media` queries and other
+tweaks is often a good idea:
+
+```ts
+cssCars.declarations += css`
+  @media (prefers-color-scheme: dark) {
+    ${cssCars.override({
+      linkColor: `#9999ff`,
+      linkColor__hover: `#ff99ff`,
+    })}
+  }
+`;
 ```
 
 #### `VariableStyles.vars`
