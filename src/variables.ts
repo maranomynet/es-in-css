@@ -12,7 +12,7 @@ const DEFAULT_NAME_MAPPER = (name: string) => name;
 export type VariableStyles<T extends string> = {
   declarations: string;
   readonly vars: Record<T, VariablePrinter>;
-  override<K extends T>(vars: Record<K, string>): string;
+  override<K extends T>(vars: Record<K, VariableValue>): string;
 };
 
 type VariablePrinter = {

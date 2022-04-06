@@ -6,6 +6,7 @@
 - feat: Make `VariableValues.declarations` mutable (for inlining overrides)
 - feat: Expand `VariableValue` to allow `VariablePrinter`, forwarding `type`
 - feat: Add `--ext` option to the CLI compiler
+- fix: `VariableStyles.override()`'s input should accept any `VariableValues`
 
 ## 0.2.0 – 0.2.2
 

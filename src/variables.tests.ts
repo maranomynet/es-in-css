@@ -35,7 +35,7 @@ o.spec('variables helper', () => {
     const declarationsBefore = res.declarations;
     const overrides = res.override({
       componentWidth: '0px ',
-      componentWidth__large: '10px',
+      componentWidth__large: px(10),
     });
     o(overrides).equals(
       ['--componentWidth: 0px;\n', '--componentWidth__large: 10px;\n'].join('')
