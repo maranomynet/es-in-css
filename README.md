@@ -29,9 +29,9 @@ for instant syntax highlighting and IntelliSense autocompletion inside
   - [Unit Converters](#unit-converters)
   - [Color Helper](#color-helper)
   - [`variables` Helper](#variables-helper)
-    - [`VariableData.declarations`](#variabledatadeclarations)
-    - [`VariableData.vars`](#variabledatavars)
-    - [`VariableData.override`](#variabledataoverride)
+    - [`VariableStyles.declarations`](#variablestylesdeclarations)
+    - [`VariableStyles.vars`](#variablestylesvars)
+    - [`VariableStyles.override`](#variablestylesoverride)
     - [`VariableOptions`](#variableoptions)
 - [Compilation API](#compilation-api)
   - [CLI Syntax](#cli-syntax)
@@ -337,7 +337,7 @@ Feel free to import your own color helper library, and use it instead.
 ### `variables` Helper
 
 **Syntax:**
-`variables<T extends string>(vars: Record<T, VariableValue>, options?: VariableOptions): VariableData<T>`
+`variables<T extends string>(vars: Record<T, VariableValue>, options?: VariableOptions): VariableStyles<T>`
 
 Helper to provide type-safety and code-completion when using CSS custom
 properties (CSS variables) at scale.
@@ -353,9 +353,9 @@ const cssVars = variables({
 
 The returned objects contains the following:
 
-#### `VariableData.declarations`
+#### `VariableStyles.declarations`
 
-**Syntax:** `VariableData<T>.declarations: string`
+**Syntax:** `VariableStyles<T>.declarations: string`
 
 Is a CSS string with all the custom property declarations, ready to be dumped
 into a CSS rule block.
@@ -368,9 +368,9 @@ cssCars.declarations;
 `*/
 ```
 
-#### `VariableData.vars`
+#### `VariableStyles.vars`
 
-**Syntax:** `VariableData<T>.vars: Record<T, VariablePrinter>`
+**Syntax:** `VariableStyles<T>.vars: Record<T, VariablePrinter>`
 
 Holds a readonly `Record<T, VariablePrinter>` object where the
 `VariablePrinter`s emit the CSS variable names wrapped in `var()`, ready to be
@@ -434,9 +434,9 @@ tVars.u.type === 'unknown';
 _**NOTE:** This type information can be used for introspection, but may not
 reflect the actual resolved type of the CSS variable because … The Cascade._
 
-#### `VariableData.override`
+#### `VariableStyles.override`
 
-**Syntax:** `VariableData<T>.override(vars: { [P in T]?: string }): string`
+**Syntax:** `VariableStyles<T>.override(vars: { [P in T]?: string }): string`
 
 Returns string with redeclarations for any of the variables of type `T`.
 Property names not matching `T` are dropped/ignored.
