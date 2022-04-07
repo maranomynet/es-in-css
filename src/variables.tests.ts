@@ -263,7 +263,7 @@ o.spec('variables helper', () => {
       })
     ).equals('--foo: 42;\n')('Overrides work for clashed objects');
 
-    const tsTest: StrictEquals<typeof joined, VariableStyles<'foo' | 'bar'>> = true;
+    const tsTest1: StrictEquals<typeof joined, VariableStyles<'foo' | 'bar'>> = true;
     const tsTest2: StrictEquals<typeof joined2, VariableStyles<'foo'>> = true;
   });
 });

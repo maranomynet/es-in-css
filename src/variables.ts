@@ -145,18 +145,18 @@ export const variables = <T extends string>(
   };
 };
 
+// ---------------------------------------------------------------------------
+
 variables.isVar = (value: unknown): value is VariablePrinter =>
   typeof value === 'function' && IS_PRINTER in value;
 
-/* prettier-ignore */
+// ---------------------------------------------------------------------------
 
 variables.join = <VArr extends Array<VariableStyles<string>>>(
   ...varDatas: VArr
 ): VariableStyles<
-  VArr extends Array<infer V> ?
-    (V extends VariableStyles<infer T> ? T : never) :
-    never
-  > => {
+  VArr extends Array<infer V> ? (V extends VariableStyles<infer T> ? T : never) : never
+> => {
   const vars = Object.assign({}, ...varDatas.map((d) => d.vars));
   return {
     declarations: varDatas.map((d) => d.declarations).join(''),
