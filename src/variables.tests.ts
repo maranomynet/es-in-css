@@ -5,6 +5,7 @@ import { px } from './units';
 import { variables, VariableStyles } from './variables';
 import { deg, ms, pct, rem } from '.';
 
+/** Testing helper */
 type StrictEquals<A, B> = A extends B ? (B extends A ? true : false) : false;
 
 o.spec('variables helper', () => {
@@ -87,46 +88,25 @@ o.spec('variables helper', () => {
       u2: '13furlong',
     }).vars;
 
-    // TODO: Add typing support … maybe?
-    const z1 /* : 'zero' */ = vars.z1.type;
-    const z2 /* : 'zero' */ = vars.z2.type;
-    const z3 /* : 'zero' */ = vars.z3.type;
-    const s1 /* : 'size:px' */ = vars.s1.type;
-    const s2 /* : 'size:rem' */ = vars.s2.type;
-    const s3 /* : 'size:em' */ = vars.s3.type;
-    const t1 /* : 'time:ms' */ = vars.t1.type;
-    const t2 /* : 'time:ms' */ = vars.t2.type;
-    const a /* : 'angle:deg' */ = vars.a.type;
-    const p1 /* : 'color' */ = vars.p1.type;
-    const p2 /* : 'color' */ = vars.p2.type;
-    const c1 /* : 'color' */ = vars.c1.type;
-    const c2 /* : 'color' */ = vars.c2.type;
-    const c3 /* : 'color' */ = vars.c3.type;
-    const c4 /* : 'color' */ = vars.c4.type;
-    const n1 /* : 'number' */ = vars.n1.type;
-    const n2 /* : 'number' */ = vars.n2.type;
-    const u1 /* : 'unknown' */ = vars.u1.type;
-    const u2 /* : 'unknown' */ = vars.u2.type;
-
-    o(z1).equals('zero');
-    o(z2).equals('zero');
-    o(z3).equals('zero');
-    o(s1).equals('size:px');
-    o(s2).equals('size:rem');
-    o(s3).equals('size:em');
-    o(t1).equals('time:ms');
-    o(t2).equals('time:s');
-    o(a).equals('angle:deg');
-    o(p1).equals('percent');
-    o(p2).equals('percent');
-    o(c1).equals('color');
-    o(c2).equals('color');
-    o(c3).equals('color');
-    o(c4).equals('color');
-    o(n1).equals('number');
-    o(n2).equals('number');
-    o(u1).equals('unknown');
-    o(u2).equals('unknown');
+    o(vars.z1.type).equals('zero');
+    o(vars.z2.type).equals('zero');
+    o(vars.z3.type).equals('zero');
+    o(vars.s1.type).equals('size:px');
+    o(vars.s2.type).equals('size:rem');
+    o(vars.s3.type).equals('size:em');
+    o(vars.t1.type).equals('time:ms');
+    o(vars.t2.type).equals('time:s');
+    o(vars.a.type).equals('angle:deg');
+    o(vars.p1.type).equals('percent');
+    o(vars.p2.type).equals('percent');
+    o(vars.c1.type).equals('color');
+    o(vars.c2.type).equals('color');
+    o(vars.c3.type).equals('color');
+    o(vars.c4.type).equals('color');
+    o(vars.n1.type).equals('number');
+    o(vars.n2.type).equals('number');
+    o(vars.u1.type).equals('unknown');
+    o(vars.u2.type).equals('unknown');
   });
 
   o('accepts `VariablePrinter`s as values', () => {
@@ -263,7 +243,9 @@ o.spec('variables helper', () => {
       })
     ).equals('--foo: 42;\n')('Overrides work for clashed objects');
 
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const tsTest1: StrictEquals<typeof joined, VariableStyles<'foo' | 'bar'>> = true;
     const tsTest2: StrictEquals<typeof joined2, VariableStyles<'foo'>> = true;
+    /* eslint-enable @typescript-eslint/no-unused-vars */
   });
 });
