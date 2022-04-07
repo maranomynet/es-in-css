@@ -642,7 +642,7 @@ dist/styles/css/component/formFields.css
 **Maybes:**
 
 - Add more CSS authoring helpers/utilities (ideas? PRs welcome)
-- `--watch` mode … may be out of scope
+- In-built `--watch` mode … may be out of scope
 - Ability to add more postcss plugins and more fine-grained plugin
   configurability.
 
