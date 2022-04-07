@@ -32,6 +32,7 @@ for instant syntax highlighting and IntelliSense autocompletion inside
     - [`VariableStyles.declarations`](#variablestylesdeclarations)
     - [`VariableStyles.vars`](#variablestylesvars)
     - [`VariableStyles.override`](#variablestylesoverride)
+    - [`variables.join` Composition Helper](#variablesjoin-composition-helper)
     - [`VariableOptions`](#variableoptions)
 - [Compilation API](#compilation-api)
   - [CLI Syntax](#cli-syntax)
@@ -469,6 +470,14 @@ const overrideStr = cssVars.override({
 cssVars.declarations === declarations;
 // true
 ```
+
+#### `variables.join` Composition Helper
+
+**Syntax:**
+`variables.join(...varDatas: Array<VariableStyles>): VariableStyles`
+
+This helper combines the variable values and declarations from multiple
+`VariableStyles` objects into a new, larger `VariableStyles` object.
 
 #### `VariableOptions`
 

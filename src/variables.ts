@@ -2,6 +2,10 @@ import { ColorValue } from './colors';
 import { UnitValue } from './units';
 import { resolveType } from './variables.resolveType';
 
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P];
+};
+
 export type VariableValue = string | number | UnitValue | ColorValue | VariablePrinter;
 
 const IS_PRINTER = Symbol();
@@ -9,19 +13,23 @@ const IS_PRINTER = Symbol();
 const DEFAULT_NAME_RE = /^[a-z0-9_-]+$/i;
 const DEFAULT_NAME_MAPPER = (name: string) => name;
 
+type VarsMap<T extends string> = Record<T, VariablePrinter>;
+
 export type VariableStyles<T extends string> = {
   declarations: string;
-  readonly vars: Record<T, VariablePrinter>;
+  readonly vars: VarsMap<T>;
   override<K extends T>(vars: Record<K, VariableValue>): string;
 };
 
 type VariablePrinter = {
   (defaultValue?: VariableValue): string;
+} & Readonly<{
+  cssName: string;
   type: string;
   toString(): string;
   toJSON(): string;
   [IS_PRINTER]: true;
-};
+}>;
 
 export type VariableOptions = {
   /**
@@ -61,15 +69,16 @@ export type VariableOptions = {
 const makeVariablePrinter = (name: string, type: string) => {
   const varString = `var(--${name})`;
 
-  const printer = ((defaultValue) =>
+  const printer = ((defaultValue?: VariableValue) =>
     defaultValue
       ? varString.replace(/\)$/, `, ${defaultValue})`)
-      : varString) as VariablePrinter;
+      : varString) as unknown as Mutable<VariablePrinter>;
   printer[IS_PRINTER] = true;
   printer.toString = printer.toJSON = () => varString;
   printer.type = type;
+  printer.cssName = name;
 
-  return printer;
+  return printer as VariablePrinter;
 };
 
 const mapObject = <T extends string, V>(
@@ -83,27 +92,21 @@ const mapObject = <T extends string, V>(
     ])
   ) as Record<T, V>;
 
+// ---------------------------------------------------------------------------
+
 const makeDeclarations = (
   vars: Record<string, VariableValue>,
-  options: VariableOptions,
-  allowed?: Record<string, unknown>
+  allowed: Record<string, VariablePrinter>
 ): string => {
-  const { nameRe, toCSSName } = options;
-  return Object.keys(vars)
-    .map((name) => {
-      if (!name || !nameRe.test(name)) {
-        throw new Error(
-          `Only CSS variable names matching ${nameRe} are supported.\nDisallowed name: ${name}`
-        );
-      }
-      if (allowed && !(name in allowed)) {
-        return '';
-      }
-      const valueStr = String(vars[name]).trim();
-      return `--${toCSSName(name)}: ${valueStr};\n`;
+  return Object.entries(vars)
+    .map(([key, value]) => {
+      const printer = allowed[key];
+      const valueStr = String(value).trim();
+      return printer ? `--${printer.cssName}: ${valueStr};\n` : '';
     })
     .join('');
 };
+
 // ===========================================================================
 
 export const variables = <T extends string>(
@@ -121,19 +124,43 @@ export const variables = <T extends string>(
     resolveType: getCustomType,
     isColor,
   } = options;
-  const opts = { nameRe, toCSSName };
+
+  const vars: VarsMap<T> = mapObject(input, (name, value) => {
+    if (!name || !nameRe.test(name)) {
+      throw new Error(
+        `Only CSS variable names matching ${nameRe} are allowed.\nDisallowed name: ${name}`
+      );
+    }
+    let type = (getCustomType && getCustomType(value)) || resolveType(value);
+    if (isColor && type !== 'color' && isColor(value)) {
+      type = 'color';
+    }
+    return makeVariablePrinter(toCSSName(name), type);
+  });
+
   return {
-    declarations: makeDeclarations(input, opts),
-    vars: mapObject(input, (name, value) => {
-      let type = (getCustomType && getCustomType(value)) || resolveType(value);
-      if (isColor && type !== 'color' && isColor(value)) {
-        type = 'color';
-      }
-      return makeVariablePrinter(toCSSName(name), type);
-    }),
-    override: (overrides) => makeDeclarations(overrides, opts, input),
+    declarations: makeDeclarations(input, vars),
+    vars,
+    override: (overrides) => makeDeclarations(overrides, vars),
   };
 };
 
 variables.isVar = (value: unknown): value is VariablePrinter =>
   typeof value === 'function' && IS_PRINTER in value;
+
+/* prettier-ignore */
+
+variables.join = <VArr extends Array<VariableStyles<string>>>(
+  ...varDatas: VArr
+): VariableStyles<
+  VArr extends Array<infer V> ?
+    (V extends VariableStyles<infer T> ? T : never) :
+    never
+  > => {
+  const vars = Object.assign({}, ...varDatas.map((d) => d.vars));
+  return {
+    declarations: varDatas.map((d) => d.declarations).join(''),
+    vars,
+    override: (overrides) => makeDeclarations(overrides, vars),
+  };
+};

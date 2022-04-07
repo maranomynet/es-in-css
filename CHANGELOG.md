@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add composition helper `variables.join(...varStyles)`
 - feat: Make `VariableValues.declarations` mutable (for inlining overrides)
 - feat: Expand `VariableValue` to allow `VariablePrinter`, forwarding `type`
 - feat: Add `--ext` option to the CLI compiler

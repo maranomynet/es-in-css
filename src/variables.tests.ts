@@ -2,8 +2,10 @@ import o from 'ospec';
 
 import { color } from './colors';
 import { px } from './units';
-import { variables } from './variables';
+import { variables, VariableStyles } from './variables';
 import { deg, ms, pct, rem } from '.';
+
+type StrictEquals<A, B> = A extends B ? (B extends A ? true : false) : false;
 
 o.spec('variables helper', () => {
   const res = variables({
@@ -31,7 +33,7 @@ o.spec('variables helper', () => {
     o(variables({ foo: ' 1\t ' }).declarations).equals('--foo: 1;\n');
   });
 
-  o('allows selecctively overriding declarations', () => {
+  o('allows selectively overriding declarations', () => {
     const declarationsBefore = res.declarations;
     const overrides = res.override({
       componentWidth: '0px ',
@@ -227,5 +229,41 @@ o.spec('variables helper', () => {
     o(vars.custom.type).equals('ultimate');
     o(vars.color.type).equals('color');
     o(vars.customColor.type).equals('color');
+  });
+
+  o('variables.join() combines multiple VariableStyle objects', () => {
+    const d1 = variables({ foo: 1 });
+    d1.declarations += 'funk\n';
+    const d2 = variables({ bar: 'a' });
+
+    const joined = variables.join(d1, d2);
+    o(joined.vars.foo()).equals('var(--foo)');
+    o(joined.vars.bar()).equals('var(--bar)');
+    o(joined.declarations).equals('--foo: 1;\nfunk\n--bar: a;\n')(
+      'retains mutated declaration values'
+    );
+    o(
+      joined.override({
+        foo: 42,
+        // @ts-expect-error  (Invalid key)
+        baz: 999,
+      })
+    ).equals('--foo: 42;\n')('Overrides work');
+
+    const d1b = variables({ foo: 2 });
+    const joined2 = variables.join(d1, d1b);
+    o(joined2.declarations).equals('--foo: 1;\nfunk\n--foo: 2;\n')(
+      'does *NOT* de-duplicate clashing/repeat declarations'
+    );
+    o(
+      joined2.override({
+        foo: 42,
+        // @ts-expect-error  (Invalid key)
+        bar: 33,
+      })
+    ).equals('--foo: 42;\n')('Overrides work for clashed objects');
+
+    const tsTest: StrictEquals<typeof joined, VariableStyles<'foo' | 'bar'>> = true;
+    const tsTest2: StrictEquals<typeof joined2, VariableStyles<'foo'>> = true;
   });
 });
