@@ -8,6 +8,7 @@
     "dev": "yarn install  &&  yarn run concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"node build.js --dev\"  \"yarn run test:dev\"",
     "prepublishOnly": "echo \"\nRun 'yarn run publishdist' to publish this package\n\n\"  && exit 1",
     "publishdist": "yarn run build  &&  cd dist  &&  npm publish",
+    "publishcanary": "yarn run build  &&  cd dist  &&  npm publish --tag canary",
     "test:dev": "sleep 1  &&  (yarn run test || true)  &&  yarn run test:watch",
     "test:watch": "yarn run onchange '__tests/**/*.tests.js' -f add -f change -- yarn run ospec '{{file}}'",
     "test:cli": "node dist/bin/cli.js \"__tests/**/*.css.js\"",
