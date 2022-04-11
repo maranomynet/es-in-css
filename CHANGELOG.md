@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add `compiler` module, exporting `compileCSS` and `compileCSSFromJS`
 
 ## 0.2.3
 
@@ -10,7 +11,7 @@ _2022-04-07_
 
 - feat: Add composition helper `variables.join(...varStyles)`
 - feat: Make `VariableValues.declarations` mutable (for inlining overrides)
-- feat: Expand `VariableValue` to allow `VariablePrinter`, forwarding `type`
+- feat: Expand `VariableValue` to allow `VariablePrinter` (forwarding `type`)
 - feat: Add `--ext` option to the CLI compiler
 - fix: `VariableStyles.override()`'s input should accept any `VariableValues`
 

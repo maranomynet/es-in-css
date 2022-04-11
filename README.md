@@ -36,7 +36,10 @@ for instant syntax highlighting and IntelliSense autocompletion inside
     - [`VariableOptions`](#variableoptions)
 - [Compilation API](#compilation-api)
   - [CLI Syntax](#cli-syntax)
-  - [CLI Example Usage](#cli-example-usage)
+    - [CLI Example Usage](#cli-example-usage)
+  - [JS API](#js-api)
+    - [`compileCSS` (from files)](#compilecss-from-files)
+    - [`compileCSSFromJS`](#compilecssfromjs)
 - [Roadmap](#roadmap)
 
 <!-- prettier-ignore-end -->
@@ -593,7 +596,7 @@ defaults to resolving `.prettierrc` for `--outdir` or the current directory.
 
 Ignored if mixed with `--minify`.
 
-### CLI Example Usage
+#### CLI Example Usage
 
 ```sh
 es-in-css "src/css/**/*.js" --outdir=dist/styles
@@ -632,6 +635,80 @@ dist/styles/css/styles.css
 dist/styles/css/resets.css
 dist/styles/css/component/buttons.css
 dist/styles/css/component/formFields.css
+```
+
+### JS API
+
+#### `compileCSS` (from files)
+
+```js
+const { compileCSS } = require('es-in-js/compiler');
+const { writeFile } = require('fs/promise');
+
+const files = [
+  'src/foo/styles.css.js',
+  'src/foo/styles2.css.js',
+]
+
+compileCSS(sourceFiles, {
+  outbase: 'src'
+  outdir: 'dist'
+  // ext: '.scss', // default: '.css'
+  // ext: (inFile) => inFile.endsWith('.scss.js') ? 'scss' : 'css',
+  // minify: false,
+  // prettify: false,
+  write: false,
+}).then((result) => {
+  console.log(result.inFile); // string
+  writeFile(result.outFile, result.css);
+});
+```
+
+#### `compileCSSFromJS`
+
+Temporarily writes the script contents to the file system, which then get
+deleted afterwards.
+
+This may be the preferable method when working with bundlers such as
+`esbuild`.
+
+```js
+const { compileCSSFromJS } = require('es-in-js/compiler');
+const { writeFile } = require('fs/promise');
+
+const scriptStrings = [
+  {
+    fileName: '_temp/styles.css.mjs',
+    content: `
+      import { css } from 'es-in-css';
+      export const baseColor = 'red';
+      export default css\`
+        body { color: \${baseColor}; }
+      \`;
+    `,
+  },
+  {
+    fileName: '_temp/styles2.css.mjs',
+    content: `
+      import { css } from 'es-in-css';
+      import { baseColor } from './styles.css';
+      export default css\`
+        div { color: \${baseColor}; }
+      \`;
+    `,
+  },
+];
+
+compileCSSFromJS(scriptStrings,   outbase: 'src'
+  outdir: 'dist'
+  // ext: '.css',
+  // minify: false,
+  // prettify: false,
+  write: false,
+).then((result) => {
+  console.log(result.inFile); // undefined
+  writeFile(result.outFile, result.css);
+});
 ```
 
 ## Roadmap

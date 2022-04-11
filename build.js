@@ -98,9 +98,9 @@ esbuild
 const buildLib = (format, extraCfg) =>
   esbuild.build({
     ...baseOpts,
-    platform: format === 'esm' ? 'neutral' : 'node',
+    platform: 'node',
     format,
-    entryPoints: ['src/index.ts'],
+    entryPoints: ['src/index.ts', 'src/compiler.ts'],
     outExtension: format === 'esm' ? { '.js': '.mjs' } : undefined,
     outdir,
     ...extraCfg,

@@ -87,6 +87,25 @@ o.spec('resolveOutputFiles', () => {
     },
 
     {
+      name: 'accepts dynamic file-extension based on inFile',
+      input: ['__tests/css/styles/test.css.js', '__tests/css/styles/sub/test2.scss.js'],
+      options: [
+        { ext: (inFile) => (/\.scss\./.test(inFile) ? 'scss' : 'css') },
+        { ext: (inFile) => /\.scss\./.test(inFile) && '.scss' },
+      ],
+      expected: [
+        {
+          inFile: '__tests/css/styles/test.css.js',
+          outFile: '__tests/css/styles/test.css',
+        },
+        {
+          inFile: '__tests/css/styles/sub/test2.scss.js',
+          outFile: '__tests/css/styles/sub/test2.scss',
+        },
+      ],
+    },
+
+    {
       name: 'custom file-extensions can be weird',
       input: ['css/test.css.js', 'css/sub/test2.bar.js'],
       options: [{ ext: 'foo..bar' }],

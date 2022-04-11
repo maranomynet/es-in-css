@@ -10,10 +10,7 @@ export const makePrettifyCSS = (cliArg: string | true, outdir?: string) => {
       editorconfig: true,
       // useCache: false,
     })
-    .then((config) => ({
-      ...config,
-      parser: 'css',
-    }));
+    .then((config) => Object.assign({}, config, { parser: 'css' }));
 
   return (css: string): Promise<string> =>
     configResolver.then((config) => prettier.format(css, config));
