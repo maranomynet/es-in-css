@@ -101,12 +101,12 @@ const buildLib = (format, extraCfg) =>
     platform: format === 'esm' ? 'neutral' : 'node',
     format,
     entryPoints: ['src/index.ts'],
-    entryNames: `lib/[name].${format}`,
+    outExtension: format === 'esm' ? { '.js': '.mjs' } : undefined,
     outdir,
     ...extraCfg,
   });
 
-buildLib('esm', { plugins: [dtsPlugin({ outDir: outdir + 'lib/' })] }).catch(exit1);
+buildLib('esm', { plugins: [dtsPlugin({ outDir: outdir })] }).catch(exit1);
 buildLib('cjs').catch(exit1);
 
 // ---------------------------------------------------------------------------
@@ -114,6 +114,7 @@ buildLib('cjs').catch(exit1);
 
 esbuild.build({
   ...baseOpts,
-  entryPoints: ['src/bin/compiler.ts'],
-  outdir: outdir + 'bin/',
+  entryPoints: ['src/bin/cli.ts'],
+  outbase: 'src',
+  outdir,
 });

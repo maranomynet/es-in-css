@@ -10,9 +10,9 @@ import postcss, { AcceptedPlugin } from 'postcss';
 import nested from 'postcss-nested';
 import scss from 'postcss-scss';
 
-import { getExportedCSS } from './getExportedCSS';
-import { makePrettifyCSS } from './prettifyCSS';
-import { InOutMap, resolveOutputFiles } from './resolveOutputFiles';
+import { getExportedCSS } from '../compiler/getExportedCSS';
+import { makePrettifyCSS } from '../compiler/prettifyCSS';
+import { InOutMap, resolveOutputFiles } from '../compiler/resolveOutputFiles';
 
 const program = new Command('es-in-css');
 

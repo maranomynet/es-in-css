@@ -10,9 +10,9 @@
     "publishdist": "yarn run build  &&  cd dist  &&  npm publish",
     "test:dev": "sleep 1  &&  (yarn run test || true)  &&  yarn run test:watch",
     "test:watch": "yarn run onchange '__tests/**/*.tests.js' -f add -f change -- yarn run ospec '{{file}}'",
-    "test:compiler": "node dist/bin/compiler.js \"__tests/**/*.css.js\"",
+    "test:cli": "node dist/bin/cli.js \"__tests/**/*.css.js\"",
     "test": "yarn run ospec \"__tests/**/*.tests.js\"",
-    "es-in-css": "node ./dist/bin/compiler.js"
+    "es-in-css": "node ./dist/bin/cli.js"
   },
   "repository": "git@github.com:maranomynet/es-in-css.git",
   "author": "Már Örlygsson",
@@ -26,11 +26,11 @@
     "engines": {
       "node": ">=14"
     },
-    "main": "lib/index.cjs.js",
-    "module": "lib/index.esm.js",
-    "types": "lib/index.d.ts",
+    "main": "index.js",
+    "module": "index.mjs",
+    "types": "index.d.ts",
     "bin": {
-      "es-in-css": "bin/compiler.js"
+      "es-in-css": "bin/cli.js"
     }
   },
   "engines": {
