@@ -577,7 +577,7 @@ If you want to customize this behavior, you should set the `outbase` path.
 
 **`-e, --ext <file-extension>`**
 
-Minify the CSS output. Uses cssnano with its "default" preset.
+Customize the file-extension of the output files. Default is `.css`
 
 **`-m, --minify`**
 
