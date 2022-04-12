@@ -540,15 +540,15 @@ Example: `(value) => value instance of MyColorClass`
 
 ## Compilation API
 
-The `es-in-css` package exposes a CLI script of the same name. (Use `yarn run`
-or `npm exec` to run it, unless you have `./node_modules/.bin/` in PATH, or
-es-in-css is installed "globally".)
-
 The `es-in-css` compiler imports/requires the default string export of the
 passed javascript modules and passes it through a series of `postcss` plugins
 before writing the resulting CSS to disc.
 
 ### CLI Syntax
+
+The `es-in-css` package exposes a CLI script of the same name. (Use `yarn run`
+or `npm exec` to run it, unless you have `./node_modules/.bin/` in PATH, or
+es-in-css is installed "globally".)
 
 ```sh
 es-in-css "inputglob" --outbase=src/path --outdir=out/path --minify
@@ -639,7 +639,19 @@ dist/styles/css/component/formFields.css
 
 ### JS API
 
+The options for the JavaScript API are the same as for the CLI, with the
+following additions:
+
+- `write?: boolean` — (default: `true`) allows turning off the automatic
+  writing to disc, if you want to post-process the files and handle the FS
+  writes manually.  
+  When turned off the CSS content is returned as part of the promise payload.
+- `ext?: string | (inFile: string) => string | undefined` — the function
+  signature allows dynamically choosing a file-extension for the output files.
+
 #### `compileCSS` (from files)
+
+Works in pretty much the same way as the CLI.
 
 ```js
 const { compileCSS } = require('es-in-js/compiler');
@@ -666,11 +678,12 @@ compileCSS(sourceFiles, {
 
 #### `compileCSSFromJS`
 
-Temporarily writes the script contents to the file system, which then get
-deleted afterwards.
-
 This may be the preferable method when working with bundlers such as
 `esbuild`.
+
+(NOTE: This method temporarily writes the script contents to the file system
+to allow imports and file-reads to work correctly, but then deletes those
+files afterwards.)
 
 ```js
 const { compileCSSFromJS } = require('es-in-js/compiler');
