@@ -41,6 +41,7 @@ for instant syntax highlighting and IntelliSense autocompletion inside
     - [`compileCSS` (from files)](#compilecss-from-files)
     - [`compileCSSFromJS`](#compilecssfromjs)
 - [Roadmap](#roadmap)
+- [Changelog](#changelog)
 
 <!-- prettier-ignore-end -->
 
@@ -745,3 +746,7 @@ compileCSSFromJS(scriptStrings,   outbase: 'src'
 
 - Emitting source maps.
 - Complicated config files, etc.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md)
