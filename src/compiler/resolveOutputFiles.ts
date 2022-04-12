@@ -1,5 +1,7 @@
 import { extname, relative } from 'path';
 
+import { CompilerOptions } from '../compiler';
+
 export type InOutMap = {
   inFile: string;
   outFile: string;
@@ -21,11 +23,10 @@ export const getCommonPath = (fileNames: Array<string>): string => {
   return '';
 };
 
-export type DestinationOpts = {
-  outbase?: string;
-  outdir?: string;
-  ext?: string | ((sourceFile: string) => string | undefined | false | null);
-};
+export type DestinationOpts = Pick<
+  CompilerOptions,
+  'outdir' | 'outbase' | 'ext' | 'redirect'
+>;
 
 export const resolveOutputFiles = (
   inputFiles: Array<string>,

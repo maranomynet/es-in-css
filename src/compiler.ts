@@ -9,11 +9,7 @@ import scss from 'postcss-scss';
 
 import { getExportedCSS } from './compiler/getExportedCSS';
 import { makePrettifyCSS } from './compiler/prettifyCSS';
-import {
-  DestinationOpts,
-  InOutMap,
-  resolveOutputFiles,
-} from './compiler/resolveOutputFiles';
+import { InOutMap, resolveOutputFiles } from './compiler/resolveOutputFiles';
 
 const makeFile = async (outFile: string, contents: string) => {
   const targetDir = dirname(outFile);
@@ -56,8 +52,8 @@ export type CompilerOptions = {
   outdir?: string;
   outbase?: string;
   minify?: boolean;
-  ext?: DestinationOpts['ext'];
   prettify?: boolean | string;
+  ext?: string | ((sourceFile: string) => string | undefined | false | null);
   write?: boolean;
 };
 
