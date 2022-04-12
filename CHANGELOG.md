@@ -3,13 +3,13 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
-- fix: Compiling input files with absolute paths failed
 
-## 0.2.6
+## 0.2.6 — 0.2.7
 
 _2022-04-12_
 
 - feat: Add option `redirect` to `CompilerOptions`
+- fix: Compiling input files with absolute paths failed
 
 ## 0.2.4 — 0.2.5
 
