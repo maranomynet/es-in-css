@@ -231,6 +231,25 @@ o.spec('resolveOutputFiles', () => {
     },
 
     {
+      name: 'Handles outbase for absolute input filepaths',
+      input: [
+        process.cwd() + '/src/skin/resets.js',
+        process.cwd() + '/src/skin/sub/styles.js',
+      ],
+      options: [{ outbase: 'src', outdir: 'out' }],
+      expected: [
+        {
+          inFile: 'src/skin/resets.js',
+          outFile: 'out/skin/resets.css',
+        },
+        {
+          inFile: 'src/skin/sub/styles.js',
+          outFile: 'out/skin/sub/styles.css',
+        },
+      ],
+    },
+
+    {
       name: 'Ignores partially invalid/nonsensical outbase',
       input: ['foo/bar/resets.js', 'foo/bar/sub/styles.js', 'src/styles/buttons.js'],
       options: [{ outbase: 'foo/bar' }],

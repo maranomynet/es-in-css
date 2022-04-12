@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: Better handle absolute input file paths
 
 ## 0.2.6 — 0.2.7
 

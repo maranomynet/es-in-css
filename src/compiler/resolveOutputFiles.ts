@@ -33,6 +33,7 @@ export const resolveOutputFiles = (
   options: DestinationOpts,
   silent?: boolean
 ) => {
+  inputFiles = inputFiles.map((file) => relative('', file));
   const outdir = options.outdir
     ? (relative('', options.outdir + '/') || '.') + '/'
     : undefined;
