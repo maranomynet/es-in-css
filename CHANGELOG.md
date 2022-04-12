@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: Compiling input files with absolute paths failed
 
 ## 0.2.6
 

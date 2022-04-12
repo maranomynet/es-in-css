@@ -1,3 +1,5 @@
+import { resolve } from 'path';
+
 export const extractDefaultExport = (exported: unknown) => {
   if (exported == null) {
     return;
@@ -21,7 +23,7 @@ export const extractDefaultExport = (exported: unknown) => {
  * Resolves esm—commonjs wrappers if neccessary.
  */
 export const getExportedCSS = (filePath: string) =>
-  import(process.cwd() + '/' + filePath).then(extractDefaultExport).then((css) => {
+  import(resolve('', filePath)).then(extractDefaultExport).then((css) => {
     if (css == null) {
       throw new Error(`Module does not emit string as its default export`);
     }
