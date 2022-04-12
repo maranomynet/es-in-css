@@ -719,7 +719,7 @@ compileCSSFromJS(scriptStrings,   outbase: 'src'
   // prettify: false,
   write: false,
 ).then((result) => {
-  console.log(result.inFile); // undefined
+  console.log(result.inFile); // string
   writeFile(result.outFile, result.css);
 });
 ```

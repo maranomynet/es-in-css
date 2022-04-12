@@ -108,10 +108,7 @@ export const compileCSSFromJS = <Opts extends CompilerOptions>(
     })
   )
     .then((inputFiles) => compileCSS(inputFiles, options))
-    .then((rets) =>
-      rets.map((ret) => {
-        const { inFile, ...rest } = ret;
-        unlink(inFile);
-        return rest;
-      })
-    );
+    .then((rets) => {
+      rets.forEach((ret) => unlink(ret.inFile));
+      return rets;
+    });
