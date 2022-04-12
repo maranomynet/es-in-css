@@ -54,6 +54,7 @@ export type CompilerOptions = {
   minify?: boolean;
   prettify?: boolean | string;
   ext?: string | ((sourceFile: string) => string | undefined | false | null);
+  redirect?: (outFile: string, inFile: string) => string | undefined | false | null;
   write?: boolean;
 };
 

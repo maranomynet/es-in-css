@@ -646,6 +646,9 @@ following additions:
   writing to disc, if you want to post-process the files and handle the FS
   writes manually.  
   When turned off the CSS content is returned as part of the promise payload.
+- `redirect?: (outFile: string, inFile: string) => string | undefined` — to
+  dynamically change the final destination of the output files. (Values that
+  lead to overwriting the source file are ignored.)
 - `ext?: string | (inFile: string) => string | undefined` — the function
   signature allows dynamically choosing a file-extension for the output files.
 
@@ -669,6 +672,7 @@ compileCSS(sourceFiles, {
   // ext: (inFile) => inFile.endsWith('.scss.js') ? 'scss' : 'css',
   // minify: false,
   // prettify: false,
+  // redirect: (outFile, inFile) => outFile + '_',
   write: false,
 }).then((result) => {
   console.log(result.inFile); // string
@@ -717,6 +721,7 @@ compileCSSFromJS(scriptStrings,   outbase: 'src'
   // ext: '.css',
   // minify: false,
   // prettify: false,
+  // redirect: (outFile, inFile) => outFile + '_',
   write: false,
 ).then((result) => {
   console.log(result.inFile); // string

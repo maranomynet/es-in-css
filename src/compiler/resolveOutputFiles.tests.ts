@@ -249,6 +249,40 @@ o.spec('resolveOutputFiles', () => {
         },
       ],
     },
+
+    {
+      name: 'Allows dynamically redirecting output files',
+      input: ['foo/bar/resets.js', 'foo/bar/sub/styles.css.js'],
+      options: [{ redirect: (outFile) => outFile.toUpperCase() }],
+      expected: [
+        {
+          inFile: 'foo/bar/resets.js',
+          outFile: 'FOO/BAR/RESETS.CSS',
+        },
+        {
+          inFile: 'foo/bar/sub/styles.css.js',
+          outFile: 'FOO/BAR/SUB/STYLES.CSS',
+        },
+      ],
+    },
+
+    {
+      name: 'Dynamic redirects happen after outfile has been fully esolved',
+      input: ['foo/bar/resets.js', 'foo/bar/sub/styles.less.js'],
+      options: [
+        { outdir: 'dist', ext: 'less', redirect: (outFile) => outFile.toUpperCase() },
+      ],
+      expected: [
+        {
+          inFile: 'foo/bar/resets.js',
+          outFile: 'DIST/RESETS.LESS',
+        },
+        {
+          inFile: 'foo/bar/sub/styles.less.js',
+          outFile: 'DIST/SUB/STYLES.LESS',
+        },
+      ],
+    },
   ];
 
   tests.forEach(({ name, input, options, expected }, i) => {

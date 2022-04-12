@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add option `redirect` to `CompilerOptions`
 
 ## 0.2.4 — 0.2.5
 

@@ -68,13 +68,17 @@ export const resolveOutputFiles = (
       outFile = outFile + targetExt;
     }
 
-    if (outdir == null) {
-      return { inFile, outFile };
+    if (outdir != null) {
+      outFile = (outdir || '') + outFile.substring(commonPath.length);
     }
 
-    return {
-      inFile,
-      outFile: (outdir || '') + outFile.substring(commonPath.length),
-    };
+    if (options.redirect) {
+      const newOut = options.redirect(outFile, inFile);
+      if (newOut && newOut !== inFile) {
+        outFile = newOut;
+      }
+    }
+
+    return { inFile, outFile };
   });
 };
