@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.2.4 — 0.2.5
+
+_2022-04-11_
+
 - feat: Add `compiler` module, exporting `compileCSS` and `compileCSSFromJS`
 
 ## 0.2.3
