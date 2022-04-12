@@ -38,6 +38,7 @@ o.spec('resolveOutputFiles', () => {
     input: Array<string>;
     options: Array<DestinationOpts>;
     expected: Array<InOutMap>;
+    only?: boolean;
   };
 
   const tests: Array<Test> = [
@@ -304,8 +305,8 @@ o.spec('resolveOutputFiles', () => {
     },
   ];
 
-  tests.forEach(({ name, input, options, expected }, i) => {
-    o(`${name} (opts #${i})`, () => {
+  tests.forEach(({ name, input, options, expected, only }, i) => {
+    (only ? o.only : o)(`${name} (opts #${i})`, () => {
       options.forEach((opts) => {
         o(resolveOutputFiles(input, opts, true)).deepEquals(expected);
       });
