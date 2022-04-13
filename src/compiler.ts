@@ -108,8 +108,8 @@ export const compileCSSFromJS = <Opts extends CompilerOptions>(
   options: Opts
 ) =>
   Promise.all(
-    scriptStrings.map(({ fileName, content }) => {
-      makeFile(fileName, content);
+    scriptStrings.map(async ({ fileName, content }) => {
+      await makeFile(fileName, content);
       return fileName;
     })
   )
