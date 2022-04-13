@@ -650,6 +650,8 @@ following additions:
 - `redirect?: (outFile: string, inFile: string) => string | undefined` — to
   dynamically change the final destination of the output files. (Values that
   lead to overwriting the source file are ignored.)
+- `banner?: string` — text that's prepended to every output file.
+- `footer?: string` — text that's appended to every output file.
 - `ext?: string | (inFile: string) => string | undefined` — the function
   signature allows dynamically choosing a file-extension for the output files.
 

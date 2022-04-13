@@ -55,6 +55,8 @@ export type CompilerOptions = {
   prettify?: boolean | string;
   ext?: string | ((sourceFile: string) => string | undefined | false | null);
   redirect?: (outFile: string, inFile: string) => string | undefined | false | null;
+  banner?: string;
+  footer?: string;
   write?: boolean;
 };
 
@@ -67,12 +69,19 @@ export const compileCSS = <Opts extends CompilerOptions>(
   options: Opts = {} as Opts
 ): Promise<Array<Ret<Opts>>> => {
   const processCSS = makeProcessCSS(options);
+  const banner = options.banner ? options.banner + '\n' : '';
+  const footer = options.footer ? '\n' + options.footer + '\n' : '';
 
   return Promise.all(
     resolveOutputFiles(sourceFiles, options).map((args: InOutMap) =>
       getExportedCSS(args.inFile)
         .then(processCSS)
         .then(async (css) => {
+          css = banner + css;
+          if (footer) {
+            css = css.replace(/\n$/, '') + footer;
+          }
+
           if (options.write === false) {
             return Object.assign({ css }, args);
           }

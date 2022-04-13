@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add options `banner` and `footer` to `CompilerOptions`
 
 ## 0.2.6 — 0.2.9
 
