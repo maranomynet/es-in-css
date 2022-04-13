@@ -4,6 +4,7 @@
 
 - ... <!-- Add new lines here. -->
 - feat: Add options `banner` and `footer` to `CompilerOptions`
+- fix: Bust node's module cache when dynamically importing the same source
 - fix: Await JS file-writes in `compileCSSFromJS`
 
 ## 0.2.6 — 0.2.9
