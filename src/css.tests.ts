@@ -16,6 +16,8 @@ o.spec('css``', () => {
     `).equals(
       'body { color: red; border: 1px solid blue; background: white; width: 33.3333%; }'
     );
+
+    o(css``).equals('')('CSS can be empty string');
   });
 
   o('tolerates BS inputs', () => {

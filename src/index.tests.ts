@@ -63,6 +63,8 @@ o.spec('es-in-css entry point', () => {
 /* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, import/first */
 import type {
   // css.ts
+  RawCssString,
+  RawCssVarString,
 
   // scoped.ts
 

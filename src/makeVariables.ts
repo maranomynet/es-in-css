@@ -1,10 +1,15 @@
 import { ColorValue } from './colors';
+import { RawCssString } from './css';
 import { resolveType } from './makeVariables.resolveType';
 import { UnitValue } from './units';
 
 type Mutable<T> = {
   -readonly [P in keyof T]: T[P];
 };
+
+declare const _RawCssVarString__Brand: unique symbol;
+/** CSS `var(--custom-property, fallback)` string  */
+export type RawCssVarString = string & { [_RawCssVarString__Brand]?: true };
 
 export type VariableValue = string | number | UnitValue | ColorValue | VariablePrinter;
 
@@ -16,13 +21,13 @@ const DEFAULT_NAME_MAPPER = (name: string) => name;
 type VarsMap<T extends string> = Record<T, VariablePrinter>;
 
 export type VariableStyles<T extends string> = {
-  declarations: string;
+  declarations: RawCssString;
   readonly vars: VarsMap<T>;
-  override<K extends T>(vars: Record<K, VariableValue>): string;
+  override<K extends T>(vars: Record<K, VariableValue>): RawCssString;
 };
 
 type VariablePrinter = {
-  (defaultValue?: VariableValue): string;
+  (defaultValue?: VariableValue): RawCssVarString;
 } & Readonly<{
   cssName: string;
   type: string;

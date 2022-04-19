@@ -5,6 +5,8 @@
 - ... <!-- Add new lines here. -->
 - **BREAKING** feat: Rename `makeVariables` helper (remove `variables`)
 - feat: Add `makeVariables.isVar()`
+- feat(ts): Export branded types `RawCssString` and `RawCssVarString`
+- feat(ts): ` css`` ` and `VariableValues.override()` return `RawCssString`
 
 ## 0.2.10
 
