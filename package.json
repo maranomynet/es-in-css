@@ -10,9 +10,9 @@
     "publishdist": "yarn run build  &&  cd dist  &&  npm publish",
     "publishcanary": "yarn run build  &&  cd dist  &&  npm publish --tag canary",
     "test:dev": "sleep 1  &&  (yarn run test || true)  &&  yarn run test:watch",
-    "test:watch": "yarn run onchange '__tests/**/*.tests.js' -f add -f change -- yarn run ospec '{{file}}'",
+    "test:watch": "yarn run onchange '__tests/**/*.tests-*.js' -f add -f change -- yarn run ospec '{{file}}'",
     "test:cli": "node dist/bin/cli.js \"__tests/**/*.css.js\"",
-    "test": "yarn run ospec \"__tests/**/*.tests.js\"",
+    "test": "yarn run ospec \"__tests/**/*.tests-*.js\"",
     "es-in-css": "node ./dist/bin/cli.js"
   },
   "repository": "git@github.com:maranomynet/es-in-css.git",

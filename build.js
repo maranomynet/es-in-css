@@ -3,6 +3,8 @@ const pkg = require('./package.json');
 const glob = require('glob').sync;
 const { writeFileSync } = require('fs');
 const { dtsPlugin } = require('esbuild-plugin-d.ts');
+const { writeFile, mkdir, access } = require('fs/promises');
+const { dirname } = require('path');
 const exec = require('child_process').execSync;
 
 // ---------------------------------------------------------------------------
@@ -34,6 +36,15 @@ const opts = process.argv.slice(2).reduce(
 );
 
 // ---------------------------------------------------------------------------
+
+const fileMem = {};
+const newFile = ({ path }) => {
+  if (path in fileMem) {
+    return false;
+  }
+  fileMem[path] = true;
+  return true;
+};
 
 const allDeps = [
   ...Object.keys(pkg.dependencies || {}),
@@ -73,12 +84,30 @@ makePackageJson(outdir);
 // ---------------------------------------------------------------------------
 // Build Unit Tests
 
+const writeResults = (res) =>
+  res.outputFiles.filter(newFile).forEach((res) => {
+    const targetDir = dirname(res.path);
+    return access(targetDir)
+      .catch(() => mkdir(targetDir, { recursive: true }))
+      .then(() => writeFile(res.path, res.text));
+  });
+
 esbuild
   .build({
     ...baseOpts,
-    entryPoints: glob('src/**/*.tests.ts'),
     outdir: testsDir,
+    entryPoints: glob('src/**/*.tests.ts'),
+    entryNames: '[dir]/[name]--[hash]',
+    write: false,
+    watch: opts.dev && {
+      onRebuild: (err, results) => {
+        if (!err) {
+          writeResults(results);
+        }
+      },
+    },
   })
+  .then(writeResults)
   .catch(exit1);
 
 // ---------------------------------------------------------------------------
