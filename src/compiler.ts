@@ -1,7 +1,6 @@
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
-import { existsSync } from 'fs';
-import { mkdir, unlink, writeFile } from 'fs/promises';
+import { access, mkdir, unlink, writeFile } from 'fs/promises';
 import { dirname } from 'path';
 import postcss, { AcceptedPlugin } from 'postcss';
 import nested from 'postcss-nested';
@@ -11,12 +10,11 @@ import { getExportedCSS } from './compiler/getExportedCSS';
 import { makePrettifyCSS } from './compiler/prettifyCSS';
 import { InOutMap, resolveOutputFiles } from './compiler/resolveOutputFiles';
 
-const makeFile = async (outFile: string, contents: string) => {
+const makeFile = (outFile: string, contents: string) => {
   const targetDir = dirname(outFile);
-  if (!existsSync(targetDir)) {
-    await mkdir(targetDir, { recursive: true });
-  }
-  return writeFile(outFile, contents);
+  return access(targetDir)
+    .catch(() => mkdir(targetDir, { recursive: true }))
+    .then(() => writeFile(outFile, contents));
 };
 
 type ProcessingOpts = {
