@@ -33,6 +33,7 @@ for instant syntax highlighting and IntelliSense autocompletion inside
     - [`VariableStyles.vars`](#variablestylesvars)
     - [`VariableStyles.override`](#variablestylesoverride)
     - [`makeVariables.join` Composition Helper](#makevariablesjoin-composition-helper)
+    - [`makeVariables.isVar` Helper](#makevariablesisvar-helper)
     - [`VariableOptions`](#variableoptions)
 - [Compilation API](#compilation-api)
   - [CLI Syntax](#cli-syntax)
@@ -482,6 +483,12 @@ cssVars.declarations === declarations;
 
 This helper combines the variable values and declarations from multiple
 `VariableStyles` objects into a new, larger `VariableStyles` object.
+
+#### `makeVariables.isVar` Helper
+
+**Syntax:** `makeVariables.isVar(value: unknown): value is VariablePrinter`
+
+A helper that checks if an input value is of type `VariablePrinter`.
 
 #### `VariableOptions`
 
