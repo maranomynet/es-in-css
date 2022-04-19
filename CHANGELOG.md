@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.3.0
+
+_2022-04-19_
+
 - **BREAKING** feat: Rename `makeVariables` helper (remove `variables`)
 - feat: Add `makeVariables.isVar()`
 - feat(ts): Export branded types `RawCssString` and `RawCssVarString`
