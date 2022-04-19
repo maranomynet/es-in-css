@@ -1,15 +1,15 @@
 import o from 'ospec';
 
 import { color } from './colors';
+import { makeVariables, VariableStyles } from './makeVariables';
 import { px } from './units';
-import { variables, VariableStyles } from './variables';
 import { deg, ms, pct, rem } from '.';
 
 /** Testing helper */
 type StrictEquals<A, B> = A extends B ? (B extends A ? true : false) : false;
 
 o.spec('variables helper', () => {
-  const res = variables({
+  const res = makeVariables({
     componentWidth: px(999),
     'componentWidth--small': '123px',
     componentWidth__large: 1500,
@@ -31,7 +31,7 @@ o.spec('variables helper', () => {
   });
 
   o('declarations trim values', () => {
-    o(variables({ foo: ' 1\t ' }).declarations).equals('--foo: 1;\n');
+    o(makeVariables({ foo: ' 1\t ' }).declarations).equals('--foo: 1;\n');
   });
 
   o('allows selectively overriding declarations', () => {
@@ -66,7 +66,7 @@ o.spec('variables helper', () => {
   });
 
   o('variable printers know the type of the value', () => {
-    const vars = variables({
+    const vars = makeVariables({
       z1: 0,
       z2: '0',
       z3: '-0',
@@ -110,8 +110,8 @@ o.spec('variables helper', () => {
   });
 
   o('accepts `VariablePrinter`s as values', () => {
-    const { bar } = variables({ bar: '#f98' }).vars;
-    const { vars, declarations } = variables({ foo: bar });
+    const { bar } = makeVariables({ bar: '#f98' }).vars;
+    const { vars, declarations } = makeVariables({ foo: bar });
 
     o(declarations + '').equals('--foo: var(--bar);\n');
     o(vars.foo.type).equals('color');
@@ -121,26 +121,26 @@ o.spec('variables helper', () => {
     'errors on malformed variable names and variable name tokens that require escaping',
     () => {
       // explicitly disallowed by the CSS spec
-      o(() => variables({ '': '100px' })).throws(Error);
+      o(() => makeVariables({ '': '100px' })).throws(Error);
       // Weird but ok...
-      o(() => variables({ '--': '100px' })).notThrows(Error);
-      o(() => variables({ '--xx': '100px' })).notThrows(Error);
+      o(() => makeVariables({ '--': '100px' })).notThrows(Error);
+      o(() => makeVariables({ '--xx': '100px' })).notThrows(Error);
       // Technically allowed, but just dumb.
       // By default, not supported by the variables helper.
       // Use the `nameRe` and `toCSSName` options.
-      o(() => variables({ ' linkColor': 'red' })).throws(Error);
-      o(() => variables({ þú: 'red' })).throws(Error);
-      o(() => variables({ 'link color': 'blue' })).throws(Error);
-      o(() => variables({ 'a:b': 'yellow' })).throws(Error);
-      o(() => variables({ 'a{b}': 'salmon' })).throws(Error);
-      o(() => variables({ 'ab()': 'peach' })).throws(Error);
+      o(() => makeVariables({ ' linkColor': 'red' })).throws(Error);
+      o(() => makeVariables({ þú: 'red' })).throws(Error);
+      o(() => makeVariables({ 'link color': 'blue' })).throws(Error);
+      o(() => makeVariables({ 'a:b': 'yellow' })).throws(Error);
+      o(() => makeVariables({ 'a{b}': 'salmon' })).throws(Error);
+      o(() => makeVariables({ 'ab()': 'peach' })).throws(Error);
     }
   );
 
   o('allows passing custom name RegExp', () => {
     // only allow two-letter names with the letters "þ" and "ú"
     o(
-      variables(
+      makeVariables(
         {
           þú: 'red',
           úþ: 'blue',
@@ -148,31 +148,31 @@ o.spec('variables helper', () => {
         { nameRe: /^[þú]{2}$/i }
       ).declarations
     ).equals('--þú: red;\n--úþ: blue;\n')('only "þ" and "ú" combos of length 2');
-    o(() => variables({ hi: 'red' }, { nameRe: /^[þú]{2}$/i })).throws(Error)(
+    o(() => makeVariables({ hi: 'red' }, { nameRe: /^[þú]{2}$/i })).throws(Error)(
       'totally overrides the normal `nameRe`'
     );
 
-    o(() => variables({ link: 'red' })).notThrows(Error)(
+    o(() => makeVariables({ link: 'red' })).notThrows(Error)(
       'default name patterns are unaffected'
     );
-    o(() => variables({ þú: 'red', úþ: 'blue' })).throws(Error)(
+    o(() => makeVariables({ þú: 'red', úþ: 'blue' })).throws(Error)(
       'default name patterns are unaffected 2'
     );
 
     // Rejects incomplete custom RegExp objects (must match from ^ to $)
-    o(() => variables({ þú: 'red' }, { nameRe: /[þú]{2}/i })).throws(Error)(
+    o(() => makeVariables({ þú: 'red' }, { nameRe: /[þú]{2}/i })).throws(Error)(
       'rejects incomplete nameRe 1'
     );
-    o(() => variables({ þú: 'red' }, { nameRe: /^[þú]{2}/ })).throws(Error)(
+    o(() => makeVariables({ þú: 'red' }, { nameRe: /^[þú]{2}/ })).throws(Error)(
       'rejects incomplete nameRe 2'
     );
-    o(() => variables({ þú: 'red' }, { nameRe: /[þú]{2}$/ })).throws(Error)(
+    o(() => makeVariables({ þú: 'red' }, { nameRe: /[þú]{2}$/ })).throws(Error)(
       'rejects incomplete nameRe 3'
     );
   });
 
   o('allows passing custom name toCSSName mapper', () => {
-    const res2 = variables(
+    const res2 = makeVariables(
       { link__hover: 'red' },
       { toCSSName: (name) => name.replace(/_/g, '-') }
     );
@@ -188,12 +188,15 @@ o.spec('variables helper', () => {
     o(res2.override({ link__hover: 'blue' })).equals('--link--hover: blue;\n');
 
     o(() =>
-      variables({ link$$hover: 'red' }, { toCSSName: (name) => name.replace(/$/g, '-') })
+      makeVariables(
+        { link$$hover: 'red' },
+        { toCSSName: (name) => name.replace(/$/g, '-') }
+      )
     ).throws(Error)('toCSSName does not obviate the `nameRe` validation');
   });
 
   o('allows passing custom resolveType and isColor function', () => {
-    const { vars } = variables(
+    const { vars } = makeVariables(
       {
         normal: '40px',
         custom: '42px',
@@ -212,11 +215,11 @@ o.spec('variables helper', () => {
   });
 
   o('variables.join() combines multiple VariableStyle objects', () => {
-    const d1 = variables({ foo: 1 });
+    const d1 = makeVariables({ foo: 1 });
     d1.declarations += 'funk\n';
-    const d2 = variables({ bar: 'a' });
+    const d2 = makeVariables({ bar: 'a' });
 
-    const joined = variables.join(d1, d2);
+    const joined = makeVariables.join(d1, d2);
     o(joined.vars.foo()).equals('var(--foo)');
     o(joined.vars.bar()).equals('var(--bar)');
     o(joined.declarations).equals('--foo: 1;\nfunk\n--bar: a;\n')(
@@ -230,8 +233,8 @@ o.spec('variables helper', () => {
       })
     ).equals('--foo: 42;\n')('Overrides work');
 
-    const d1b = variables({ foo: 2 });
-    const joined2 = variables.join(d1, d1b);
+    const d1b = makeVariables({ foo: 2 });
+    const joined2 = makeVariables.join(d1, d1b);
     o(joined2.declarations).equals('--foo: 1;\nfunk\n--foo: 2;\n')(
       'does *NOT* de-duplicate clashing/repeat declarations'
     );

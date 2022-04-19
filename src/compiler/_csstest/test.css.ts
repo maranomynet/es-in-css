@@ -1,4 +1,4 @@
-import { css, px, variables } from '../../';
+import { css, makeVariables, px } from '../../';
 
 const colors = {
   yellow: `yellow`,
@@ -12,7 +12,7 @@ const mq = {
   large: `screen and (min-width: ${px(bp.large)})`,
 };
 
-const cssVars = variables({
+const cssVars = makeVariables({
   linkColor: colors.red,
   'linkColor--hover': colors.purple, // dashes must be quoted
   linkColor__focus: `var(--focusColor)`,

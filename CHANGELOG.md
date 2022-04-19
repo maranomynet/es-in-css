@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- **BREAKING** feat: Rename `makeVariables` helper (remove `variables`)
 
 ## 0.2.10
 

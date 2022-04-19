@@ -1,6 +1,6 @@
 import { ColorValue } from './colors';
+import { resolveType } from './makeVariables.resolveType';
 import { UnitValue } from './units';
-import { resolveType } from './variables.resolveType';
 
 type Mutable<T> = {
   -readonly [P in keyof T]: T[P];
@@ -109,7 +109,7 @@ const makeDeclarations = (
 
 // ===========================================================================
 
-export const variables = <T extends string>(
+export const makeVariables = <T extends string>(
   input: Record<T, VariableValue>,
   options: Partial<VariableOptions> = {}
 ): VariableStyles<T> => {
@@ -147,12 +147,12 @@ export const variables = <T extends string>(
 
 // ---------------------------------------------------------------------------
 
-variables.isVar = (value: unknown): value is VariablePrinter =>
+makeVariables.isVar = (value: unknown): value is VariablePrinter =>
   typeof value === 'function' && IS_PRINTER in value;
 
 // ---------------------------------------------------------------------------
 
-variables.join = <VArr extends Array<VariableStyles<string>>>(
+makeVariables.join = <VArr extends Array<VariableStyles<string>>>(
   ...varDatas: VArr
 ): VariableStyles<
   VArr extends Array<infer V> ? (V extends VariableStyles<infer T> ? T : never) : never

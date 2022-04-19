@@ -8,8 +8,8 @@ const tokens = [
   // scoped.ts
   'scoped',
 
-  // variables.ts
-  'variables',
+  // makeVariables.ts
+  'makeVariables',
 
   // colors.ts
   'color',
@@ -50,7 +50,7 @@ o.spec('es-in-css entry point', () => {
   o('exports all the things', (done) => {
     import('./index').then((exports) => {
       tokens.forEach((token) => {
-        o(token in exports).equals(true)('including ' + token);
+        o(token in exports).equals(true)(`including "${token}"`);
       });
 
       o(Object.keys(exports).length).equals(tokens.length)('number of tokens is correct');

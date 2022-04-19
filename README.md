@@ -28,11 +28,11 @@ for instant syntax highlighting and IntelliSense autocompletion inside
   - [Unit Value Helpers](#unit-value-helpers)
   - [Unit Converters](#unit-converters)
   - [Color Helper](#color-helper)
-  - [`variables` Helper](#variables-helper)
+  - [`makeVariables` Helper](#makevariables-helper)
     - [`VariableStyles.declarations`](#variablestylesdeclarations)
     - [`VariableStyles.vars`](#variablestylesvars)
     - [`VariableStyles.override`](#variablestylesoverride)
-    - [`variables.join` Composition Helper](#variablesjoin-composition-helper)
+    - [`makeVariables.join` Composition Helper](#makevariablesjoin-composition-helper)
     - [`VariableOptions`](#variableoptions)
 - [Compilation API](#compilation-api)
   - [CLI Syntax](#cli-syntax)
@@ -54,7 +54,7 @@ yarn add --dev es-in-css
 Create a file called `src/cool-design.css.js`:
 
 ```ts
-import { css, variables, px } from 'es-in-css';
+import { css, makeVariables, px } from 'es-in-css';
 
 const colors = {
   yellow: `yellow`,
@@ -68,7 +68,7 @@ const mq = {
   large: `screen and (min-width: ${px(bp.large)})`,
 };
 
-const cssVars = variables({
+const cssVars = makeVariables({
   linkColor: colors.red,
   'linkColor--hover': colors.purple, // dashes must be quoted
   linkColor__focus: `var(--focusColor)`,
@@ -339,18 +339,18 @@ hsl === color.hsl; // true
 
 Feel free to import your own color helper library, and use it instead.
 
-### `variables` Helper
+### `makeVariables` Helper
 
 **Syntax:**
-`variables<T extends string>(vars: Record<T, VariableValue>, options?: VariableOptions): VariableStyles<T>`
+`makeVariables<T extends string>(vars: Record<T, VariableValue>, options?: VariableOptions): VariableStyles<T>`
 
 Helper to provide type-safety and code-completion when using CSS custom
 properties (CSS variables) at scale.
 
 ```ts
-import { variables, css } from 'es-in-css';
+import { makeVariables, css } from 'es-in-css';
 
-const cssVars = variables({
+const cssVars = makeVariables({
   linkColor: `#0000cc`,
   linkColor__hover: `#cc00cc`,
 });
@@ -415,7 +415,7 @@ vars.linkColor + ''; // invokes .toString()
 input value when this CSS variable was declared.
 
 ```ts
-const typeTest = variables({
+const typeTest = makeVariables({
   z1: 0,
   z2: '-0',
   n1: 123,
@@ -457,7 +457,7 @@ reflect the actual resolved type of the CSS variable because … The Cascade._
 
 **Syntax:** `VariableStyles<T>.override(vars: { [P in T]?: string }): string`
 
-Returns string with redeclarations for any of the variables of type `T`.
+Returns string with redeclarations for any of the CSS variables of type `T`.
 Property names not matching `T` are dropped/ignored.
 
 ```ts
@@ -475,10 +475,10 @@ cssVars.declarations === declarations;
 // true
 ```
 
-#### `variables.join` Composition Helper
+#### `makeVariables.join` Composition Helper
 
 **Syntax:**
-`variables.join(...varDatas: Array<VariableStyles>): VariableStyles`
+`makeVariables.join(...varDatas: Array<VariableStyles>): VariableStyles`
 
 This helper combines the variable values and declarations from multiple
 `VariableStyles` objects into a new, larger `VariableStyles` object.
@@ -486,8 +486,8 @@ This helper combines the variable values and declarations from multiple
 #### `VariableOptions`
 
 By default only "simple" ascii alphanumerical variable-names are allowed
-(`/^[a-z0-9_-]+$/i`). If unsuppored/malformed variables names are passed, the
-function throws an error. However, you can author your own `RegExp` to
+(`/^[a-z0-9_-]+$/i`). If unsuppored/malformed CSS variable names are passed,
+the function throws an error. However, you can author your own `RegExp` to
 validate the variable names, and a custom CSS variable-name mapper:
 
 **`VariableOptions.nameRe?: RegExp`**
@@ -499,11 +499,11 @@ complex than the default setting allows.
 
 ```ts
 // Default behaviour rejects the 'ö' character
-const v1 = variables({ töff: 'blue' }); // ❌ Error
+const v1 = makeVariables({ töff: 'blue' }); // ❌ Error
 
 // Set custom pattern allowing a few accented letters.
 const v2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i };
-const v2 = variables({ töff: 'blue' }, v2opts); // ✅ OK
+const v2 = makeVariables({ töff: 'blue' }, v2opts); // ✅ OK
 ```
 
 **`VariableOptions.toCSSName?: (name: string) => string`**
@@ -517,7 +517,7 @@ names.
 const v3opts: VariableOptions = {
   toCSSName: (name) => name.replace(/_/g, '-'),
 };
-const v3 = variables({ link__color: 'blue' }, v3opts);
+const v3 = makeVariables({ link__color: 'blue' }, v3opts);
 
 v3.declarations; // `--link--color: blue;\n`
 v3.vars.link__color(); // `var(--link--color)`

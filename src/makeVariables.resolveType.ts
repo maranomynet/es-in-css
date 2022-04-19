@@ -1,6 +1,6 @@
 import { color } from './colors';
+import { makeVariables } from './makeVariables';
 import { UnitValue } from './units';
-import { variables } from './variables';
 
 const isStr = (value: unknown): value is string => typeof value === 'string';
 
@@ -94,7 +94,7 @@ const getColorType = (value: unknown): string => {
 // ---------------------------------------------------------------------------
 
 const getVarType = (value: unknown): string => {
-  if (variables.isVar(value)) {
+  if (makeVariables.isVar(value)) {
     return value.type;
   }
   return '';
