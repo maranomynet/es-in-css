@@ -72,7 +72,8 @@ export type VariableOptions = {
 // ---------------------------------------------------------------------------
 
 const makeVariablePrinter = (name: string, type: string) => {
-  const varString = `var(--${name})`;
+  const cssName = `--${name}`;
+  const varString = `var(${cssName})`;
 
   const printer = ((defaultValue?: VariableValue) =>
     defaultValue
@@ -81,7 +82,7 @@ const makeVariablePrinter = (name: string, type: string) => {
   printer[IS_PRINTER] = true;
   printer.toString = printer.toJSON = () => varString;
   printer.type = type;
-  printer.cssName = name;
+  printer.cssName = cssName;
 
   return printer as VariablePrinter;
 };
@@ -107,7 +108,7 @@ const makeDeclarations = (
     .map(([key, value]) => {
       const printer = allowed[key];
       const valueStr = String(value).trim();
-      return printer ? `--${printer.cssName}: ${valueStr};\n` : '';
+      return printer ? `${printer.cssName}: ${valueStr};\n` : '';
     })
     .join('');
 };

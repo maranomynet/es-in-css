@@ -412,6 +412,14 @@ vars.linkColor + ''; // invokes .toString()
 // `color: var(--linkColor__hover);`
 ```
 
+`VariablePrinter` objects have a `cssName` property with the bare (unwrapped)
+name of the variable, like so:
+
+```ts
+vars.linkColor.cssName;
+// `"--linkColor"`
+```
+
 `VariablePrinter`s also have a `type` property that describes the original
 input value when this CSS variable was declared.
 

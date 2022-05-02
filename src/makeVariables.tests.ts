@@ -65,6 +65,12 @@ o.spec('variables helper', () => {
     );
   });
 
+  o('variable printers expose the bare css variable name', () => {
+    o(res.vars.componentWidth.cssName).equals('--componentWidth');
+    o(res.vars['componentWidth--small'].cssName).equals('--componentWidth--small');
+    o(res.vars.componentWidth__large.cssName).equals('--componentWidth__large');
+  });
+
   o('variable printers know the type of the value', () => {
     const vars = makeVariables({
       z1: 0,
@@ -179,6 +185,7 @@ o.spec('variables helper', () => {
     o(res2.declarations).equals('--link--hover: red;\n');
     o('link__hover' in res2.vars).equals(true);
     o('link--hover' in res2.vars).equals(false);
+    o(res2.vars.link__hover.cssName).equals('--link--hover')('cssName is also mapped');
     o(
       res2.override({
         // @ts-expect-error  (Invalid key)
