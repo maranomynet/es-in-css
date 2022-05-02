@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.3.1
+
+_2022-05-02_
+
 - feat: Add prop `cssName` to `VariablePrinter`s
 
 ## 0.3.0
