@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Make ` css`` ` convert `null`, `undefined` and `false` to empty string
 
 ## 0.3.1
 

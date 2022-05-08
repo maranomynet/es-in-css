@@ -51,6 +51,11 @@ o.spec('css``', () => {
         colours: ${arr2};
       }
     `).equals('body { foo-1: 1; foo-2: 2; foo-3: 3; colours: red blue; }');
+    O(
+      css`
+        ${[arr1, arr2]}
+      `
+    ).equals('1,2,3 red,blue')('does NOT deal with nested arrays');
   });
 
   o('calls functions with no params', () => {
@@ -73,5 +78,23 @@ o.spec('css``', () => {
         ${rule2}
       }
     `).equals('body { color: red border: 0 }');
+  });
+
+  o('converts `false`, `null` and `undefined` to empty string for convenience', () => {
+    O(
+      css`
+        ${false}
+        ${null}
+        ${undefined}
+        ${[undefined, null, false]}
+        ${() => undefined}
+        ${() => false}
+      `
+    ).equals('');
+    O(
+      css`
+        ${[[undefined, null, false]]}
+      `
+    ).equals(',,false')('does NOT deal with nested arrays');
   });
 });

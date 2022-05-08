@@ -5,6 +5,8 @@ declare const _RawCssString__Brand: unique symbol;
  */
 export type RawCssString = string & { [_RawCssString__Brand]?: true };
 
+const filterFalsy = (val: unknown) => (val || val === 0 ? val : '');
+
 export const css = function (
   strings: TemplateStringsArray,
   ...values: Array<unknown>
@@ -17,12 +19,12 @@ export const css = function (
       }
       const rawValue = values[i];
       const value = Array.isArray(rawValue)
-        ? rawValue.join(' ')
+        ? rawValue.map(filterFalsy).join(' ')
         : typeof rawValue === 'function'
         ? rawValue()
         : rawValue;
 
-      return str + value;
+      return str + filterFalsy(value);
     })
     .join('');
 };
