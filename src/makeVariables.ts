@@ -115,15 +115,27 @@ const makeDeclarations = (
 
 // ===========================================================================
 
-export const makeVariables = <T extends string>(
-  input: Record<T, VariableValue>,
-  options: Partial<VariableOptions> = {}
-): VariableStyles<T> => {
-  if (options.nameRe && !/^\/\^.+\$\/[igm]*$/.test(String(options.nameRe))) {
+const assertValidNameRe = (nameRe?: RegExp) => {
+  if (nameRe && !/^\/\^.+\$\/[igm]*$/.test(String(nameRe))) {
     throw new Error(
       'Custom variable name RegExp must check the whole name (i.e. start with a `^` and end with a `$`)'
     );
   }
+};
+const assertValidName = (name: string, nameRe = DEFAULT_NAME_RE) => {
+  if (!name || !nameRe.test(name)) {
+    throw new Error(
+      `Only CSS variable names matching ${nameRe} are allowed.\nDisallowed name: ${name}`
+    );
+  }
+};
+
+export const makeVariables = <T extends string>(
+  input: Record<T, VariableValue>,
+  options: Partial<VariableOptions> = {}
+): VariableStyles<T> => {
+  assertValidNameRe(options.nameRe);
+
   const {
     nameRe = DEFAULT_NAME_RE,
     toCSSName = DEFAULT_NAME_MAPPER,
@@ -132,11 +144,7 @@ export const makeVariables = <T extends string>(
   } = options;
 
   const vars: VarsMap<T> = mapObject(input, (name, value) => {
-    if (!name || !nameRe.test(name)) {
-      throw new Error(
-        `Only CSS variable names matching ${nameRe} are allowed.\nDisallowed name: ${name}`
-      );
-    }
+    assertValidName(name, nameRe);
     let type = (getCustomType && getCustomType(value)) || resolveType(value);
     if (isColor && type !== 'color' && isColor(value)) {
       type = 'color';
