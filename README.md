@@ -55,7 +55,7 @@ yarn add --dev es-in-css
 
 Create a file called `src/cool-design.css.js`:
 
-```ts
+```js
 import { css, makeVariables, px } from 'es-in-css';
 
 const colors = {
@@ -153,7 +153,7 @@ Dumb tagged template literal that returns a `string`. Mostly it guarantees
 nice syntax highlighting and code-completion in VSCode by using a well-known
 name.
 
-```ts
+```js
 import { css } from 'es-in-css';
 
 const themeColors = {
@@ -186,7 +186,7 @@ Returns a randomized/unique string token, with an optional `prefix`. These
 tokens can be using for naming `@keyframes` or for mangled class-names, if
 that's what you need:
 
-```ts
+```js
 import { scoped, css } from 'es-in-css';
 
 export const blockName = scoped(`Button`); // 'Button_4af51c0d267'
@@ -224,7 +224,7 @@ export default css`
 These return light-weight object instances that can still be mostly treated as
 string **and** number liters depending on the context.
 
-```ts
+```js
 import { px, css } from 'es-in-css';
 
 const leftColW = px(300);
@@ -324,7 +324,7 @@ unitOf('10px'); // undefined
 `es-in-css` bundles the [`color` package](https://www.npmjs.com/package/color)
 and simply exposes it as `color`.
 
-```ts
+```js
 import { color, css } from 'es-in-css';
 
 const c1 = color('red');
@@ -347,7 +347,7 @@ export default css`
 It also exports `rgb()` and `hsl()` which are simply aliases of the `color`
 package's static class methods of the same names.
 
-```ts
+```js
 import { rgb, hsl, color } from 'es-in-css';
 
 const rgbRed = rgb(255, 0, 0);
@@ -370,7 +370,7 @@ Feel free to import your own color helper library, and use it instead.
 Helper to provide type-safety and code-completion when using CSS custom
 properties (CSS variables) at scale.
 
-```ts
+```js
 import { makeVariables, css } from 'es-in-css';
 
 const cssVars = makeVariables({
@@ -388,7 +388,7 @@ The returned objects contains the following:
 Is a CSS string with all the custom property declarations, ready to be dumped
 into a CSS rule block.
 
-```ts
+```js
 cssCars.declarations;
 /*`
   --linkColor: #0000cc;
@@ -399,7 +399,7 @@ cssCars.declarations;
 **NOTE:** This property is mutable, and appending `@media` queries and other
 tweaks is often a good idea:
 
-```ts
+```js
 cssCars.declarations += css`
   @media (prefers-color-scheme: dark) {
     ${cssCars.override({
@@ -418,7 +418,7 @@ Holds a readonly `Record<T, VariablePrinter>` object where the
 `VariablePrinter`s emit the CSS variable names wrapped in `var()`, ready to be
 used as CSS values … with the option of passing a default/fallback value.
 
-```ts
+```js
 const { vars } = cssVars;
 
 vars.linkColor(); // also works
@@ -437,7 +437,7 @@ vars.linkColor + ''; // invokes .toString()
 `VariablePrinter` objects have a `cssName` property with the bare (unwrapped)
 name of the variable, like so:
 
-```ts
+```js
 vars.linkColor.cssName;
 // `"--linkColor"`
 ```
@@ -445,7 +445,7 @@ vars.linkColor.cssName;
 `VariablePrinter`s also have a `type` property that describes the original
 input value when this CSS variable was declared.
 
-```ts
+```js
 const typeTest = makeVariables({
   z1: 0,
   z2: '-0',
@@ -491,7 +491,7 @@ reflect the actual resolved type of the CSS variable because … The Cascade._
 Returns string with redeclarations for any of the CSS variables of type `T`.
 Property names not matching `T` are dropped/ignored.
 
-```ts
+```js
 const { declarations } = cssVars;
 
 const overrideStr = cssVars.override({
@@ -534,7 +534,7 @@ complex than the default setting allows.
 
 (Default: `/^[a-z0-9_-]+$/i`)
 
-```ts
+```js
 // Default behaviour rejects the 'ö' character
 const v1 = makeVariables({ töff: 'blue' }); // ❌ Error
 
@@ -550,7 +550,7 @@ names.
 
 (Default: `(name) => name`)
 
-```ts
+```js
 const v3opts: VariableOptions = {
   toCSSName: (name) => name.replace(/_/g, '-'),
 };
