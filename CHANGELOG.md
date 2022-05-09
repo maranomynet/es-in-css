@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.3.2
+
+_2022-05-08_
+
 - feat: Make ` css`` ` convert `null`, `undefined` and `false` to empty string
 
 ## 0.3.1
