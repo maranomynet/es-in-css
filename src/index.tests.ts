@@ -1,62 +1,75 @@
 /* eslint-disable simple-import-sort/imports */
 import o from 'ospec';
 
-const tokens = [
+import * as libTokens from './index';
+
+export const compareKeys = (
+  input: Record<string, unknown>,
+  expected: Record<string, unknown>,
+  alsoAllowed: Record<string, unknown> = {}
+) => {
+  Object.keys(expected).forEach((token) => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (input[token] === undefined) {
+      o(true).equals(false)(`missing: "${token}"`);
+    }
+  });
+  Object.keys(input).forEach((token) => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (expected[token] === undefined && alsoAllowed[token] === undefined) {
+      o(true).equals(false)(`unexpected: "${token}"`);
+    }
+  });
+};
+
+const tokens: Record<keyof typeof libTokens, true> = {
   // css.ts
-  'css',
+  css: true,
 
   // scoped.ts
-  'scoped',
+  scoped: true,
 
   // makeVariables.ts
-  'makeVariables',
+  makeVariables: true,
 
   // colors.ts
-  'color',
-  'rgb',
-  'hsl',
+  color: true,
+  rgb: true,
+  hsl: true,
 
   // units.ts
-  'UnitValue',
-  'ch',
-  'cm',
-  'cm_in',
-  'cm_mm',
-  'cm_pc',
-  'cm_pt',
-  'deg',
-  'deg_grad',
-  'deg_rad',
-  'deg_turn',
-  'em',
-  'ex',
-  'ms',
-  'ms_sec',
-  'pct',
-  'pct_f',
-  'px',
-  'rem',
-  'vh',
-  'vh_f',
-  'vmax',
-  'vmax_f',
-  'vmin',
-  'vmin_f',
-  'vw',
-  'vw_f',
-];
+  UnitValue: true,
+  ch: true,
+  cm: true,
+  cm_in: true,
+  cm_mm: true,
+  cm_pc: true,
+  cm_pt: true,
+  deg: true,
+  deg_grad: true,
+  deg_rad: true,
+  deg_turn: true,
+  em: true,
+  ex: true,
+  ms: true,
+  ms_sec: true,
+  pct: true,
+  pct_f: true,
+  px: true,
+  rem: true,
+  vh: true,
+  vh_f: true,
+  vmax: true,
+  vmax_f: true,
+  vmin: true,
+  vmin_f: true,
+  vw: true,
+  vw_f: true,
+};
 
 o.spec('es-in-css entry point', () => {
-  o('exports all the things', (done) => {
-    import('./index').then((exports) => {
-      tokens.forEach((token) => {
-        o(token in exports).equals(true)(`including "${token}"`);
-      });
-
-      o(Object.keys(exports).length).equals(tokens.length)('number of tokens is correct');
-
-      done();
-    });
+  o('exports all the expected things', () => {
+    compareKeys(libTokens, tokens);
   });
 });
 
