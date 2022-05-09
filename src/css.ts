@@ -28,3 +28,30 @@ export const css = function (
     })
     .join('');
 };
+
+// ---------------------------------------------------------------------------
+
+declare const _RawMediaQuery__Brand: unique symbol;
+/** ... */
+type RawMediaQuery = string & { [_RawMediaQuery__Brand]?: true };
+
+export function media(query: RawMediaQuery): (cssContent: RawCssString) => RawCssString;
+export function media(query: RawMediaQuery, cssContent: RawCssString): RawCssString;
+
+export function media(query: RawMediaQuery, cssContent?: RawCssString) {
+  const mediaWrapper = (cssContent: RawCssString) =>
+    css`
+      @at-root (without: media) {
+        @media ${query} {
+          ${cssContent}
+        }
+      }
+    `;
+
+  if (arguments.length === 1) {
+    // Curry!
+    return mediaWrapper;
+  }
+
+  return mediaWrapper(cssContent || '');
+}

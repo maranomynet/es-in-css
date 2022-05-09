@@ -25,6 +25,7 @@ export const compareKeys = (
 const tokens: Record<keyof typeof libTokens, true> = {
   // css.ts
   css: true,
+  media: true,
 
   // scoped.ts
   scoped: true,

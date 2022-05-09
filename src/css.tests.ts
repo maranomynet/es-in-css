@@ -1,6 +1,6 @@
 import o from 'ospec';
 
-import { css } from './css';
+import { css, media } from './css';
 
 const O = (css: string) => o(css.replace(/\s\s+/g, ' ').trim());
 
@@ -96,5 +96,20 @@ o.spec('css``', () => {
         ${[[undefined, null, false]]}
       `
     ).equals(',,false')('does NOT deal with nested arrays');
+  });
+});
+
+o.spec('media() helper', () => {
+  const mediaQuery = 'print and (screen)';
+  const cssRules = 'p { color: red; }';
+  const expectedOutput =
+    '@at-root (without: media) { @media print and (screen) { p { color: red; } } }';
+
+  o('outputs @at-root wrapped @media block', () => {
+    O(media(mediaQuery, cssRules)).equals(expectedOutput);
+  });
+
+  o('returns a curried function when called with a single argument', () => {
+    O(media(mediaQuery)(cssRules)).equals(expectedOutput);
   });
 });

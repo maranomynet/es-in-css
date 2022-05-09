@@ -24,6 +24,7 @@ for instant syntax highlighting and IntelliSense autocompletion inside
 - [Quick-Start Guide](#quick-start-guide)
 - [CSS Authoring Features](#css-authoring-features)
   - [`css` Templater](#css-templater)
+  - [`media` @media Nesting Helper](#media-media-nesting-helper)
   - [`scoped` Name Generator](#scoped-name-generator)
   - [Unit Value Helpers](#unit-value-helpers)
   - [Unit Converters](#unit-converters)
@@ -177,6 +178,74 @@ export default css`
   )}
 `;
 ```
+
+### `media` @media Nesting Helper
+
+**Syntax:**
+
+- `media(mediaQuery: string, cssContent: string): string`
+- `media(mediaQuery: string): ((cssContent: string) => string)`
+
+This mixin (nesting helper) wraps its `cssContent` in a `@media` block,
+wrapped in an `@at-root` directive, which instructs the `es-in-css`' compiler
+to break out of any enclosing `@media` blocks.
+
+(See
+[SCSS' documentation for `@at-root`](https://sass-lang.com/documentation/at-rules/at-root#beyond-style-rules).)
+
+```js
+import { media, css } from 'es-in-css';
+
+export default css`
+  @media (max-width: 699px) {
+    p {
+      color: blue;
+    }
+
+    ${media(
+      '(min-width: 700px)',
+      css`
+        p {
+          color: red;
+        }
+      `
+    )}
+  }
+`;
+/* Raw output:
+`
+  @media (max-width: 699px) {
+    p {
+      color: blue;
+    }
+    @at-root (without: media) {
+      @media (min-width: 700px) {
+        p {
+          color: red;
+        }
+      }
+    }
+  }
+`*/
+
+/* Compiled output:
+`
+  @media (max-width: 699px) {
+    p {
+      color: blue;
+    }
+  }
+  @media (min-width: 700px) {
+    p {
+      color: red;
+    }
+  }
+ `*/
+```
+
+If `media` is called with a single argument (i.e. `media(mediaQuery)`), it
+returns a curried, reusable function which takes `cssContent` as its only
+argument.
 
 ### `scoped` Name Generator
 
