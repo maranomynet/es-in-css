@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.3.4
+
+_2022-05-09_
+
 - feat: Add `media` helper
 - feat(ts): Export branded types `RawCssValue` and `RawMediaQuery`
 
