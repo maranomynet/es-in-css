@@ -39,6 +39,8 @@ const tokens: Record<keyof typeof libTokens, true> = {
 
   // units.ts
   UnitValue: true,
+  unitOf: true,
+
   ch: true,
   cm: true,
   cm_in: true,

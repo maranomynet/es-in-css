@@ -10,8 +10,10 @@ import {
   deg_rad,
   deg_turn,
   ms_sec,
+  pct,
   pct_f,
   px,
+  unitOf,
   UnitValue,
   vh_f,
   vmax_f,
@@ -75,5 +77,22 @@ o.spec('converters functions', () => {
     o(deg_turn(-0.5).toString()).equals('-180deg')('deg_turn');
     o(deg_grad(-100).toString()).equals('-90deg')('deg_grad');
     o(deg_rad(Math.PI).toString()).equals('180deg')('deg_rad');
+  });
+});
+
+o.spec('unitOf helper', () => {
+  o('detects UnitValue units', () => {
+    o(unitOf(px(100))).equals('px');
+    o(unitOf(pct(10))).equals('%');
+    o(unitOf(ms_sec(1))).equals('ms');
+    o(unitOf(new UnitValue('Quonks', 1.5))).equals('Quonks');
+  });
+  o('returns undefined for non-UnitValues', () => {
+    o(unitOf(100)).equals(undefined);
+    o(unitOf(0)).equals(undefined);
+    // @ts-expect-error  (testing bad input)
+    o(unitOf(undefined)).equals(undefined);
+    // @ts-expect-error  (testing bad input)
+    o(unitOf('100px')).equals(undefined);
   });
 });

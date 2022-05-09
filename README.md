@@ -27,6 +27,7 @@ for instant syntax highlighting and IntelliSense autocompletion inside
   - [`scoped` Name Generator](#scoped-name-generator)
   - [Unit Value Helpers](#unit-value-helpers)
   - [Unit Converters](#unit-converters)
+  - [`unitOf` Helper](#unitof-helper)
   - [Color Helper](#color-helper)
   - [`makeVariables` Helper](#makevariables-helper)
     - [`VariableStyles.declarations`](#variablestylesdeclarations)
@@ -295,6 +296,23 @@ Degrees from other angle units:
 ```js
 deg_turn(0.75); // 270deg
 deg_rad(-Math.PI); // -180deg
+```
+
+### `unitOf` Helper
+
+Checks if its given argument is a `UnitValue` instance and returns its unit
+string.
+
+```js
+unitOf(px(10)); // 'px'
+unitOf(ms_sec(1)); // 'ms'
+```
+
+Returns `undefined` otherwise.
+
+```js
+unitOf(10); // undefined
+unitOf('10px'); // undefined
 ```
 
 ### Color Helper

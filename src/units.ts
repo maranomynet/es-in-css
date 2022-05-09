@@ -17,6 +17,11 @@ export class UnitValue<U extends string | never = string> {
 
 // ---------------------------------------------------------------------------
 
+export const unitOf = (item: number | UnitValue): undefined | string =>
+  item instanceof UnitValue ? item.unit : undefined;
+
+// ---------------------------------------------------------------------------
+
 type plainNumber = number & { unit?: never };
 
 export type PxValue = number & UnitValue<'px'>;
