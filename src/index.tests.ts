@@ -80,7 +80,9 @@ o.spec('es-in-css entry point', () => {
 import type {
   // css.ts
   RawCssString,
+  RawCssValue,
   RawCssVarString,
+  RawMediaQuery,
 
   // scoped.ts
 
@@ -107,5 +109,5 @@ import type {
   MsValue,
   CmValue,
   DegValue,
-} from './';
+} from './index';
 /* eslint-enisable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts */

@@ -4,6 +4,7 @@
 
 - ... <!-- Add new lines here. -->
 - feat: Add `media` helper
+- feat(ts): Export branded types `RawCssValue` and `RawMediaQuery`
 
 ## 0.3.3
 

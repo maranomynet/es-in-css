@@ -5,6 +5,12 @@ declare const _RawCssString__Brand: unique symbol;
  */
 export type RawCssString = string & { [_RawCssString__Brand]?: true };
 
+declare const _RawCssValue__Brand: unique symbol;
+/**
+ * Raw, rendered (string-cast) CSS value.
+ */
+export type RawCssValue = string & { [_RawCssValue__Brand]?: true };
+
 const filterFalsy = (val: unknown) => (val || val === 0 ? val : '');
 
 export const css = function (
@@ -33,7 +39,7 @@ export const css = function (
 
 declare const _RawMediaQuery__Brand: unique symbol;
 /** ... */
-type RawMediaQuery = string & { [_RawMediaQuery__Brand]?: true };
+export type RawMediaQuery = string & { [_RawMediaQuery__Brand]?: true };
 
 export function media(query: RawMediaQuery): (cssContent: RawCssString) => RawCssString;
 export function media(query: RawMediaQuery, cssContent: RawCssString): RawCssString;
