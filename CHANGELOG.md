@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.3.3
+
+_2022-05-09_
+
 - feat: Add `unitOf()` helper
 
 ## 0.3.2
