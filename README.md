@@ -300,10 +300,14 @@ deg_rad(-Math.PI); // -180deg
 
 ### `unitOf` Helper
 
+**Syntax:** `unitOf(value: number | UnitValue): string | undefined`
+
 Checks if its given argument is a `UnitValue` instance and returns its unit
 string.
 
 ```js
+import { unitOf } from 'es-in-css';
+
 unitOf(px(10)); // 'px'
 unitOf(ms_sec(1)); // 'ms'
 ```
