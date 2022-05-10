@@ -26,7 +26,7 @@ export type VariableStyles<T extends string> = {
   override<K extends T>(vars: Record<K, VariableValue>): RawCssString;
 };
 
-type VariablePrinter = {
+export type VariablePrinter = {
   (defaultValue?: VariableValue): RawCssVarString;
 } & Readonly<{
   cssName: string;

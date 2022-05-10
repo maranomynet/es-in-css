@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat(ts): Export type `VariablePrinter`
 
 ## 0.3.4
 

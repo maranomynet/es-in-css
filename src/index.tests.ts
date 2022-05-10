@@ -71,6 +71,7 @@ import type {
   VariableValue,
   VariableStyles,
   VariableOptions,
+  VariablePrinter,
 
   // colors.ts
   ColorValue,
