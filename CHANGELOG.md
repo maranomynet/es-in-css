@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.3.5
+
+_2022-05-10_
+
 - feat(ts): Export type `VariablePrinter`
 
 ## 0.3.4
