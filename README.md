@@ -14,10 +14,10 @@ and [autoprefixer](https://www.npmjs.com/package/autoprefixer) features are
 automatically provided by `postCSS`, but apart from that it's all pretty
 basic. Just you composing CSS.
 
-For good developer experience, it'd be best to use VSCode with the official
-[**vscode-styled-components** extension](https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components)
-for instant syntax highlighting and IntelliSense autocompletion inside
-` css``  ` template literals.
+For good developer experience, use VSCode and install the official
+[**vscode-styled-components** extension](https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components).
+That gives you instant syntax highlighting and IntelliSense autocompletion
+inside ` css``  ` template literals.
 
 <!-- prettier-ignore-start -->
 
