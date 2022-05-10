@@ -193,6 +193,10 @@ to break out of any enclosing `@media` blocks.
 (See
 [SCSS' documentation for `@at-root`](https://sass-lang.com/documentation/at-rules/at-root#beyond-style-rules).)
 
+_**NOTE:** This helper only makes sense if you're either using the
+[CSS compilation API](#compilation-api), or sending the result through a SCSS
+compiler._
+
 ```js
 import { media, css } from 'es-in-css';
 
@@ -228,7 +232,7 @@ export default css`
   }
 `*/
 
-/* Compiled output:
+/* CLI/SCSS compiled output:
 `
   @media (max-width: 699px) {
     p {
