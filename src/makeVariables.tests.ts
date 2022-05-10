@@ -88,6 +88,8 @@ o.spec('variables helper', () => {
       c2: '#ff0000ff', // strings are parsed
       c3: 'rgba(123, 0, 0, .9)',
       c4: 'currentColor',
+      c5: 'lime',
+      c6: 'transparent',
       n1: 123,
       n2: '1.23',
       u1: `0 ${px(123)}`,
@@ -109,6 +111,8 @@ o.spec('variables helper', () => {
     o(vars.c2.type).equals('color');
     o(vars.c3.type).equals('color');
     o(vars.c4.type).equals('color');
+    o(vars.c5.type).equals('color');
+    o(vars.c6.type).equals('color');
     o(vars.n1.type).equals('number');
     o(vars.n2.type).equals('number');
     o(vars.u1.type).equals('unknown');
