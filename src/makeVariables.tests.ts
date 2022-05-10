@@ -1,12 +1,10 @@
 import o from 'ospec';
 
+import { StrictEquals } from './compiler/_csstest/test-utils';
 import { color } from './colors';
 import { makeVariables, VariableStyles } from './makeVariables';
 import { px } from './units';
 import { deg, ms, pct, rem } from '.';
-
-/** Testing helper */
-type StrictEquals<A, B> = A extends B ? (B extends A ? true : false) : false;
 
 o.spec('variables helper', () => {
   const res = makeVariables({

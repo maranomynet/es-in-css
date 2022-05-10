@@ -1,22 +1,7 @@
-/* eslint-disable simple-import-sort/imports */
 import o from 'ospec';
 
+import { compareKeys } from './compiler/_csstest/test-utils';
 import * as libTokens from './index';
-
-export const compareKeys = (
-  input: Record<string, unknown>,
-  expected: Record<string, unknown>,
-  alsoAllowed: Record<string, unknown> = {}
-) => {
-  Object.keys(expected).forEach((token) => {
-    o(input[token]).notEquals(undefined)(`missing: "${token}"`);
-  });
-  Object.keys(input).forEach((token) => {
-    if (expected[token] === undefined && alsoAllowed[token] === undefined) {
-      o(true).equals(false)(`unexpected: "${token}"`);
-    }
-  });
-};
 
 const tokens: Record<keyof typeof libTokens, true> = {
   // css.ts
@@ -72,7 +57,7 @@ o.spec('es-in-css entry point', () => {
   });
 });
 
-/* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, import/first */
+/* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, import/first, simple-import-sort/imports */
 import type {
   // css.ts
   RawCssString,
@@ -106,4 +91,4 @@ import type {
   CmValue,
   DegValue,
 } from './index';
-/* eslint-enisable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts */
+/* eslint-enisable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, simple-import-sort/imports */
