@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.4.0
+
+_2022-05-11_
+
 - **BREAKING** feat: Make `makeVariables` accept array of variable names
   - Remove prop `declarations` from `VariableStyles`
   - Add method `.declare()` to `VariableStyles`
