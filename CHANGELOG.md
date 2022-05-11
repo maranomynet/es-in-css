@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- **BREAKING** feat: Make `makeVariables` accept array of variable names
+  - Remove prop `declarations` from `VariableStyles`
+  - Add method `.declare()` to `VariableStyles`
+  - Remove props `resolveType`, `isColor` from `VariableOptions`
+- **BREAKING** feat: Remove introspection prop `type` from `VariablePrinter`
 
 ## 0.3.5
 

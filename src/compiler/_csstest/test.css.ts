@@ -12,12 +12,12 @@ const mq = {
   large: `screen and (min-width: ${px(bp.large)})`,
 };
 
-const cssVars = makeVariables({
-  linkColor: colors.red,
-  'linkColor--hover': colors.purple, // dashes must be quoted
-  linkColor__focus: `var(--focusColor)`,
-  focusColor: `peach`,
-});
+const cssVars = makeVariables([
+  'linkColor',
+  'linkColor--hover',
+  'linkColor__focus',
+  'focusColor',
+]);
 const vars = cssVars.vars;
 
 // ---------------------------------------------------------------------------
@@ -28,7 +28,12 @@ export default css`
   */
 
   :root {
-    ${cssVars.declarations}
+    ${cssVars.declare({
+      linkColor: colors.red,
+      'linkColor--hover': colors.purple, // dashes must be quoted
+      linkColor__focus: `var(--focusColor)`,
+      focusColor: `peach`,
+    })}
   }
 
   a[href] {

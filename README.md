@@ -31,8 +31,8 @@ inside ` css``  ` template literals.
   - [`unitOf` Helper](#unitof-helper)
   - [Color Helper](#color-helper)
   - [`makeVariables` Helper](#makevariables-helper)
-    - [`VariableStyles.declarations`](#variablestylesdeclarations)
     - [`VariableStyles.vars`](#variablestylesvars)
+    - [`VariableStyles.declare`](#variablestylesdeclare)
     - [`VariableStyles.override`](#variablestylesoverride)
     - [`makeVariables.join` Composition Helper](#makevariablesjoin-composition-helper)
     - [`makeVariables.isVar` Helper](#makevariablesisvar-helper)
@@ -71,17 +71,22 @@ const mq = {
   large: `screen and (min-width: ${px(bp.large)})`,
 };
 
-const cssVars = makeVariables({
-  linkColor: colors.red,
-  'linkColor--hover': colors.purple, // dashes must be quoted
-  linkColor__focus: `var(--focusColor)`,
-  focusColor: `peach`,
-});
+const cssVars = makeVariables([
+  'linkColor',
+  'linkColor--hover',
+  'linkColor__focus',
+  'focusColor',
+]);
 const vars = cssVars.vars;
 
 export default css`
   :root {
-    ${cssVars.declarations}
+    ${cssVars.declare({
+      linkColor: colors.red,
+      'linkColor--hover': colors.purple, // dashes must be quoted
+      linkColor__focus: var.focusColor, // aliased
+      focusColor: `peach`,
+    })}
   }
 
   a[href] {
@@ -438,7 +443,7 @@ Feel free to import your own color helper library, and use it instead.
 ### `makeVariables` Helper
 
 **Syntax:**
-`makeVariables<T extends string>(vars: Record<T, VariableValue>, options?: VariableOptions): VariableStyles<T>`
+`makeVariables<T extends string>(variableTokens: Array<T>, options?: VariableOptions): VariableStyles<T>`
 
 Helper to provide type-safety and code-completion when using CSS custom
 properties (CSS variables) at scale.
@@ -446,42 +451,10 @@ properties (CSS variables) at scale.
 ```js
 import { makeVariables, css } from 'es-in-css';
 
-const cssVars = makeVariables({
-  linkColor: `#0000cc`,
-  linkColor__hover: `#cc00cc`,
-});
+const cssVars = makeVariables(['linkColor', 'linkColor__hover']);
 ```
 
 The returned objects contains the following:
-
-#### `VariableStyles.declarations`
-
-**Syntax:** `VariableStyles<T>.declarations: string`
-
-Is a CSS string with all the custom property declarations, ready to be dumped
-into a CSS rule block.
-
-```js
-cssCars.declarations;
-/*`
-  --linkColor: #0000cc;
-  --linkColor__hover: #cc00cc;
-`*/
-```
-
-**NOTE:** This property is mutable, and appending `@media` queries and other
-tweaks is often a good idea:
-
-```js
-cssCars.declarations += css`
-  @media (prefers-color-scheme: dark) {
-    ${cssCars.override({
-      linkColor: `#9999ff`,
-      linkColor__hover: `#ff99ff`,
-    })}
-  }
-`;
-```
 
 #### `VariableStyles.vars`
 
@@ -515,69 +488,58 @@ vars.linkColor.cssName;
 // `"--linkColor"`
 ```
 
-`VariablePrinter`s also have a `type` property that describes the original
-input value when this CSS variable was declared.
+#### `VariableStyles.declare`
+
+**Syntax:** `VariableStyles<T>.declare(vars: Record<T, string >): string`
+
+Lets you type-safely write values for **all** the defined CSS variables into a
+CSS rule block. Property names not matching `T` are dropped/ignored.
 
 ```js
-const typeTest = makeVariables({
-  z1: 0,
-  z2: '-0',
-  n1: 123,
-  n2: '1.23',
-  p: '50%',
-  s1: px(123),
-  s2: rem(1.5),
-  s3: '-2em',
-  t1: ms(500),
-  t2: '200ms',
-  a: deg(90),
-  c1: color('blue'),
-  c2: '#ff0000ff',
-  c3: 'rgba(123, 0, 0, .9)',
-  u: `0 ${px(123)}`,
-});
-const tVars = typeTest.vars;
-
-tVars.z1.type === 'zero';
-tVars.z1.type === 'zero';
-tVars.n1.type === 'number';
-tVars.n2.type === 'number';
-tVars.p.type === 'percent';
-tVars.s2.type === 'size:rem';
-tVars.s3.type === 'size:em';
-tVars.t1.type === 'time:ms';
-tVars.t2.type === 'time:ms';
-tVars.a.type === 'angle:deg';
-tVars.c1.type === 'color';
-tVars.c2.type === 'color';
-tVars.c3.type === 'color';
-tVars.u.type === 'unknown';
+css`
+  :root {
+    ${cssVars.declare({
+      linkColor: `#0000cc`,
+      linkColor__hover: `#cc00cc`,
+      unknown_variable: `transparent`, // ignored/dropped
+    })}
+  }
+`;
+/*`
+  :root {
+    --linkColor: #0000cc,
+    --linkColor__hover: #cc00cc,
+  }
+`*/
 ```
-
-_**NOTE:** This type information can be used for introspection, but may not
-reflect the actual resolved type of the CSS variable because … The Cascade._
 
 #### `VariableStyles.override`
 
-**Syntax:** `VariableStyles<T>.override(vars: { [P in T]?: string }): string`
+**Syntax:**
+`VariableStyles<T>.override(vars: Partial<Record<T, string >>): string`
 
-Returns string with redeclarations for any of the CSS variables of type `T`.
-Property names not matching `T` are dropped/ignored.
+Similar to the `.declare()` method, but can be used to re-declare (i.e.
+override) only some of of the CSS variables `T`. Again, property names not
+matching `T` are dropped/ignored.
 
 ```js
-const { declarations } = cssVars;
-
-const overrideStr = cssVars.override({
-  linkColor: `#ff0000`,
-  newVariable: `#ffffff`, // ignored/dropped
-});
+css`
+  @media (prefers-color-scheme: dark) {
+    :root {
+      ${cssVars.override({
+        linkColor: `#9999ff`,
+        unknown_variable: `#transparent`, // ignored/dropped
+      })}
+    }
+  }
+`;
 /*`
-  --linkColor: #ff0000;
+  @media (prefers-color-scheme: dark) {
+    :root{
+      --linkColor: #9999ff;
+    }
+  }
 `*/
-
-// The original declarations remain unchanged
-cssVars.declarations === declarations;
-// true
 ```
 
 #### `makeVariables.join` Composition Helper
@@ -585,7 +547,7 @@ cssVars.declarations === declarations;
 **Syntax:**
 `makeVariables.join(...varDatas: Array<VariableStyles>): VariableStyles`
 
-This helper combines the variable values and declarations from multiple
+This helper combines the variable values and declaration methods from multiple
 `VariableStyles` objects into a new, larger `VariableStyles` object.
 
 #### `makeVariables.isVar` Helper
@@ -610,11 +572,11 @@ complex than the default setting allows.
 
 ```js
 // Default behaviour rejects the 'ö' character
-const v1 = makeVariables({ töff: 'blue' }); // ❌ Error
+const v1 = makeVariables(['töff']); // ❌ Error
 
 // Set custom pattern allowing a few accented letters.
 const v2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i };
-const v2 = makeVariables({ töff: 'blue' }, v2opts); // ✅ OK
+const v2 = makeVariables(['töff'], v2opts); // ✅ OK
 ```
 
 **`VariableOptions.toCSSName?: (name: string) => string`**
@@ -628,27 +590,11 @@ names.
 const v3opts: VariableOptions = {
   toCSSName: (name) => name.replace(/_/g, '-'),
 };
-const v3 = makeVariables({ link__color: 'blue' }, v3opts);
+const v3 = makeVariables(['link__color'], v3opts);
 
-v3.declarations; // `--link--color: blue;\n`
+v3.declare({ link__color: 'blue' }); // `--link--color: blue;\n`
 v3.vars.link__color(); // `var(--link--color)`
 ```
-
-**`VariableOptions.resolvetype?: (value: unknown) => string | undefined`**
-
-Runs ahead of the default type-resolution to detect custom types.
-
-If a falsy type name is returned, the default type resolver continues running
-as normal.
-
-**`VariableOptions.isColor?: (value: unknown) => boolean`**
-
-Use this option if you're using a custom color manipulation library.
-
-Runs **after** the default color-detection logic, so it does not need to check
-for common CSS color string formats.
-
-Example: `(value) => value instance of MyColorClass`
 
 ## Compilation API
 
