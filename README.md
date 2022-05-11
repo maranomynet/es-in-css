@@ -575,6 +575,7 @@ const overrideStr = cssVars.override({
   --linkColor: #ff0000;
 `*/
 
+// The original declarations remain unchanged
 cssVars.declarations === declarations;
 // true
 ```
