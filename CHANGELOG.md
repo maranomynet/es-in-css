@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.0
+
+_2022-06-01_
+
 - **BREAKING** feat: Bump minimum node version to 16
 - **BREAKING** feat: Change `VariablePrinter` to a simple object — with
   toString and an `.or()` method for fallbak/default values
