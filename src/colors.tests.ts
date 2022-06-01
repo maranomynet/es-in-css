@@ -12,6 +12,15 @@ o.spec('color helper', () => {
     o(color('red').opaquer(-0.5).toString()).equals('rgba(255, 0, 0, 0.5)');
   });
 
+  o('adds a getName method', () => {
+    const col = color('red');
+    const col2 = col.opaquer(-0.5);
+    // eslint-disable-next-line deprecation/deprecation
+    o(col.getName).equals(col.toString);
+    // eslint-disable-next-line deprecation/deprecation
+    o(col2.getName).equals(col2.toString)('inherited down to secondary instances');
+  });
+
   o('throws on invalid input', () => {
     o(() => color('foo bar')).throws(Error);
     o(() => color('#000 0')).throws(Error);

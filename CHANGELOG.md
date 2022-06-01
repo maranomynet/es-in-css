@@ -3,6 +3,8 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat(ts): Alias `toString` as `getName` on all basic value printers — to
+  hack a nicer DX when using es-in-css values with styled-components.
 
 ## 0.4.0
 

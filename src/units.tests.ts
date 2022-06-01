@@ -29,6 +29,7 @@ o.spec('Abstract UnitValue class', () => {
     o(u.value).equals(123.456);
     o(u.toString()).equals('123.456furlong');
     o(u.valueOf()).equals(123.456);
+    o(u.getName).equals(u.toString)('getName aliases toString');
   });
 });
 

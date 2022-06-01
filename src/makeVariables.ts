@@ -32,6 +32,9 @@ export type VariablePrinter = {
   toString(): string;
   toJSON(): string;
   [IS_PRINTER]: true;
+
+  /** @deprecated Typing hack to allow direct printing into styled-components CSS templates. This method is an alias of `.toString()` */
+  getName(): string;
 }>;
 
 export type VariableOptions = {
@@ -62,7 +65,7 @@ const makeVariablePrinter = (name: string) => {
       ? varString.replace(/\)$/, `, ${defaultValue})`)
       : varString) as unknown as Mutable<VariablePrinter>;
   printer[IS_PRINTER] = true;
-  printer.toString = printer.toJSON = () => varString;
+  printer.toString = printer.toJSON = printer.getName = () => varString;
   printer.cssName = cssName;
 
   return printer as VariablePrinter;

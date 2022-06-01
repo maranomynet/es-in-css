@@ -1,15 +1,20 @@
 import Color from 'color';
 import * as colorNames from 'color-name';
 
+import type Color_ from './color.types';
+
 export type { default as ColorValue } from 'color';
 
 export type ColorName = keyof typeof colorNames;
 
-type ColorPlus = typeof Color & {
+type ColorPlus = typeof Color_ & {
   fromName(colorName: ColorName): Color;
 };
 
 export const color = Color as ColorPlus;
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+color.prototype.getName = color.prototype.toString;
 
 export const rgb = color.rgb;
 export const hsl = color.hsl;

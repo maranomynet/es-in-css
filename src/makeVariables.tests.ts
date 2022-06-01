@@ -67,6 +67,9 @@ o.spec('variables helper', () => {
     o(res.vars.componentWidth()).equals(res.vars.componentWidth.toString());
     o(res.vars.componentWidth('defaultVal')).equals('var(--componentWidth, defaultVal)')(
       'that can set defaults'
+    // eslint-disable-next-line deprecation/deprecation
+    o(res.vars.componentWidth.getName).equals(res.vars.componentWidth.toString)(
+      'aliases toString as getName'
     );
   });
 
