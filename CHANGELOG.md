@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- **BREAKING** feat: Bump minimum node version to 16
 - feat(ts): Alias `toString` as `getName` on all basic value printers — to
   hack a nicer DX when using es-in-css values with styled-components.
 

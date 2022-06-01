@@ -25,7 +25,7 @@
   "private": true,
   "dist_package_json": {
     "engines": {
-      "node": ">=14"
+      "node": ">=16"
     },
     "main": "index.js",
     "module": "index.mjs",
