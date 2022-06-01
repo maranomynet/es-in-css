@@ -14,6 +14,7 @@ _2022-06-01_
 - feat(ts): Alias `toString` as `getName` on all basic value printers — to
   hack a nicer DX when using es-in-css values with styled-components.
 - fix: Check for existstence of global.require before clearing cache
+- chore: Add `pkg.exports` description
 
 ## 0.4.0
 
