@@ -25,8 +25,12 @@ export const extractDefaultExport = (exported: unknown) => {
 export const getExportedCSS = (filePath: string) => {
   const url = resolve('', filePath);
   // When `import()`-ing a commonjs modules, simply adding a cacheBust param will
-  // NOTE invalidate the cache. (node 14 and 16 at least)
-  delete require.cache[require.resolve(url)];
+  // NOT invalidate the cache. (node 14 and 16 at least)
+  const require = global.require;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (require && require.cache && require.resolve) {
+    delete require.cache[require.resolve(url)];
+  }
 
   const cacheBust = '?' + Date.now();
   return import(url + cacheBust).then(extractDefaultExport).then((css) => {
