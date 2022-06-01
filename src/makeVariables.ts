@@ -25,9 +25,9 @@ export type VariableStyles<T extends string> = {
   override(vars: Partial<Record<T, VariableValue>>): RawCssString;
 };
 
-export type VariablePrinter = {
-  (defaultValue?: VariableValue): RawCssVarString;
-} & Readonly<{
+export type VariablePrinter = Readonly<{
+  /** Prints the CSS varible string with a fallback/default value paramter. */
+  or(defaultValue: VariableValue): RawCssVarString;
   cssName: string;
   toString(): string;
   toJSON(): string;
@@ -56,19 +56,20 @@ export type VariableOptions = {
 
 // ---------------------------------------------------------------------------
 
-const makeVariablePrinter = (name: string) => {
+const makeVariablePrinter = (name: string): VariablePrinter => {
   const cssName = `--${name}`;
   const varString = `var(${cssName})`;
+  const toString = () => varString;
 
-  const printer = ((defaultValue?: VariableValue) =>
-    defaultValue
-      ? varString.replace(/\)$/, `, ${defaultValue})`)
-      : varString) as unknown as Mutable<VariablePrinter>;
-  printer[IS_PRINTER] = true;
-  printer.toString = printer.toJSON = printer.getName = () => varString;
-  printer.cssName = cssName;
-
-  return printer as VariablePrinter;
+  return {
+    cssName,
+    or: (defaultValue?: VariableValue) =>
+      defaultValue ? varString.replace(/\)$/, `, ${defaultValue})`) : varString,
+    [IS_PRINTER]: true,
+    toString,
+    toJSON: toString,
+    getName: toString,
+  };
 };
 
 // ---------------------------------------------------------------------------

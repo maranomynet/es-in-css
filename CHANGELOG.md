@@ -4,6 +4,8 @@
 
 - ... <!-- Add new lines here. -->
 - **BREAKING** feat: Bump minimum node version to 16
+- **BREAKING** feat: Change `VariablePrinter` to a simple object — with
+  toString and an `.or()` method for fallbak/default values
 - feat(ts): Alias `toString` as `getName` on all basic value printers — to
   hack a nicer DX when using es-in-css values with styled-components.
 

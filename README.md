@@ -462,19 +462,17 @@ The returned objects contains the following:
 
 Holds a readonly `Record<T, VariablePrinter>` object where the
 `VariablePrinter`s emit the CSS variable names wrapped in `var()`, ready to be
-used as CSS values … with the option of passing a default/fallback value.
+used as CSS values … with the option of passing a default/fallback value via
+the `.or() method`.
 
 ```js
 const { vars } = cssVars;
 
-vars.linkColor(); // also works
-// `var(--linkColor)`
-
-vars.linkColor(`fallback`); // pass fallback value
-// `var(--linkColor, fallback)`
-
 vars.linkColor + ''; // invokes .toString()
 // `var(--linkColor)`
+
+vars.linkColor.or(`black`); // pass fallback value
+// `var(--linkColor, black)`
 
 `color: ${vars.linkColor__hover};`;
 // `color: var(--linkColor__hover);`
