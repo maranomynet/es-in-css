@@ -29,7 +29,16 @@
     },
     "main": "index.js",
     "module": "index.mjs",
-    "types": "index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./index.mjs",
+        "require": "./index.js"
+      },
+      "./compiler": {
+        "import": "./compiler.mjs",
+        "require": "./compiler.js"
+      }
+    },
     "bin": {
       "es-in-css": "bin/cli.js"
     }
