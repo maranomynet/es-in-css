@@ -31,11 +31,22 @@ export type VariablePrinter = Readonly<{
   cssName: string;
   toString(): string;
   toJSON(): string;
-  [IS_PRINTER]: true;
-
   /** @deprecated Typing hack to allow direct printing into styled-components CSS templates. This method is an alias of `.toString()` */
   getName(): string;
-}>;
+}> & {
+  /*
+    NOTE:
+    For some reason this Symbol prop can't be inside the Readonly<{}> block
+    as it causes *.d.ts (--declaration) generation errors in
+    downstream consumers of the es-in-css library:
+    "
+      Exported variable 'buildVariables' has or is using name 'IS_PRINTER'
+      from external module "${PROJECT_PATH}/node_modules/es-in-css/makeVariables"
+      but cannot be named.
+    "
+  */
+  [IS_PRINTER]: true;
+};
 
 export type VariableOptions = {
   /**
