@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.4
+
+_2022-06-07_
+
 - chore: Reorganize the contents of the published package
 
 ## 0.5.0 — 0.5.3
