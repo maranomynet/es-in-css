@@ -1,7 +1,7 @@
 import o from 'ospec';
 
-import { StrictEquals } from './compiler/_csstest/test-utils';
 import { makeVariables, VariableStyles } from './makeVariables';
+import { StrictEquals } from './test-utils';
 import { px } from './units';
 
 o.spec('variables helper', () => {

@@ -1,4 +1,4 @@
-import { css, rgb } from '../../..';
+import { css, rgb } from '../../../index';
 
 export default css`
   body {

@@ -9,7 +9,7 @@ const exec = require('child_process').execSync;
 
 // ---------------------------------------------------------------------------
 
-const makePackageJson = (outdir) => {
+const makePackageJson = (outdir, extraFields) => {
   const { dist_package_json } = pkg;
 
   delete pkg.scripts;
@@ -19,7 +19,7 @@ const makePackageJson = (outdir) => {
   delete pkg.devDependencies;
   delete pkg.dist_package_json;
 
-  Object.assign(pkg, dist_package_json);
+  Object.assign(pkg, dist_package_json, extraFields);
 
   writeFileSync(outdir + 'package.json', JSON.stringify(pkg, null, '\t'));
 };
@@ -61,7 +61,7 @@ const exit1 = (err) => {
 // ---------------------------------------------------------------------------
 
 const testsDir = '__tests/';
-const outdir = '_npm_lib/';
+const outdir = '_npm-lib/';
 const baseOpts = {
   bundle: true,
   platform: 'node',
@@ -70,19 +70,16 @@ const baseOpts = {
   external: allDeps,
   watch: opts.dev,
   // define: {
-  //   'process.env.DEV_FILE_SERVER': JSON.stringify(process.env.DEV_FILE_SERVER),
+  //   'process.env.NPM_PUB': JSON.stringify(true),
   // },
 };
 
 // ---------------------------------------------------------------------------
+// Build Unit Tests
 
 exec('rm -rf ' + testsDir + ' && mkdir ' + testsDir);
-exec('rm -rf ' + outdir + ' && mkdir ' + outdir);
-exec('cp README.md CHANGELOG.md ' + outdir);
-makePackageJson(outdir);
 
-// ---------------------------------------------------------------------------
-// Build Unit Tests
+// ------
 
 const writeResults = (res) =>
   res.outputFiles.filter(newFile).forEach((res) => {
@@ -124,13 +121,31 @@ esbuild
 // ---------------------------------------------------------------------------
 // Build Library
 
+exec('rm -rf ' + outdir + ' && mkdir ' + outdir);
+exec('cp README.md CHANGELOG.md ' + outdir);
+makePackageJson(outdir, {
+  type: 'module',
+  exports: glob('*.ts', { cwd: 'src/', ignore: '*.tests.ts' }).reduce((exports, file) => {
+    const token = file.replace(/\.ts$/, '');
+    const expToken = token === 'index' ? '.' : `./${token}`;
+    exports[expToken] = {
+      // types: `./types/${token}.d.ts`,
+      import: `./${token}.mjs`,
+      require: `./${token}.cjs`,
+    };
+    return exports;
+  }, {}),
+});
+
+// ------
+
 const buildLib = (format, extraCfg) =>
   esbuild.build({
     ...baseOpts,
     platform: 'node',
     format,
-    entryPoints: ['src/index.ts', 'src/compiler.ts'],
-    outExtension: format === 'esm' ? { '.js': '.mjs' } : undefined,
+    entryPoints: glob('src/*.ts', { ignore: '**/*.tests.ts' }),
+    outExtension: { '.js': format === 'esm' ? '.mjs' : '.cjs' },
     outdir,
     ...extraCfg,
   });
@@ -139,7 +154,7 @@ buildLib('esm', { plugins: [dtsPlugin({ outDir: outdir })] }).catch(exit1);
 buildLib('cjs').catch(exit1);
 
 // ---------------------------------------------------------------------------
-// Build Compiler
+// Build CLI Compiler
 
 esbuild.build({
   ...baseOpts,

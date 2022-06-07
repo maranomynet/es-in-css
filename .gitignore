@@ -1,7 +1,7 @@
 # --------------------------------------------------------------------
 # deps and build/test results
 node_modules
-/dist
+/_npm-lib
 /__tests
 *.css
 

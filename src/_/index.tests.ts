@@ -1,7 +1,8 @@
 import o from 'ospec';
 
-import { compareKeys } from './compiler/_csstest/test-utils';
-import * as libTokens from './index';
+import * as libTokens from '../index';
+
+import { compareKeys } from './test-utils';
 
 const tokens: Record<keyof typeof libTokens, true> = {
   // css.ts
@@ -91,5 +92,5 @@ import type {
   MsValue,
   CmValue,
   DegValue,
-} from './index';
+} from '../index';
 /* eslint-enisable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, simple-import-sort/imports */

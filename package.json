@@ -7,13 +7,13 @@
     "build": "yarn install  &&  tsc --noEmit  &&  node build.js  &&  yarn run test",
     "dev": "yarn install  &&  yarn run concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"node build.js --dev\"  \"yarn run test:dev\"",
     "prepublishOnly": "echo \"\nRun 'yarn run publishdist' to publish this package\n\n\"  && exit 1",
-    "publish:lib": "yarn run build  &&  cd _npm_lib  &&  npm publish",
-    "publish:canary": "yarn run build  &&  cd _npm_lib  &&  npm publish --tag canary",
+    "publish:lib": "yarn run build  &&  cd _npm-lib  &&  npm publish",
+    "publish:canary": "yarn run build  &&  cd _npm-lib  &&  npm publish --tag canary",
     "test:dev": "sleep 1  &&  (yarn run test || true)  &&  yarn run test:watch",
     "test:watch": "yarn run onchange '__tests/**/*.tests-*.js' -f add -f change -- yarn run ospec '{{file}}'",
-    "test:cli": "node _npm_lib/bin/cli.js \"__tests/**/*.css.js\"",
+    "test:cli": "node _npm-lib/bin/cli.js \"__tests/**/*.css.js\"",
     "test": "yarn run ospec \"__tests/**/*.tests-*.js\"",
-    "es-in-css": "node _npm_lib/bin/cli.js"
+    "es-in-css": "node _npm-lib/bin/cli.js"
   },
   "repository": "git@github.com:maranomynet/es-in-css.git",
   "author": "Már Örlygsson",
@@ -26,18 +26,6 @@
   "dist_package_json": {
     "engines": {
       "node": ">=16"
-    },
-    "main": "index.js",
-    "module": "index.mjs",
-    "exports": {
-      ".": {
-        "import": "./index.mjs",
-        "require": "./index.js"
-      },
-      "./compiler": {
-        "import": "./compiler.mjs",
-        "require": "./compiler.js"
-      }
     },
     "bin": {
       "es-in-css": "bin/cli.js"

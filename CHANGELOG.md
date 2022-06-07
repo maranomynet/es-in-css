@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- chore: Reorganize the contents of the published package
 
 ## 0.5.0 — 0.5.3
 
