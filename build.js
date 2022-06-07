@@ -61,7 +61,7 @@ const exit1 = (err) => {
 // ---------------------------------------------------------------------------
 
 const testsDir = '__tests/';
-const outdir = 'dist/';
+const outdir = '_npm_lib/';
 const baseOpts = {
   bundle: true,
   platform: 'node',
