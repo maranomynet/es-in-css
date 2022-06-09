@@ -1,4 +1,4 @@
-import { _scoped } from './scoped.private';
+import { _scoped } from './scoped.private.js';
 
 const logWarnings = process.env.NODE_ENV !== 'production';
 

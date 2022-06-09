@@ -1,6 +1,6 @@
 import o from 'ospec';
 
-import { extractDefaultExport as e } from './getExportedCSS';
+import { extractDefaultExport as e } from './getExportedCSS.js';
 
 o.spec('getExportedCSS', () => {
   o('extracts default exported strings', () => {

@@ -1,6 +1,6 @@
 import o from 'ospec';
 
-import { css, media } from './css';
+import { css, media } from './css.js';
 
 const O = (css: string) => o(css.replace(/\s\s+/g, ' ').trim());
 

@@ -19,7 +19,7 @@ import {
   vmax_f,
   vmin_f,
   vw_f,
-} from './units';
+} from './units.js';
 
 o.spec('Abstract UnitValue class', () => {
   o('generates object with value and unit', () => {

@@ -1,4 +1,4 @@
-import { css, rgb } from '../../../index';
+import { css, rgb } from '../../../index.js';
 
 export default css`
   body {

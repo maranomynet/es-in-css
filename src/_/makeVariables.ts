@@ -1,6 +1,6 @@
-import { ColorValue } from './colors';
-import { RawCssString } from './css';
-import { UnitValue } from './units';
+import { ColorValue } from './colors.js';
+import { RawCssString } from './css.js';
+import { UnitValue } from './units.js';
 
 type Mutable<T> = {
   -readonly [P in keyof T]: T[P];

@@ -1,6 +1,6 @@
 import o from 'ospec';
 
-import { color, ColorName, ColorValue, hsl, rgb } from './colors';
+import { color, ColorName, ColorValue, hsl, rgb } from './colors.js';
 
 o.spec('color helper', () => {
   o('parses color', () => {

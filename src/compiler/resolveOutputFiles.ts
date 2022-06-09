@@ -1,6 +1,6 @@
 import { extname, relative } from 'path';
 
-import { CompilerOptions } from '../compiler';
+import { CompilerOptions } from '../compiler.js';
 
 export type InOutMap = {
   inFile: string;

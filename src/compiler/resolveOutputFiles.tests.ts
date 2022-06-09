@@ -5,7 +5,7 @@ import {
   getCommonPath,
   InOutMap,
   resolveOutputFiles,
-} from './resolveOutputFiles';
+} from './resolveOutputFiles.js';
 
 o.spec('getCommonPath', () => {
   const tests = [

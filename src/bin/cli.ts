@@ -2,7 +2,7 @@
 import { Command } from 'commander';
 import { sync as glob } from 'glob';
 
-import { compileCSS, CompilerOptions } from '../compiler';
+import { compileCSS, CompilerOptions } from '../compiler.js';
 
 const program = new Command('es-in-css');
 

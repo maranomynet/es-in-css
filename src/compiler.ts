@@ -6,9 +6,9 @@ import postcss, { AcceptedPlugin } from 'postcss';
 import nested from 'postcss-nested';
 import scss from 'postcss-scss';
 
-import { getExportedCSS } from './compiler/getExportedCSS';
-import { makePrettifyCSS } from './compiler/prettifyCSS';
-import { InOutMap, resolveOutputFiles } from './compiler/resolveOutputFiles';
+import { getExportedCSS } from './compiler/getExportedCSS.js';
+import { makePrettifyCSS } from './compiler/prettifyCSS.js';
+import { InOutMap, resolveOutputFiles } from './compiler/resolveOutputFiles.js';
 
 const makeFile = (outFile: string, contents: string) => {
   const targetDir = dirname(outFile);

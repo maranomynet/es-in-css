@@ -1,4 +1,4 @@
-import { css, makeVariables, px } from '../../';
+import { css, makeVariables, px } from '../../index.js';
 
 const colors = {
   yellow: `yellow`,

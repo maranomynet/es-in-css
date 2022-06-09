@@ -1,8 +1,8 @@
 import o from 'ospec';
 
-import { makeVariables, VariableStyles } from './makeVariables';
-import { StrictEquals } from './test-utils';
-import { px } from './units';
+import { makeVariables, VariableStyles } from './makeVariables.js';
+import { StrictEquals } from './test-utils.js';
+import { px } from './units.js';
 
 o.spec('variables helper', () => {
   const res = makeVariables([
