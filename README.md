@@ -766,7 +766,7 @@ const scriptStrings = [
     fileName: '_temp/styles2.css.mjs',
     content: `
       import { css } from 'es-in-css';
-      import { baseColor } from './styles.css';
+      import { baseColor } from './styles.css.mjs';
       export default css\`
         div { color: \${baseColor}; }
       \`;

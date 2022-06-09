@@ -1,11 +1,15 @@
-const esbuild = require('esbuild');
-const pkg = require('./package.json');
-const glob = require('glob').sync;
-const { writeFileSync } = require('fs');
-const { dtsPlugin } = require('esbuild-plugin-d.ts');
-const { writeFile, mkdir, access } = require('fs/promises');
-const { dirname } = require('path');
-const exec = require('child_process').execSync;
+/* eslint-env es2022 */
+import { execSync as exec } from 'child_process';
+import esbuild from 'esbuild';
+import { dtsPlugin } from 'esbuild-plugin-d.ts';
+import { writeFileSync } from 'fs';
+import { access, mkdir, readFile, writeFile } from 'fs/promises';
+import globPkg from 'glob';
+import { dirname } from 'path';
+
+const glob = globPkg.sync;
+
+const pkg = await readFile('./package.json').then((res) => JSON.parse(res));
 
 // ---------------------------------------------------------------------------
 
@@ -123,6 +127,7 @@ esbuild
 
 exec('rm -rf ' + outdir + ' && mkdir ' + outdir);
 exec('cp README.md CHANGELOG.md ' + outdir);
+
 makePackageJson(outdir, {
   type: 'module',
   exports: glob('*.ts', { cwd: 'src/', ignore: '*.tests.ts' }).reduce((exports, file) => {
