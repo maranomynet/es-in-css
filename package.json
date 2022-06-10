@@ -4,15 +4,15 @@
   "description": "Need to write CSS, but tired of SASS, LESS et al? Try JavaScript/TypeScript in CSS.",
   "scripts": {
     "format": "eslint --fix  \"*.{mjs,js,ts,tsx}\" \"src/**/*.{mjs,js,ts,tsx}\"  &&  prettier --write \"*.{json,md}\"  \"src/**/*.{json,md}\"",
-    "build": "yarn install  &&  tsc --noEmit  &&  node build.mjs  &&  yarn run test",
-    "dev": "yarn install  &&  yarn run concurrently \"tsc --noEmit --watch --preserveWatchOutput\"  \"node build.mjs --dev\"  \"yarn run test:dev\"",
+    "build": "yarn install  &&  node build.mjs  &&  yarn run test",
+    "dev": "yarn install  &&  yarn run concurrently \"node build.mjs --dev\"  \"yarn run test:dev\"",
     "prepublishOnly": "echo \"\nRun 'yarn run publishdist' to publish this package\n\n\"  && exit 1",
     "publish:lib": "yarn run build  &&  cd _npm-lib  &&  npm publish",
     "publish:canary": "yarn run build  &&  cd _npm-lib  &&  npm publish --tag canary",
     "test:dev": "sleep 1  &&  (yarn run test || true)  &&  yarn run test:watch",
-    "test:watch": "yarn run onchange '__tests/**/*.tests-*.js' -f add -f change -- yarn run ospec '{{file}}'",
+    "test:watch": "yarn run onchange '__tests/**/*' -f add -f change -- yarn run test",
     "test:cli": "node _npm-lib/bin/cli.js \"__tests/**/*.css.js\"",
-    "test": "yarn run ospec \"__tests/**/*.tests-*.js\"",
+    "test": "yarn run ospec \"__tests/**/*.tests.js\"",
     "es-in-css": "node _npm-lib/bin/cli.js"
   },
   "repository": "git@github.com:maranomynet/es-in-css.git",
@@ -28,7 +28,7 @@
       "node": ">=16"
     },
     "bin": {
-      "es-in-css": "bin/cli.js"
+      "es-in-css": "cjs/bin/cli.js"
     }
   },
   "engines": {
@@ -57,8 +57,6 @@
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "concurrently": "^7.0.0",
-    "esbuild": "^0.14.18",
-    "esbuild-plugin-d.ts": "^1.1.0",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-deprecation": "^1.3.2",

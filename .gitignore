@@ -4,6 +4,7 @@ node_modules
 /_npm-lib
 /__tests
 *.css
+tsconfig.build.*.json
 
 # --------------------------------------------------------------------
 # junk

@@ -2,7 +2,8 @@
   "compilerOptions": {
     "lib": ["esnext"],
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
     "strict": true, // Don't be daft. Always be strict.

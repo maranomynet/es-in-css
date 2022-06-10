@@ -18,6 +18,12 @@ export const extractDefaultExport = (exported: unknown) => {
   return;
 };
 
+// Side-step tsc's conversion of dynamic imports to __importStar(require(url))
+// See this issue: https://github.com/microsoft/TypeScript/issues/43329
+const _import = new Function('url', 'return import(url)') as (
+  url: string
+) => Promise<unknown>;
+
 /**
  * Imports default exported CSS from an input file.
  * Resolves esm—commonjs wrappers if neccessary.
@@ -33,10 +39,12 @@ export const getExportedCSS = (filePath: string) => {
   }
 
   const cacheBust = '?' + Date.now();
-  return import(url + cacheBust).then(extractDefaultExport).then((css) => {
-    if (css == null) {
-      throw new Error(`Module does not emit string as its default export`);
-    }
-    return css;
-  });
+  return _import(url + cacheBust)
+    .then(extractDefaultExport)
+    .then((css) => {
+      if (css == null) {
+        throw new Error(`Module does not emit string as its default export`);
+      }
+      return css;
+    });
 };
