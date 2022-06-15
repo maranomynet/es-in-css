@@ -110,8 +110,7 @@ if (!opts.dev) {
   tscBuild('lib-cjs', {
     compilerOptions: {
       module: 'commonjs',
-      target: 'esnext',
-      // target: 'ES2016',
+      target: 'ES2015',
       declaration: true,
       outDir,
     },
@@ -126,8 +125,7 @@ if (!opts.dev) {
   tscBuild('lib-esm', {
     compilerOptions: {
       module: 'esnext',
-      target: 'esnext',
-      // target: 'ES2016',
+      target: 'ES2015',
       declaration: true,
       outDir: `${outDir}/esm`,
     },
