@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.5
+
+_2022-06-15_
+
 - fix: Change build target to ES2015
 
 ## 0.5.4
