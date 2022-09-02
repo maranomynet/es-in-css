@@ -19,8 +19,9 @@ For good developer experience, use VSCode and install the official
 That gives you instant syntax highlighting and IntelliSense autocompletion
 inside ` css``  ` template literals.
 
-<!-- prettier-ignore-start -->
+**Table of Contents:**
 
+<!-- prettier-ignore-start -->
 - [Quick-Start Guide](#quick-start-guide)
 - [CSS Authoring Features](#css-authoring-features)
   - [`css` Templater](#css-templater)
@@ -121,7 +122,7 @@ or using npm:
 npm exec es-in-css "src/*.css.js" --outdir=dist/styles
 ```
 
-Now you have a file called `dest/styles/cool-design.css`:
+You now have a file called `dist/styles/cool-design.css`:
 
 ```css
 :root {
@@ -222,7 +223,7 @@ export default css`
   }
 `;
 /* Raw output:
-`
+
   @media (max-width: 699px) {
     p {
       color: blue;
@@ -235,10 +236,10 @@ export default css`
       }
     }
   }
-`*/
+*/
 
 /* CLI/SCSS compiled output:
-`
+
   @media (max-width: 699px) {
     p {
       color: blue;
@@ -249,12 +250,31 @@ export default css`
       color: red;
     }
   }
- `*/
+*/
 ```
 
 If `media` is called with a single argument (i.e. `media(mediaQuery)`), it
 returns a curried, reusable function which takes `cssContent` as its only
 argument.
+
+<!-- prettier-ignore-start -->
+
+```js
+const media = {
+  small: media('(max-width: 699px)'),
+  medium: media('(min-width: 700px) and (max-width: 999px)'),
+  large: media('(min-width: 1000px)'),
+};
+
+export default css`
+  @media (max-width: 699px) {
+    p { color: blue; }
+    ${media.large(css`p { color: red; }`)}
+  }
+`;
+```
+
+<!-- prettier-ignore-end -->
 
 ### `scoped` Name Generator
 
