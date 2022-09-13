@@ -210,16 +210,13 @@ export default css`
   @media (max-width: 699px) {
     p {
       color: blue;
-    }
-
-    ${media(
-      '(min-width: 700px)',
-      css`
-        p {
+      ${media(
+        '(min-width: 700px)',
+        css`
           color: red;
-        }
-      `
-    )}
+        `
+      )}
+    }
   }
 `;
 /* Raw output:
@@ -227,10 +224,8 @@ export default css`
   @media (max-width: 699px) {
     p {
       color: blue;
-    }
-    @at-root (without: media) {
-      @media (min-width: 700px) {
-        p {
+      @at-root (without: media) {
+        @media (min-width: 700px) {
           color: red;
         }
       }
