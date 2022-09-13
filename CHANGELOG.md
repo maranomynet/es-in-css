@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.6
+
+_2022-09-12_
+
 - feat: Add lower-level compiler function `compileCSSString`
 - docs: Fix issues in README
 
