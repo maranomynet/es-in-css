@@ -54,7 +54,7 @@ o.spec('resolveOutputFiles', () => {
       expected: [
         {
           inFile: '__tests/css/styles/test.css.js',
-          outFile: '__tests/css/styles/test.css',
+          outFile: '__tests/css/styles/test.css', // deduplicates thge options.ext  value
         },
         {
           inFile: '__tests/css/styles/sub/test2.scss.js',

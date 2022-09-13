@@ -13,7 +13,11 @@ export class UnitValue<U extends string | never = string> {
   valueOf() {
     return this.value;
   }
-  /** @deprecated Typing hack to allow direct printing into styled-components CSS templates. This method is an alias of `.toString()` */
+
+  /** @deprecated   DO NOT USE.
+   * — This is a typing hack to allow direct printing into
+   * CSS templates with the popular "styled-components" library.
+   * This method is an alias of `.toString()` */
   getName() {
     return this.toString();
   }

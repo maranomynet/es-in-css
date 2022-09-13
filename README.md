@@ -466,10 +466,20 @@ properties (CSS variables) at scale.
 ```js
 import { makeVariables, css } from 'es-in-css';
 
-const cssVars = makeVariables(['linkColor', 'linkColor__hover']);
+const myVarNames = ['linkColor', 'linkColor__hover'];
+
+const cssVars = makeVariables(myVarNames);
 ```
 
-The returned objects contains the following:
+The returned `VariableStyles` objects contains the following (see more
+below)):
+
+- `VariableStyles.vars.*` — pre-declared CSS value printers (outputting
+  `var(--*)` strings)
+- `VariableStyles.declare(…)` — for declaring initial values for all of the
+  variables.
+- `VariableStyles.override(…)` — for re-declaraing parts of the variable
+  collection.
 
 #### `VariableStyles.vars`
 
@@ -493,8 +503,8 @@ vars.linkColor.or(`black`); // pass fallback value
 // `color: var(--linkColor__hover);`
 ```
 
-`VariablePrinter` objects have a `cssName` property with the bare (unwrapped)
-name of the variable, like so:
+`VariablePrinter` objects also have a `cssName` property with the raw
+(unwrapped) name of the variable, like so:
 
 ```js
 vars.linkColor.cssName;
