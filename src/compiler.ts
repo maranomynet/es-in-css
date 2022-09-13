@@ -18,9 +18,19 @@ const makeFile = (outFile: string, contents: string) => {
 };
 
 type ProcessingOpts = {
-  outdir?: string;
   minify?: boolean;
+  /**
+   * Possible values:
+   * - `false` or `undefined` — Do not prettify
+   * - `true` — Prettify with config resolved based on `outdir`,
+   *   or `cwd` as a fallback.
+   * - `string`— Prettify with the config file at this path
+   */
   prettify?: string | boolean;
+  /**
+   * Used as a base directory from which to auto-resolve prettier config.
+   */
+  outdir?: string;
 };
 
 const makeProcessCSS = (options: ProcessingOpts) => {
@@ -50,6 +60,13 @@ export type CompilerOptions = {
   outdir?: string;
   outbase?: string;
   minify?: boolean;
+  /**
+   * Possible values:
+   * - `false` or `undefined` — Do not prettify
+   * - `true` — Prettify with config resolved based on `outdir`,
+   *   or `cwd` as a fallback.
+   * - `string`— Prettify with the config file at this path
+   */
   prettify?: boolean | string;
   ext?: string | ((sourceFile: string) => string | undefined | false | null);
   redirect?: (outFile: string, inFile: string) => string | undefined | false | null;
@@ -62,24 +79,31 @@ type Ret<Opts extends CompilerOptions> = Opts extends { write: false }
   ? InOutMap & { css: string }
   : InOutMap;
 
+const bannerify = (
+  css: string,
+  options: Pick<CompilerOptions, 'banner' | 'footer'>
+): string => {
+  if (options.banner) {
+    css = options.banner + '\n' + css;
+  }
+  if (options.footer) {
+    css = css.replace(/\n$/, '') + '\n' + options.footer + '\n';
+  }
+  return css;
+};
+
 export const compileCSS = <Opts extends CompilerOptions>(
   sourceFiles: Array<string>,
   options: Opts = {} as Opts
 ): Promise<Array<Ret<Opts>>> => {
   const processCSS = makeProcessCSS(options);
-  const banner = options.banner ? options.banner + '\n' : '';
-  const footer = options.footer ? '\n' + options.footer + '\n' : '';
 
   return Promise.all(
     resolveOutputFiles(sourceFiles, options).map((args: InOutMap) =>
       getExportedCSS(args.inFile)
         .then(processCSS)
         .then(async (css) => {
-          css = banner + css;
-          if (footer) {
-            css = css.replace(/\n$/, '') + footer;
-          }
-
+          css = bannerify(css, options);
           if (options.write === false) {
             return Object.assign({ css }, args);
           }
@@ -116,3 +140,30 @@ export const compileCSSFromJS = <Opts extends CompilerOptions>(
       rets.forEach((ret) => unlink(ret.inFile));
       return rets;
     });
+
+// ---------------------------------------------------------------------------
+
+type StringCompilerOptions = ProcessingOpts & Pick<CompilerOptions, 'banner' | 'footer'>;
+
+export function compileCSSString(
+  css: string,
+  options?: StringCompilerOptions
+): Promise<string>;
+export function compileCSSString(
+  css: Array<string>,
+  options?: StringCompilerOptions
+): Promise<Array<string>>;
+
+export function compileCSSString(
+  css: string | Array<string>,
+  options: StringCompilerOptions = {}
+) {
+  const processCSS = makeProcessCSS(options);
+  const compileString = (css: string) =>
+    processCSS(css).then((css) => bannerify(css, options));
+
+  if (typeof css === 'string') {
+    return compileString(css);
+  }
+  return Promise.all(css.map(compileString));
+}

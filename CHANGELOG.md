@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add lower-level compiler function `compileCSSString`
 - docs: Fix issues in README
 
 ## 0.5.5

@@ -44,6 +44,7 @@ inside ` css``  ` template literals.
   - [JS API](#js-api)
     - [`compileCSS` (from files)](#compilecss-from-files)
     - [`compileCSSFromJS`](#compilecssfromjs)
+    - [`compileCSSString`](#compilecssstring)
 - [Roadmap](#roadmap)
 - [Changelog](#changelog)
 
@@ -799,16 +800,54 @@ const scriptStrings = [
   },
 ];
 
-compileCSSFromJS(scriptStrings,   outbase: 'src'
-  outdir: 'dist'
+compileCSSFromJS(scriptStrings, {
+  outbase: 'src',
+  outdir: 'dist',
   // ext: '.css',
   // minify: false,
   // prettify: false,
   // redirect: (outFile, inFile) => outFile + '_',
   write: false,
-).then((result) => {
+}).then((result) => {
   console.log(result.inFile); // string
   writeFile(result.outFile, result.css);
+});
+```
+
+#### `compileCSSString`
+
+Lower-level method that accepts a raw, nested CSS string (or array of such
+strings) and returns a compiled CSS string (or array) — optionally minified or
+prettified.
+
+```js
+const { compileCSSString } = require('es-in-js/compiler');
+
+const rawCSS = `
+  // My double-slash comment
+  body { 
+    p { color: red; 
+      > span { border:none }
+    } 
+  }
+`;
+
+compileCSSString(rawCSS, {
+  prettify: true,
+  // outdir: 'dist', // prettier config auto-resolve path
+  // minify: false,
+  // banner: '',
+  footer: '/* The "footer" just appended as is */',
+}).then((outCSS) => {
+  console.log(outCSS);
+  // /* My double-slash comment */
+  // body p {
+  //   color: red;
+  // }
+  // body p > span {
+  //   border: none;
+  // }
+  // /* The "footer" just appended as is */
 });
 ```
 
