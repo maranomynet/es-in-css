@@ -3,6 +3,8 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- chore: Add reference paths for easier Intellisense auto-imports of all
+  sub-modules
 
 ## 0.5.6
 

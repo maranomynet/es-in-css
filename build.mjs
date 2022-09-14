@@ -1,16 +1,20 @@
+// @ts-check
 /* eslint-env es2022 */
-import { exec as execAsync, execSync as exec } from 'child_process';
-import { writeFileSync } from 'fs';
+import { exec as execAsync, execSync } from 'child_process';
+import { readFileSync, writeFileSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import globPkg from 'glob';
 
 const glob = globPkg.sync;
 
-const pkg = await readFile('./package.json').then((res) => JSON.parse(res));
+const pkg = await readFile('./package.json').then((res) => JSON.parse(res.toString()));
 
 // ---------------------------------------------------------------------------
 
-const makePackageJson = (outDir, extraFields) => {
+const makePackageJson = (
+  /** @type {string} */ outDir,
+  /** @type {Record<string, unknown> | undefined} */ extraFields
+) => {
   const { dist_package_json } = pkg;
 
   delete pkg.scripts;
@@ -27,18 +31,21 @@ const makePackageJson = (outDir, extraFields) => {
 
 // ===========================================================================
 
-const opts = process.argv.slice(2).reduce(
-  /* <Record<string,unknown>> */ (map, arg) => {
-    const [key, value] = arg.replace(/^-+/, '').split('=');
-    map[key] = value == null ? true : value;
-    return map;
-  },
-  {}
-);
+/** @type {Record<string,unknown>} */
+const opts = process.argv.slice(2).reduce((map, arg) => {
+  const [key, value] = arg.replace(/^-+/, '').split('=');
+  map[key] = value == null ? true : value;
+  return map;
+}, {});
 
 // ---------------------------------------------------------------------------
 
-const tscBuild = (name, config, watch) => {
+/** @typedef {{ compilerOptions: Record<string, unknown>; include: string[]; exlude?: string[] }}  TSConfig */
+const tscBuild = (
+  /** @type {string} */ name,
+  /** @type {TSConfig | undefined} */ config,
+  /** @type {boolean | undefined} */ watch
+) => {
   const cfgFile = `tsconfig.build.${name}.json`;
   writeFileSync(
     cfgFile,
@@ -48,8 +55,36 @@ const tscBuild = (name, config, watch) => {
       '\t'
     )}`
   );
-  const tsWatch = watch ? ` --watch --preserveWatchOutput` : ``;
-  execAsync(`yarn run tsc --project ${cfgFile} ${tsWatch}`);
+  if (watch) {
+    execAsync(`yarn run tsc --project ${cfgFile} --watch --preserveWatchOutput`);
+  } else {
+    execSync(`yarn run tsc --project ${cfgFile}`);
+  }
+};
+
+// ---------------------------------------------------------------------------
+
+const addReferenePathsToIndex = (
+  /** @type {Array<string>} */ entryPoints,
+  /** @type {string} */ distFolder
+) => {
+  const dtsify = (tsFilePath) => tsFilePath.replace(/\.(tsx?)$/, '.d.$1');
+  const indexTsFile = entryPoints.find((filePath) =>
+    /(?:^|\/)index.tsx?$/.test(filePath)
+  );
+
+  if (indexTsFile) {
+    const extraEntryPaths = entryPoints
+      .filter((filePath) => filePath !== indexTsFile)
+      .map(dtsify)
+      .map((declFile) => `/// <reference path="./${declFile}" />`);
+    if (extraEntryPaths.length > 0) {
+      const indexDeclFile = `${distFolder}/${dtsify(indexTsFile)}`;
+      const indexDecls =
+        extraEntryPaths.join('\n') + `\n\n` + readFileSync(indexDeclFile);
+      writeFileSync(indexDeclFile, indexDecls);
+    }
+  }
 };
 
 // ---------------------------------------------------------------------------
@@ -61,7 +96,7 @@ const srcDir = 'src';
 // ---------------------------------------------------------------------------
 // Build Unit Tests
 
-exec(`rm -rf ${testsDir}`);
+execSync(`rm -rf ${testsDir}`);
 tscBuild(
   'tests',
   {
@@ -76,14 +111,14 @@ tscBuild(
       `${srcDir}/**/*.css.ts`,
     ],
   },
-  opts.dev
+  !!opts.dev
 );
 
 if (!opts.dev) {
   // ---------------------------------------------------------------------------
   // Build Library
 
-  exec(
+  execSync(
     [
       `rm -rf ${outDir}`,
       `mkdir ${outDir} ${outDir}/esm`,
@@ -92,20 +127,24 @@ if (!opts.dev) {
   );
   writeFile(`${outDir}/esm/package.json`, JSON.stringify({ type: 'module' }));
 
-  makePackageJson(outDir, {
-    exports: glob('*.ts', { cwd: srcDir, ignore: '*.tests.ts' }).reduce(
-      (exports, file) => {
-        const token = file.replace(/\.ts$/, '');
-        const expToken = token === 'index' ? '.' : `./${token}`;
-        exports[expToken] = {
-          import: `./esm/${token}.js`,
-          require: `./${token}.js`,
-        };
-        return exports;
-      },
-      {}
-    ),
+  const entryPoints = glob('*.ts', {
+    cwd: srcDir,
+    ignore: ['**/*.{tests,privates}.ts'],
   });
+
+  makePackageJson(outDir, {
+    exports: entryPoints.reduce((exports, file) => {
+      const token = file.replace(/\.ts$/, '');
+      const expToken = token === 'index' ? '.' : `./${token}`;
+      exports[expToken] = {
+        import: `./esm/${token}.js`,
+        require: `./${token}.js`,
+      };
+      return exports;
+    }, {}),
+  });
+
+  const include = entryPoints.map((fileName) => `${srcDir}/${fileName}`);
 
   tscBuild('lib-cjs', {
     compilerOptions: {
@@ -114,24 +153,21 @@ if (!opts.dev) {
       declaration: true,
       outDir,
     },
-    include: [
-      `${srcDir}/*.ts`,
-      // also build the CLI compiler
-      `${srcDir}/bin/cli.ts`,
-    ],
-    exclude: [`${srcDir}/*.tests.ts`],
+    include,
   });
+  addReferenePathsToIndex(entryPoints, outDir);
 
+  const esmOutDir = `${outDir}/esm`;
   tscBuild('lib-esm', {
     compilerOptions: {
       module: 'esnext',
       target: 'ES2015',
       declaration: true,
-      outDir: `${outDir}/esm`,
+      outDir: esmOutDir,
     },
-    include: [`${srcDir}/*.ts`],
-    exclude: [`${srcDir}/*.tests.ts`],
+    include,
   });
+  addReferenePathsToIndex(entryPoints, esmOutDir);
 } else {
-  exec(`rm -rf ${outDir}`);
+  execSync(`rm -rf ${outDir}`);
 }
