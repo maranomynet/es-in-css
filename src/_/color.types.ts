@@ -9,7 +9,8 @@
 // Removing the unnecessary generics
 // With custom "HACK Addition" for es-in-css
 
-import convert = require('color-convert');
+// import convert = require('color-convert');
+import convert from 'color-convert';
 
 type ColorParam = Color | string | ArrayLike<number> | number | { [key: string]: any };
 
@@ -18,6 +19,7 @@ type Color = {
   /** @deprecated Typing hack to allow direct printing into styled-components CSS templates. This method is an alias of `.toString()` */
   getName(): string;
   // END: HACK Addition
+
   toString(): string;
   toJSON(): Color;
   string(places?: number): string;
@@ -143,4 +145,5 @@ type ColorConstructor = {
 
 declare const Color: ColorConstructor;
 
-export = Color;
+// export = Color;
+export default Color;
