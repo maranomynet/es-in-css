@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.7
+
+_2022-09-14_
+
 - chore: Add reference paths for easier Intellisense auto-imports of all
   sub-modules
 
