@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: Cleanup temporary files when compiler hits aborting code errors
 
 ## 0.5.7
 
