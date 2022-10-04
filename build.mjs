@@ -153,7 +153,7 @@ if (!opts.dev) {
       declaration: true,
       outDir,
     },
-    include,
+    include: include.concat([`${srcDir}/bin/cli.ts`]),
   });
   addReferenePathsToIndex(entryPoints, outDir);
 

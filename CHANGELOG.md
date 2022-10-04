@@ -4,6 +4,7 @@
 
 - ... <!-- Add new lines here. -->
 - fix: Cleanup temporary files when compiler hits aborting code errors
+- fix: Add back `bin/cjs/cli.js` binary, which went AWOL
 
 ## 0.5.7
 
