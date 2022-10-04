@@ -28,7 +28,7 @@
       "node": ">=16"
     },
     "bin": {
-      "es-in-css": "cjs/bin/cli.js"
+      "es-in-css": "bin/cli.js"
     }
   },
   "engines": {
