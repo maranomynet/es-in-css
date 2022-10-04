@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.8
+
+_2022-10-04_
+
 - fix: Cleanup temporary files when compiler hits aborting code errors
 - fix: Add back `bin/cjs/cli.js` binary, which went AWOL
 
