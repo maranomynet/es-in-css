@@ -1,6 +1,6 @@
 import o from 'ospec';
 
-import { css, media } from './css.js';
+import { css, media, str } from './css.js';
 
 const O = (css: string) => o(css.replace(/\s\s+/g, ' ').trim());
 
@@ -111,5 +111,17 @@ o.spec('media() helper', () => {
 
   o('returns a curried function when called with a single argument', () => {
     O(media(mediaQuery)(cssRules)).equals(expectedOutput);
+  });
+});
+
+o.spec('str() helper', () => {
+  o('quotes strings in a safe way', () => {
+    o(str('Warning "Bob"!')).equals('"Warning \\"Bob\\"!"');
+  });
+
+  o('coerces non-string values to String', () => {
+    // @ts-expect-error  (testing bad input)
+    const input: string = 99;
+    o(str(input)).equals('"99"');
   });
 });

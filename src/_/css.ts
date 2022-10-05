@@ -61,3 +61,28 @@ export function media(query: RawMediaQuery, cssContent?: RawCssString) {
 
   return mediaWrapper(cssContent || '');
 }
+
+/**
+ * Helper to convert a value to a quoted string.
+ *
+ * Example:
+ *
+ * ```js
+ * import { str, css } from 'es-in-css';
+ *
+ * const message = 'Warning "Bob"!';
+ *
+ * export default css`
+ *   .foo::before {
+ *     content: ${str(message)};
+ *   }
+ * `;
+ *
+ * /* Outputs:
+ *   .foo::before {
+ *     content: "Warning \"Bob\"!";
+ *   }
+ * *​/
+ * ```
+ */
+export const str = (string: string) => JSON.stringify('' + string);

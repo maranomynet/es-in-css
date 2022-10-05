@@ -26,6 +26,7 @@ inside ` css``  ` template literals.
 - [CSS Authoring Features](#css-authoring-features)
   - [`css` Templater](#css-templater)
   - [`media` @media Nesting Helper](#media-media-nesting-helper)
+  - [`str` Quoted String Printer](#str-quoted-string-printer)
   - [`scoped` Name Generator](#scoped-name-generator)
   - [Unit Value Helpers](#unit-value-helpers)
   - [Unit Converters](#unit-converters)
@@ -271,6 +272,33 @@ export default css`
 ```
 
 <!-- prettier-ignore-end -->
+
+### `str` Quoted String Printer
+
+**Syntax:** `str(value: string): string`
+
+Helper to convert a value to a quoted string.
+
+Example:
+
+```js
+import { str, css } from 'es-in-css';
+
+const message = 'Warning "Bob"!';
+
+export default css`
+  .foo::before {
+    content: ${str(message)};
+  }
+`;
+
+/* Outputs:
+
+  .foo::before {
+    content: "Warning \"Bob\"!";
+  }
+*​/
+```
 
 ### `scoped` Name Generator
 
