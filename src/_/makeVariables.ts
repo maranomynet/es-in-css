@@ -22,7 +22,7 @@ type VarsMap<T extends string> = Record<T, VariablePrinter>;
 export type VariableStyles<T extends string> = {
   readonly vars: VarsMap<T>;
   declare(vars: Record<T, VariableValue>): RawCssString;
-  override(vars: Partial<Record<T, VariableValue>>): RawCssString;
+  override(vars: Partial<Record<T, VariableValue | false | null>>): RawCssString;
 };
 
 export type VariablePrinter = Readonly<{
@@ -86,13 +86,13 @@ const makeVariablePrinter = (name: string): VariablePrinter => {
 // ---------------------------------------------------------------------------
 
 const makeDeclarations = (
-  vars: Partial<Record<string, VariableValue>>,
+  vars: Partial<Record<string, VariableValue | false | null>>,
   allowed: Record<string, VariablePrinter>
 ): string => {
   return Object.entries(vars)
     .map(([key, value]) => {
       const printer = allowed[key];
-      if (!printer || value == null) {
+      if (!printer || value == null || value === false) {
         return '';
       }
       return `${printer.cssName}: ${String(value).trim()};\n`;

@@ -544,7 +544,10 @@ css`
 
 Similar to the `.declare()` method, but can be used to re-declare (i.e.
 override) only some of of the CSS variables `T`. Again, property names not
-matching `T` are dropped/ignored.
+matching `T` are ignored/dropped.
+
+Furthermore, values of `null`, `undefined`, `false` are interpreted as
+"missing", and the property is ignored/dropped
 
 ```js
 css`
@@ -553,6 +556,7 @@ css`
       ${cssVars.override({
         linkColor: `#9999ff`,
         unknown_variable: `#transparent`, // ignored/dropped
+        linkColor__hover: false, // ignored/dropped
       })}
     }
   }

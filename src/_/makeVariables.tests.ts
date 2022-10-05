@@ -43,6 +43,12 @@ o.spec('variables helper', () => {
     o(overrides).equals(
       ['--componentWidth: 0px;\n', '--componentWidth__large: 10px;\n'].join('')
     );
+    const overrides2 = res.override({
+      componentWidth: undefined,
+      componentWidth__large: null,
+      'componentWidth--small': false,
+    });
+    o(overrides2).equals('');
   });
 
   o('overrides only known variables', () => {

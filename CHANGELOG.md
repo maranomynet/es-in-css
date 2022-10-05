@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: `VariableValues.override()` now drops properties with `false` values
 
 ## 0.5.8 – 0.5.9
 
