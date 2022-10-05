@@ -3,12 +3,12 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
-- feat: Add `str` quoted string printer
 
-## 0.5.10
+## 0.5.10 – 0.5.11
 
 _2022-10-05_
 
+- feat: Add `str` quoted string printer
 - feat: `VariableValues.override()` now drops properties with `false` values
 
 ## 0.5.8 – 0.5.9
