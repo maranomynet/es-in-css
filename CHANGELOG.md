@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: Update `postcss-nesting` plugin to gain essential bugfixes
 
 ## 0.5.10 – 0.5.11
 
