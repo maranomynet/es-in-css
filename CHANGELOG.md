@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: Make ` css`` ` prefer `toString()` over `valueOf()`
 
 ## 0.5.12
 

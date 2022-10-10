@@ -27,10 +27,10 @@ export const css = function (
       const value = Array.isArray(rawValue)
         ? rawValue.map(filterFalsy).join(' ')
         : typeof rawValue === 'function'
-        ? rawValue()
+        ? (rawValue() as unknown)
         : rawValue;
 
-      return str + filterFalsy(value);
+      return str + String(filterFalsy(value));
     })
     .join('');
 };

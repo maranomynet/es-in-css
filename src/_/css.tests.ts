@@ -1,6 +1,7 @@
 import o from 'ospec';
 
 import { css, media, str } from './css.js';
+import { em, ms, px } from './units.js';
 
 const O = (css: string) => o(css.replace(/\s\s+/g, ' ').trim());
 
@@ -69,6 +70,20 @@ o.spec('css``', () => {
     `).equals('body { color: red; param: undefined; }');
   });
 
+  o('prefers `toString()` over ~`valueOf()` on objects', () => {
+    O(css`
+      body {
+        w: ${px(100)};
+        h: ${em(1.01)};
+        s: ${ms(0)};
+        foo: ${{
+          toString: () => 'bar',
+          valueOf: () => 'baz',
+        }};
+      }
+    `).equals('body { w: 100px; h: 1.01em; s: 0ms; foo: bar; }');
+  });
+
   o('does NOT attempt to correct bad CSS or insert semi-colons', () => {
     const rule1 = `color: red`;
     const rule2 = `border: 0`;
@@ -91,6 +106,7 @@ o.spec('css``', () => {
         ${() => false}
       `
     ).equals('');
+
     O(
       css`
         ${[[undefined, null, false]]}
