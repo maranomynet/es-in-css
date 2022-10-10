@@ -62,12 +62,16 @@ o.spec('css``', () => {
   o('calls functions with no params', () => {
     const fn1 = () => 'color: red;';
     const fn2 = (param: unknown) => `param: ${param};`;
+    const fn3 = function () {
+      return `arg-length: ${arguments.length};`;
+    };
     O(css`
       body {
         ${fn1}
         ${fn2}
+        ${fn3}
       }
-    `).equals('body { color: red; param: undefined; }');
+    `).equals('body { color: red; param: undefined; arg-length: 0; }');
   });
 
   o('prefers `toString()` over ~`valueOf()` on objects', () => {
