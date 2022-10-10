@@ -101,11 +101,16 @@ o.spec('css``', () => {
         ${false}
         ${null}
         ${undefined}
-        ${[undefined, null, false]}
+        ${parseInt('NaN')}
+        ${0}
+        ${[undefined, null, false, 0, parseInt('NaN')]}
         ${() => undefined}
         ${() => false}
+        ${() => null}
+        ${() => 0}
+        ${() => parseInt('NaN')}
       `
-    ).equals('');
+    ).equals('0 0 0');
 
     O(
       css`
