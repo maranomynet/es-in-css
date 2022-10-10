@@ -1,6 +1,6 @@
 {
   "name": "es-in-css",
-  "version": "0.5.12",
+  "version": "0.5.13",
   "description": "Need to write CSS, but tired of SASS, LESS et al? Try JavaScript/TypeScript in CSS.",
   "scripts": {
     "format": "eslint --fix  \"*.{mjs,js,ts,tsx}\" \"src/**/*.{mjs,js,ts,tsx}\"  &&  prettier --write \"*.{json,md}\"  \"src/**/*.{json,md}\"",
