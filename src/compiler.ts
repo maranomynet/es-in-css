@@ -24,8 +24,9 @@ type ProcessingOpts = Pick<CompilerOptions, 'minify' | 'prettify' | 'nested'> & 
 };
 
 const makeProcessCSS = (options: ProcessingOpts) => {
-  const postcssPlugins: Array<AcceptedPlugin> = [];
   const { nested = true, minify, prettify } = options;
+
+  const postcssPlugins: Array<AcceptedPlugin> = [];
 
   if (nested) {
     const nestedOpts = nested !== true ? nested : {};
