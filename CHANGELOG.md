@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Mark the `media` helper as deprecated
 
 ## 0.5.13
 
