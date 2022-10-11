@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add `nested` option to compiler to disable/configure `postcss-nested`
 - docs: Improve docs and add JSDoc comments to most methods and properties
 - feat: Mark the `media` helper as deprecated
 - feat: Add ` cssVal`` ` templater alias

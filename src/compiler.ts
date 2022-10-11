@@ -1,9 +1,8 @@
-import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
 import { access, mkdir, unlink, writeFile } from 'fs/promises';
 import { dirname } from 'path';
 import postcss, { AcceptedPlugin } from 'postcss';
-import nested from 'postcss-nested';
+import nestedPlugin, { Options as NestedPluginOptions } from 'postcss-nested';
 import scss from 'postcss-scss';
 
 import { getExportedCSS } from './compiler/getExportedCSS.js';
@@ -17,16 +16,7 @@ const makeFile = (outFile: string, contents: string) => {
     .then(() => writeFile(outFile, contents));
 };
 
-type ProcessingOpts = {
-  minify?: boolean;
-  /**
-   * Possible values:
-   * - `false` or `undefined` — Do not prettify
-   * - `true` — Prettify with config resolved based on `outdir`,
-   *   or `cwd` as a fallback.
-   * - `string`— Prettify with the config file at this path
-   */
-  prettify?: string | boolean;
+type ProcessingOpts = Pick<CompilerOptions, 'minify' | 'prettify' | 'nested'> & {
   /**
    * Used as a base directory from which to auto-resolve prettier config.
    */
@@ -34,14 +24,21 @@ type ProcessingOpts = {
 };
 
 const makeProcessCSS = (options: ProcessingOpts) => {
-  const postcssPlugins: Array<AcceptedPlugin> = [nested, autoprefixer];
-  if (options.minify) {
+  const postcssPlugins: Array<AcceptedPlugin> = [];
+  const { nested = true, minify, prettify } = options;
+
+  if (nested) {
+    const nestedOpts = nested !== true ? nested : {};
+    postcssPlugins.push(nestedPlugin(nestedOpts));
+  }
+
+  if (minify) {
     postcssPlugins.push(cssnano({ preset: 'default' }));
   }
 
   const postPostss =
-    !options.minify && !!options.prettify
-      ? makePrettifyCSS(options.prettify, options.outdir)
+    !minify && !!prettify
+      ? makePrettifyCSS(prettify, options.outdir)
       : (css: string) => css;
 
   return (css: string) =>
@@ -105,6 +102,15 @@ export type CompilerOptions = {
   prettify?: boolean | string;
 
   /**
+   * (Default: `true`) Allows turning off the SCSS-like selector nesting behavior
+   * provided by [postcss-nested](https://www.npmjs.com/package/postcss-nested)
+   * or passing it custom options.
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
+  nested?: boolean | NestedPluginOptions;
+
+  /**
    * Customize the file-extension of the output files. Default is `.css`
    *
    * @see https://github.com/maranomynet/es-in-css#compilation-api
@@ -127,7 +133,7 @@ export type CompilerOptions = {
   banner?: string;
 
   /**
-
+   * Text that's appended to every output file.
    *
    * @see https://github.com/maranomynet/es-in-css#compilation-api
    */

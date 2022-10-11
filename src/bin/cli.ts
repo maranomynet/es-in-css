@@ -24,6 +24,10 @@ program
   .option(
     '-p, --prettify [configFilePath]',
     'Runs the result CSS through Prettier. Accepts optional `configFilePath`, but defaults to resolving `.prettierrc` of `--outdir` or the current directory. Ignored if mixed with `--minify`.'
+  )
+  .option(
+    '-n, --no-nested',
+    'Disables the SCSS-like selector nesting behavior provided by the postcss-nested plugin.'
   );
 
 program.parse();

@@ -646,6 +646,13 @@ defaults to resolving `.prettierrc` for `--outdir` or the current directory.
 
 Ignored if mixed with `--minify`.
 
+**`-n, --no-nested`**
+
+Disables the SCSS-like selector nesting behavior provided by the
+[postcss-nested](https://www.npmjs.com/package/postcss-nested) plugin.
+
+(To pass custom options to the plugin, use the [JavaScript API](#js-api).)
+
 #### CLI Example Usage
 
 ```sh
@@ -703,6 +710,10 @@ following additions:
 - `footer?: string` — Text that's appended to every output file.
 - `ext?: string | (inFile: string) => string | undefined` — The function
   signature allows dynamically choosing a file-extension for the output files.
+- `nesting?: boolean | import('postcss-nesting').Options` — (Default: `true`)
+  Allows turning off the SCSS-like selector nesting behavior provided by
+  [postcss-nested](https://www.npmjs.com/package/postcss-nested) or passing it
+  custom options.
 
 #### `compileCSS` (from files)
 
