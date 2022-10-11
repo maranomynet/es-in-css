@@ -17,11 +17,39 @@ const IS_PRINTER = Symbol();
 const DEFAULT_NAME_RE = /^[a-z0-9_-]+$/i;
 const DEFAULT_NAME_MAPPER = (name: string) => name;
 
+const [, , foo] = [true, 23, 'hello'] as const;
+
 type VarsMap<T extends string> = Record<T, VariablePrinter>;
 
 export type VariableStyles<T extends string> = {
+  /**
+   * Holds a readonly `Record<T, VariablePrinter>` object where the
+   * `VariablePrinter`s emit the CSS variable names wrapped in `var()`, ready to be
+   * used as CSS values … with the option of passing a default/fallback value via
+   * the `.or() method`.
+   *
+   * @see https://github.com/maranomynet/es-in-css#variablestylesvars
+   */
   readonly vars: VarsMap<T>;
+
+  /**
+   * Lets you type-safely write values for **all** the defined CSS variables into a
+   * CSS rule block. Property names not matching `T` are dropped/ignored.
+   *
+   * @see https://github.com/maranomynet/es-in-css#variablestylesdeclare
+   */
   declare(vars: Record<T, VariableValue>): RawCssString;
+
+  /**
+   * Similar to the `.declare()` method, but can be used to re-declare (i.e.
+   * override) only some of of the CSS variables `T`. Again, property names not
+   * matching `T` are ignored/dropped.
+   *
+   * Furthermore, values of `null`, `undefined`, `false` are interpreted as
+   * "missing", and the property is ignored/dropped.
+   *
+   * @see https://github.com/maranomynet/es-in-css#variablestylesdeclare
+   */
   override(vars: Partial<Record<T, VariableValue | false | null>>): RawCssString;
 };
 
@@ -117,6 +145,12 @@ const assertValidName = (name: string, nameRe = DEFAULT_NAME_RE) => {
   }
 };
 
+/**
+ * Helper to provide type-safety and code-completion when using CSS custom
+ * properties (CSS variables) at scale.
+ *
+ * @see https://github.com/maranomynet/es-in-css#makevariables-helper
+ */
 export const makeVariables = <T extends string>(
   variableTokens: Array<T>,
   options: Partial<VariableOptions> = {}
@@ -141,11 +175,22 @@ export const makeVariables = <T extends string>(
 
 // ---------------------------------------------------------------------------
 
+/**
+ * A helper that checks if an input value is of type `VariablePrinter`.
+ *
+ * @see https://github.com/maranomynet/es-in-css#makevariablesisvar-helper
+ */
 makeVariables.isVar = (value: unknown): value is VariablePrinter =>
   typeof value === 'function' && IS_PRINTER in value;
 
 // ---------------------------------------------------------------------------
 
+/**
+ * This helper combines the variable values and declaration methods from multiple
+ * `VariableStyles` objects into a new, larger `VariableStyles` object.
+ *
+ * @see https://github.com/maranomynet/es-in-css#makevariablesjoin-composition-helper
+ */
 makeVariables.join = <VArr extends Array<VariableStyles<string>>>(
   ...varDatas: VArr
 ): VariableStyles<

@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- docs: Improve docs and add JSDoc comments to most methods and properties
 - feat: Mark the `media` helper as deprecated
 
 ## 0.5.13

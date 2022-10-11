@@ -2,17 +2,35 @@ declare const _RawCssString__Brand: unique symbol;
 /**
  * Raw, un-transpiled CSS code.
  * May be incomplete and/or include (SCSS-like) nested syntax
+ *
+ * Soft-branded as a raw CSS string, only to convey intent/expectation —
+ * not to prevent other strings being passed.
  */
 export type RawCssString = string & { [_RawCssString__Brand]?: true };
 
 declare const _RawCssValue__Brand: unique symbol;
 /**
  * Raw, rendered (string-cast) CSS value.
+ *
+ * Soft-branded as a raw CSS value, only to convey intent/expectation —
+ * not to prevent other strings being passed.
  */
 export type RawCssValue = string & { [_RawCssValue__Brand]?: true };
 
-const filterFalsy = (val: unknown) => (val || val === 0 ? val : '');
+/** Converts `null`, `undefined`, `false` and `NaN` values to an empty string.
+ * Leaves `0` untouched
+ */
+const notFalsy = (val: unknown) => (val || val === 0 ? val : '');
 
+/**
+ * Dumb(-ish) tagged template literal that returns a `string`. It primarily
+ * guarantees nice syntax highlighting and code-completion in VSCode by using a
+ * well-known name.
+ *
+ * It also provides a few convenience features
+ *
+ * @see https://github.com/maranomynet/es-in-css#css-templater
+ */
 export const css = function (
   strings: TemplateStringsArray,
   ...values: Array<unknown>
@@ -25,12 +43,12 @@ export const css = function (
       }
       const rawValue = values[i];
       const value = Array.isArray(rawValue)
-        ? rawValue.map(filterFalsy).join(' ')
+        ? rawValue.map(notFalsy).join(' ')
         : typeof rawValue === 'function'
         ? (rawValue() as unknown)
         : rawValue;
 
-      return str + String(filterFalsy(value));
+      return str + String(notFalsy(value));
     })
     .join('');
 };
@@ -38,7 +56,10 @@ export const css = function (
 // ---------------------------------------------------------------------------
 
 declare const _RawMediaQuery__Brand: unique symbol;
-/** ... */
+/**
+ * String, but soft-branded as a media query.
+ * Only used to convey intent/expectation — not to prevent other strings being passed.
+ */
 export type RawMediaQuery = string & { [_RawMediaQuery__Brand]?: true };
 
 export function media(query: RawMediaQuery): (cssContent: RawCssString) => RawCssString;
@@ -74,24 +95,6 @@ export function media(query: RawMediaQuery, cssContent?: RawCssString) {
 /**
  * Helper to convert a value to a quoted string.
  *
- * Example:
- *
- * ```js
- * import { str, css } from 'es-in-css';
- *
- * const message = 'Warning "Bob"!';
- *
- * export default css`
- *   .foo::before {
- *     content: ${str(message)};
- *   }
- * `;
- *
- * /* Outputs:
- *   .foo::before {
- *     content: "Warning \"Bob\"!";
- *   }
- * *​/
- * ```
+ * @see https://github.com/maranomynet/es-in-css#str-quoted-string-printer
  */
 export const str = (string: string) => JSON.stringify('' + string);

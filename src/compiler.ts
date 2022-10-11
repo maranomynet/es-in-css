@@ -57,10 +57,45 @@ const makeProcessCSS = (options: ProcessingOpts) => {
 // ---------------------------------------------------------------------------
 
 export type CompilerOptions = {
-  outdir?: string;
-  outbase?: string;
-  minify?: boolean;
   /**
+   * By default the compiled CSS files are saved in the same folder as the source
+   * file. This is rarely the desired behavior so by setting `outdir` you choose
+   * where the compiled CSS files end up.
+   *
+   * The output file names replace the input-modules file-extension with `.css` —
+   * unless if the source file name ends in `.css.js`, in which case the `.js`
+   * ending is simply dropped.
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
+  outdir?: string;
+
+  /**
+   * If your inputglob file list contains multiple entry points in separate
+   * directories, the directory structure will be replicated into the `outdir`
+   * starting from the lowest common ancestor directory among all input entry point
+   * paths.
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
+  outbase?: string;
+
+  /**
+   * Opts into moderately aggressive, yet safe [cssnano](https://cssnano.co/)
+   * minification of the resulting CSS.
+   *
+   * All comments are stripped, except ones that start with `/*!`.
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
+  minify?: boolean;
+
+  /**
+   * Runs the result CSS through Prettier. Accepts optional `configFilePath`, but
+   * defaults to resolving `.prettierrc` for `--outdir` or the current directory.
+   *
+   * Ignored if mixed with `--minify`.
+   *
    * Possible values:
    * - `false` or `undefined` — Do not prettify
    * - `true` — Prettify with config resolved based on `outdir`,
@@ -68,10 +103,44 @@ export type CompilerOptions = {
    * - `string`— Prettify with the config file at this path
    */
   prettify?: boolean | string;
+
+  /**
+   * Customize the file-extension of the output files. Default is `.css`
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
   ext?: string | ((sourceFile: string) => string | undefined | false | null);
+
+  /**
+   * Dynamically changes the final destination of the output files.
+   * (Values that lead to overwriting the source file are ignored.)
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
   redirect?: (outFile: string, inFile: string) => string | undefined | false | null;
+
+  /**
+   * Text that's prepended to every output file.
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
   banner?: string;
+
+  /**
+
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
   footer?: string;
+
+  /**
+   * (Default: `true`) Allows turning off the automatic writing to disc,
+   * if you want to post-process the files and handle the FS writes manually.
+   *
+   * When turned off the CSS content is returned as part of the promise payload.
+   *
+   * @see https://github.com/maranomynet/es-in-css#compilation-api
+   */
   write?: boolean;
 };
 
@@ -92,6 +161,14 @@ const bannerify = (
   return css;
 };
 
+/**
+ * Works in pretty much the same way as the CLI.
+ *
+ * Takes a list of files to read, and returns an Array of result objects each
+ * containing the compiled CSS and the resolved output file path.
+ *
+ * @see https://github.com/maranomynet/es-in-css#compilecss-from-files
+ */
 export const compileCSS = <Opts extends CompilerOptions>(
   sourceFiles: Array<string>,
   options: Opts = {} as Opts
@@ -122,6 +199,12 @@ export const compileCSS = <Opts extends CompilerOptions>(
 
 // ---------------------------------------------------------------------------
 
+/**
+ * Compiles CSS from a JavaScript source string. This may be the preferable
+ * method when working with bundlers such as `esbuild`.
+ *
+ * @see https://github.com/maranomynet/es-in-css#compilecssfromjs
+ */
 export const compileCSSFromJS = <Opts extends CompilerOptions>(
   scriptStrings: Array<{
     fileName: string;
@@ -160,6 +243,13 @@ export function compileCSSString(
   options?: StringCompilerOptions
 ): Promise<Array<string>>;
 
+/**
+ * Lower-level method that accepts a raw, optionally nested, CSS string (or an
+ * array of such strings) and returns a compiled CSS string (or array) —
+ * optionally minified or prettified.
+ *
+ * @see https://github.com/maranomynet/es-in-css#compilecssstring
+ */
 export function compileCSSString(
   css: string | Array<string>,
   options: StringCompilerOptions = {}

@@ -157,9 +157,19 @@ The `es-in-css` module exports the following methods:
 
 **Syntax:** <code>css\`...`: string</code>
 
-Dumb tagged template literal that returns a `string`. Mostly it guarantees
-nice syntax highlighting and code-completion in VSCode by using a well-known
-name.
+Dumb(-ish) tagged template literal that returns a `string`. It primarily
+guarantees nice syntax highlighting and code-completion in VSCode by using a
+well-known name.
+
+It also provides a few convenience features:
+
+- It filter away/suppresses "falsy" values (except `0`) similar to how React
+  does.
+- Arrays are falsy-filtered and then joined with a space.
+- Bare functions are invked without any arguments.
+- All other values are cast to string as is.
+
+Example of use:
 
 ```js
 import { css } from 'es-in-css';
@@ -205,12 +215,11 @@ export default css`
   }
 `;
 
-/* Outputs:
-
-  .foo::before {
-    content: "Warning \"Bob\"!";
-  }
-*​/
+// Outputs:
+//
+// .foo::before {
+//   content: "Warning \"Bob\"!";
+// }
 ```
 
 ### `scoped` Name Generator
@@ -234,14 +243,15 @@ export default css`
     font-size: 2rem;
   }
 `;
-/*`
-  .Button_4af51c0d267 {
-    border: 1px solid blue;
-  }
-  .Button_4af51c0d267__title {
-    font-size: 2rem;
-  }
-`*/
+
+// Outputs:
+//
+// .Button_4af51c0d267 {
+//   border: 1px solid blue;
+// }
+// .Button_4af51c0d267__title {
+//   font-size: 2rem;
+// }
 ```
 
 ### Unit Value Helpers
@@ -283,24 +293,27 @@ export default css`
     width: ${leftColW};
   }
 `;
-/*`
-  .layout {
-    /* But the unit suffix appears when printed *​/
-    width: 1050px;
-    margin: 0 auto;
-    display: flex;
-    gap: 50px;
-  }
-  .main {
-    width: 700px;
-  }
-  .sidebar {
-    width: 300px;
-  }
-`*/
+
+// .layout {
+//   /* But the unit suffix appears when printed *​/
+//   width: 1050px;
+//   margin: 0 auto;
+//   display: flex;
+//   gap: 50px;
+// }
+// .main {
+//   width: 700px;
+// }
+// .sidebar {
+//   width: 300px;
+// }
 ```
 
 ### Unit Converters
+
+To keep it simple and sane `es-in-css` only **supports** one UnitValue per
+category of units (time, angles, physical size, etc.) but provides friendly
+converter functions from other units of measure into the supported units.
 
 Percentage values from proportions/fractions:  
 `pct_f()`, `vh_f()`, `vw_f()`, `vmin_f()` and `vmax_f()`.
@@ -340,6 +353,8 @@ deg_rad(-Math.PI); // -180deg
 Checks if its given argument is a `UnitValue` instance and returns its unit
 string.
 
+Otherwise returns `undefined`.
+
 ```js
 import { unitOf } from 'es-in-css';
 
@@ -371,12 +386,11 @@ export default css`
     background-color: ${c2};
   }
 `;
-/*`
-  div {
-    color: rgb(255, 0, 0);
-    background-color: hsla(0, 50%, 50%, 0.2);
-  }
-`*/
+
+// div {
+//   color: rgb(255, 0, 0);
+//   background-color: hsla(0, 50%, 50%, 0.2);
+// }
 ```
 
 It also exports `rgb()` and `hsl()` which are simply aliases of the `color`
@@ -404,6 +418,8 @@ Feel free to import your own color helper library, and use it instead.
 
 Helper to provide type-safety and code-completion when using CSS custom
 properties (CSS variables) at scale.
+
+See [`VariableOptions`](#variableoptions) below for configuration options.
 
 ```js
 import { makeVariables, css } from 'es-in-css';
@@ -470,12 +486,11 @@ css`
     })}
   }
 `;
-/*`
-  :root {
-    --linkColor: #0000cc,
-    --linkColor__hover: #cc00cc,
-  }
-`*/
+
+// :root {
+//   --linkColor: #0000cc,
+//   --linkColor__hover: #cc00cc,
+// }
 ```
 
 #### `VariableStyles.override`
@@ -488,7 +503,7 @@ override) only some of of the CSS variables `T`. Again, property names not
 matching `T` are ignored/dropped.
 
 Furthermore, values of `null`, `undefined`, `false` are interpreted as
-"missing", and the property is ignored/dropped
+"missing", and the property is ignored/dropped.
 
 ```js
 css`
@@ -502,13 +517,12 @@ css`
     }
   }
 `;
-/*`
-  @media (prefers-color-scheme: dark) {
-    :root{
-      --linkColor: #9999ff;
-    }
-  }
-`*/
+
+// @media (prefers-color-scheme: dark) {
+//   :root{
+//     --linkColor: #9999ff;
+//   }
+// }
 ```
 
 #### `makeVariables.join` Composition Helper
@@ -669,21 +683,24 @@ dist/styles/css/component/formFields.css
 The options for the JavaScript API are the same as for the CLI, with the
 following additions:
 
-- `write?: boolean` — (default: `true`) allows turning off the automatic
+- `write?: boolean` — (Default: `true`) Allows turning off the automatic
   writing to disc, if you want to post-process the files and handle the FS
   writes manually.  
   When turned off the CSS content is returned as part of the promise payload.
-- `redirect?: (outFile: string, inFile: string) => string | undefined` — to
-  dynamically change the final destination of the output files. (Values that
+- `redirect?: (outFile: string, inFile: string) => string | undefined` —
+  Dynamically changes the final destination of the output files. (Values that
   lead to overwriting the source file are ignored.)
-- `banner?: string` — text that's prepended to every output file.
-- `footer?: string` — text that's appended to every output file.
-- `ext?: string | (inFile: string) => string | undefined` — the function
+- `banner?: string` — Text that's prepended to every output file.
+- `footer?: string` — Text that's appended to every output file.
+- `ext?: string | (inFile: string) => string | undefined` — The function
   signature allows dynamically choosing a file-extension for the output files.
 
 #### `compileCSS` (from files)
 
 Works in pretty much the same way as the CLI.
+
+Takes a list of files to read, and returns an Array of result objects each
+containing the compiled CSS and the resolved output file path.
 
 ```js
 const { compileCSS } = require('es-in-js/compiler');
@@ -711,8 +728,8 @@ compileCSS(sourceFiles, {
 
 #### `compileCSSFromJS`
 
-This may be the preferable method when working with bundlers such as
-`esbuild`.
+Compiles CSS from a JavaScript source string. This may be the preferable
+method when working with bundlers such as `esbuild`.
 
 (NOTE: This method temporarily writes the script contents to the file system
 to allow imports and file-reads to work correctly, but then deletes those
@@ -761,9 +778,9 @@ compileCSSFromJS(scriptStrings, {
 
 #### `compileCSSString`
 
-Lower-level method that accepts a raw, nested CSS string (or array of such
-strings) and returns a compiled CSS string (or array) — optionally minified or
-prettified.
+Lower-level method that accepts a raw, optionally nested, CSS string (or an
+array of such strings) and returns a compiled CSS string (or array) —
+optionally minified or prettified.
 
 ```js
 const { compileCSSString } = require('es-in-js/compiler');
@@ -785,14 +802,14 @@ compileCSSString(rawCSS, {
   footer: '/* The "footer" just appended as is */',
 }).then((outCSS) => {
   console.log(outCSS);
-  // /* My double-slash comment */
+  // /* My double-slash comment *​/
   // body p {
   //   color: red;
   // }
   // body p > span {
   //   border: none;
   // }
-  // /* The "footer" just appended as is */
+  // /* The "footer" just appended as is *​/
 });
 ```
 
