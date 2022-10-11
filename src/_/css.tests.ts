@@ -1,6 +1,6 @@
 import o from 'ospec';
 
-import { css, media, str } from './css.js';
+import { css, cssVal, media, str } from './css.js';
 import { em, ms, px } from './units.js';
 
 const O = (css: string) => o(css.replace(/\s\s+/g, ' ').trim());
@@ -121,6 +121,12 @@ o.spec('css``', () => {
         ${[[undefined, null, false]]}
       `
     ).equals(',,false')('does NOT deal with nested arrays');
+  });
+});
+
+o.spec('cssVal``', () => {
+  o('is a simple alias of `css`', () => {
+    o(cssVal).equals(css);
   });
 });
 

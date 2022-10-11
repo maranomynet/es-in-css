@@ -55,6 +55,17 @@ export const css = function (
 
 // ---------------------------------------------------------------------------
 
+/**
+ * An alias for the ` css`` ` templater, for cases where you're writing a
+ * standalone CSS value or other out-of-context CSS snippets, and you wish to
+ * disable VSCode's syntax highlighting and error checking.
+ *
+ * @see https://github.com/maranomynet/es-in-css#cssval-templater
+ */
+export const cssVal = css;
+
+// ---------------------------------------------------------------------------
+
 declare const _RawMediaQuery__Brand: unique symbol;
 /**
  * String, but soft-branded as a media query.

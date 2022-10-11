@@ -25,6 +25,7 @@ inside ` css``  ` template literals.
 - [Quick-Start Guide](#quick-start-guide)
 - [CSS Authoring Features](#css-authoring-features)
   - [`css` Templater](#css-templater)
+  - [`cssVal` Templater](#cssval-templater)
   - [`str` Quoted String Printer](#str-quoted-string-printer)
   - [`scoped` Name Generator](#scoped-name-generator)
   - [Unit Value Helpers](#unit-value-helpers)
@@ -195,6 +196,14 @@ export default css`
   )}
 `;
 ```
+
+### `cssVal` Templater
+
+**Syntax:** Same as [`css` Templater](#css-templater)
+
+An alias for the ` css`` ` templater, for cases where you're writing a
+standalone CSS value or other out-of-context CSS snippets, and you wish to
+disable VSCode's syntax highlighting and error checking.
 
 ### `str` Quoted String Printer
 

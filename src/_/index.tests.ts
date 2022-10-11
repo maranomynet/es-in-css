@@ -7,6 +7,7 @@ import { compareKeys } from './test-utils.js';
 const tokens: Record<keyof typeof libTokens, true> = {
   // css.ts
   css: true,
+  cssVal: true,
   media: true,
   str: true,
 
