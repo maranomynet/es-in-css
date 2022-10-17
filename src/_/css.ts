@@ -73,9 +73,6 @@ declare const _RawMediaQuery__Brand: unique symbol;
  */
 export type RawMediaQuery = string & { [_RawMediaQuery__Brand]?: true };
 
-export function media(query: RawMediaQuery): (cssContent: RawCssString) => RawCssString;
-export function media(query: RawMediaQuery, cssContent: RawCssString): RawCssString;
-
 /**
  * @deprecated  Use DIY `@at-root` wraps instead  (Will be removed in v0.6+)
  *
@@ -85,6 +82,9 @@ export function media(query: RawMediaQuery, cssContent: RawCssString): RawCssStr
  * This mixin is really only useful as a defence mechanism inside CSS-emitting
  * functions (mixins) that will be used in unpredictable `@media` contexts.
  */
+export function media(query: RawMediaQuery): (cssContent: RawCssString) => RawCssString;
+export function media(query: RawMediaQuery, cssContent: RawCssString): RawCssString;
+
 export function media(query: RawMediaQuery, cssContent?: RawCssString) {
   const mediaWrapper = (cssContent: RawCssString) =>
     css`

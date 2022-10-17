@@ -241,6 +241,13 @@ export const compileCSSFromJS = <Opts extends CompilerOptions>(
 
 type StringCompilerOptions = ProcessingOpts & Pick<CompilerOptions, 'banner' | 'footer'>;
 
+/**
+ * Lower-level method that accepts a raw, optionally nested, CSS string (or an
+ * array of such strings) and returns a compiled CSS string (or array) —
+ * optionally minified or prettified.
+ *
+ * @see https://github.com/maranomynet/es-in-css#compilecssstring
+ */
 export function compileCSSString(
   css: string,
   options?: StringCompilerOptions
@@ -250,13 +257,6 @@ export function compileCSSString(
   options?: StringCompilerOptions
 ): Promise<Array<string>>;
 
-/**
- * Lower-level method that accepts a raw, optionally nested, CSS string (or an
- * array of such strings) and returns a compiled CSS string (or array) —
- * optionally minified or prettified.
- *
- * @see https://github.com/maranomynet/es-in-css#compilecssstring
- */
 export function compileCSSString(
   css: string | Array<string>,
   options: StringCompilerOptions = {}
