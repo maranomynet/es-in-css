@@ -48,7 +48,7 @@ export type VariableStyles<T extends string> = {
    * Furthermore, values of `null`, `undefined`, `false` are interpreted as
    * "missing", and the property is ignored/dropped.
    *
-   * @see https://github.com/maranomynet/es-in-css#variablestylesdeclare
+   * @see https://github.com/maranomynet/es-in-css#variablestylesoverride
    */
   override(vars: Partial<Record<T, VariableValue | false | null>>): RawCssString;
 };
@@ -82,6 +82,8 @@ export type VariableOptions = {
    * more complex than the default setting allows.
    *
    * Default: `/^[a-z0-9_-]+$/i`
+   *
+   * @see https://github.com/maranomynet/es-in-css#variableoptions
    */
   nameRe: RegExp;
   /**
@@ -89,6 +91,8 @@ export type VariableOptions = {
    * css custom property names.
    *
    * Default: `(name) => name`
+   *
+   * @see https://github.com/maranomynet/es-in-css#variableoptions
    */
   toCSSName: (name: string) => string;
 };
