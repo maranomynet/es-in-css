@@ -95,6 +95,13 @@ export type VariableOptions = {
    * @see https://github.com/maranomynet/es-in-css#variableoptions
    */
   toCSSName: (name: string) => string;
+
+  /**
+   * Prefix that gets added to all CSS printed variable names.
+   *
+   * @see https://github.com/maranomynet/es-in-css#variableoptions
+   */
+  namespace?: string;
 };
 
 // ---------------------------------------------------------------------------
@@ -161,12 +168,12 @@ export const makeVariables = <T extends string>(
 ): VariableStyles<T> => {
   assertValidNameRe(options.nameRe);
 
-  const { nameRe, toCSSName = DEFAULT_NAME_MAPPER } = options;
+  const { nameRe, toCSSName = DEFAULT_NAME_MAPPER, namespace = '' } = options;
 
   const vars = Object.fromEntries(
     variableTokens.map((name) => {
       assertValidName(name, nameRe);
-      return [name, makeVariablePrinter(toCSSName(name))];
+      return [name, makeVariablePrinter(namespace + toCSSName(name))];
     })
   ) as VarsMap<T>;
 

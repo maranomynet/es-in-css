@@ -111,6 +111,13 @@ o.spec('variables helper', () => {
     }
   );
 
+  o('accepts a custom namespace prefix option', () => {
+    const res2 = makeVariables(['bar'], { namespace: 'FOO' });
+    o(res2.declare({ bar: 0 })).equals('--FOObar: 0;\n');
+    o(res2.vars.bar.cssName).equals('--FOObar');
+    o(res2.vars.bar.toString()).equals('var(--FOObar)');
+  });
+
   o('allows passing custom name RegExp', () => {
     // only allow two-letter names with the letters "þ" and "ú"
     o(
@@ -118,6 +125,13 @@ o.spec('variables helper', () => {
         nameRe: /^[þú]{2}$/i,
       }).declare({ þú: 'red', úþ: 'blue' })
     ).equals('--þú: red;\n--úþ: blue;\n')('only "þ" and "ú" combos of length 2');
+
+    o(
+      makeVariables(['þú'], {
+        nameRe: /^[þú]{2}$/i,
+        namespace: 'foobar-',
+      }).declare({ þú: 1 })
+    ).equals('--foobar-þú: 1;\n')('nameRe option does not apply to namespace');
 
     o(() => makeVariables(['hi'], { nameRe: /^[þú]{2}$/i })).throws(Error)(
       'totally overrides the normal `nameRe`'
@@ -163,6 +177,15 @@ o.spec('variables helper', () => {
         toCSSName: (name) => name.replace(/$/g, '-'),
       })
     ).throws(Error)('toCSSName does not obviate the `nameRe` validation');
+
+    o(
+      makeVariables(['link__hover'], {
+        toCSSName: (name) => name.replace(/_/g, '-'),
+        namespace: 'foobar__',
+      }).declare({ link__hover: 'red' })
+    ).equals('--foobar__link--hover: red;\n')(
+      'namespace is not passed through toCSSName'
+    );
   });
 
   o('variables.join() combines multiple VariableStyle objects', () => {

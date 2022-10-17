@@ -588,6 +588,18 @@ v3.declare({ link__color: 'blue' }); // `--link--color: blue;\n`
 v3.vars.link__color(); // `var(--link--color)`
 ```
 
+**`VariableOptions.namespace?: string`**
+
+Prefix that gets added to all CSS printed variable names.
+
+```js
+const v4opts: VariableOptions = { namespace: 'ZUUPER-' };
+const v4 = makeVariables(['link__color'], v3opts);
+
+v4.declare({ link__color: 'blue' }); // `--ZUUPER-link--color: blue;\n`
+v4.vars.link__color(); // `var(--ZUUPER-link--color)`
+```
+
 ## Compilation API
 
 The `es-in-css` compiler imports/requires the default string export of the
