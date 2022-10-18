@@ -168,7 +168,9 @@ export const makeVariables = <T extends string>(
 ): VariableStyles<T> => {
   assertValidNameRe(options.nameRe);
 
-  const { nameRe, toCSSName = DEFAULT_NAME_MAPPER, namespace = '' } = options;
+  const { nameRe, toCSSName = DEFAULT_NAME_MAPPER } = options;
+
+  const namespace = (options.namespace || '').replace(/[\s{};@():[\]]/g, '');
 
   const vars = Object.fromEntries(
     variableTokens.map((name) => {

@@ -118,6 +118,11 @@ o.spec('variables helper', () => {
     o(res2.vars.bar.toString()).equals('var(--FOObar)');
   });
 
+  o('silently strips invalid characters from custom namespaces', () => {
+    const res2 = makeVariables(['bar'], { namespace: ' (F) \t;:O\n{O}[@] ' });
+    o(res2.vars.bar.cssName).equals('--FOObar');
+  });
+
   o('allows passing custom name RegExp', () => {
     // only allow two-letter names with the letters "þ" and "ú"
     o(
