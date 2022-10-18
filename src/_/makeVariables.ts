@@ -99,6 +99,9 @@ export type VariableOptions = {
   /**
    * Prefix that gets added to all CSS printed variable names.
    *
+   * The namespace is neither validated nor transformed in any way, except that
+   * spaces and other invalid characters are silently stripped away.
+   *
    * @see https://github.com/maranomynet/es-in-css#variableoptions
    */
   namespace?: string;

@@ -592,8 +592,11 @@ v3.vars.link__color(); // `var(--link--color)`
 
 Prefix that gets added to all CSS printed variable names.
 
+The namespace is neither validated nor transformed in any way, except that
+spaces and other invalid characters are silently stripped away.
+
 ```js
-const v4opts: VariableOptions = { namespace: 'ZUUPER-' };
+const v4opts: VariableOptions = { namespace: ' ZU{U}PER-' };
 const v4 = makeVariables(['link__color'], v3opts);
 
 v4.declare({ link__color: 'blue' }); // `--ZUUPER-link--color: blue;\n`
