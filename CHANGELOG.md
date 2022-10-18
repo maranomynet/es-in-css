@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.16
+
+_2022-10-18_
+
 - feat: Add prop `namespace` to `VariableOptions`
 
 ## 0.5.14 – 0.5.15
