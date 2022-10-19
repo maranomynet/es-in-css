@@ -1,8 +1,8 @@
 # es-in-css
 
 This library serves much of the same purpose as SASS/SCSS, LESS and other CSS
-preprocessors, but uses plain JavaScript/TypeScript to provide the
-"programmability" of local variables, mixins, utility functions, etc. etc.
+preprocessors, but uses plain JavaScript/TypeScript to provide type-safety and
+"programmability" with local variables, mixins, utility functions, etc. etc.
 
 Overall this is a "do less" toolkit with tiny API, that mainly tries to stay
 out of your way.
@@ -18,6 +18,11 @@ For good developer experience, use VSCode and install the official
 [**vscode-styled-components** extension](https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components).
 That gives you instant syntax highlighting and IntelliSense autocompletion
 inside ` css``  ` template literals.
+
+See also the chapter
+[Why es-in-css Instead of SASS?](#why-es-in-css-instead-of-sass) below.
+
+---
 
 **Table of Contents:**
 
@@ -46,6 +51,7 @@ inside ` css``  ` template literals.
     - [`compileCSS` (from files)](#compilecss-from-files)
     - [`compileCSSFromJS`](#compilecssfromjs)
     - [`compileCSSString`](#compilecssstring)
+- [Why es-in-css Instead of SASS?](#why-es-in-css-instead-of-sass)
 - [Roadmap](#roadmap)
 - [Changelog](#changelog)
 
@@ -158,16 +164,15 @@ The `es-in-css` module exports the following methods:
 
 **Syntax:** <code>css\`...`: string</code>
 
-Dumb(-ish) tagged template literal that returns a `string`. It primarily
-guarantees nice syntax highlighting and code-completion in VSCode by using a
-well-known name.
+Dumb(-ish) tagged template literal that returns a `string`. It provides nice
+syntax highlighting and code-completion in VSCode by using a well-known name.
 
-It also provides a few convenience features:
+It also has a few convenience features:
 
 - It filter away/suppresses "falsy" values (except `0`) similar to how React
-  does.
+  behaves.
 - Arrays are falsy-filtered and then joined with a space.
-- Bare functions are invked without any arguments.
+- Bare functions are invoked without any arguments.
 - All other values are cast to string as is.
 
 Example of use:
@@ -182,9 +187,17 @@ const themeColors = {
 };
 const textColor = `#333`;
 
+const boxStyle = () => css`
+  background: #f4f4f4;
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 12px;
+`;
+
 export default css`
   body {
     color: ${textColor};
+    ${boxStyle};
   }
 
   ${Object.entries(themeColors).map(
@@ -265,9 +278,9 @@ export default css`
 
 ### Unit Value Helpers
 
-**Fixed sizes:** `px()` and `cm()`
+**Fixed/Physical sizes:** `px()` and `cm()`
 
-**Type relative:** `em()`, `rem()`, `ch()` and `ex()`
+**Font relative:** `em()`, `rem()`, `ch()` and `ex()`
 
 **Layout relative:** `pct()` (%), `vh()`, `vw()`, `vmin()` and `vmax()`
 
@@ -275,8 +288,8 @@ export default css`
 
 **Angle:** `deg()`
 
-These return light-weight object instances that can still be mostly treated as
-string **and** number liters depending on the context.
+These return light-weight object instances that can behave as either string
+**or** number literals, depending on the context.
 
 ```js
 import { px, css } from 'es-in-css';
@@ -289,7 +302,7 @@ const totalWidth = px(leftColW + gutter + mainColW);
 
 export default css`
   .layout {
-    // But the unit suffix appears when printed
+    /* But the unit suffix appears when printed */
     width: ${totalWidth};
     margin: 0 auto;
     display: flex;
@@ -304,7 +317,7 @@ export default css`
 `;
 
 // .layout {
-//   /* But the unit suffix appears when printed *​/
+//   /* But the unit suffix appears when printed */
 //   width: 1050px;
 //   margin: 0 auto;
 //   display: flex;
@@ -320,9 +333,10 @@ export default css`
 
 ### Unit Converters
 
-To keep it simple and sane `es-in-css` only **supports** one UnitValue per
-category of units (time, angles, physical size, etc.) but provides friendly
-converter functions from other units of measure into the supported units.
+To keep it simple and sane `es-in-css` only **supports** one UnitValue type
+per category of units (time, angles, physical size, etc.) but provides
+friendly converter functions from other units of measure into the main
+supported units.
 
 Percentage values from proportions/fractions:  
 `pct_f()`, `vh_f()`, `vw_f()`, `vmin_f()` and `vmax_f()`.
@@ -359,8 +373,8 @@ deg_rad(-Math.PI); // -180deg
 
 **Syntax:** `unitOf(value: number | UnitValue): string | undefined`
 
-Checks if its given argument is a `UnitValue` instance and returns its unit
-string.
+Checks if its given argument is a `UnitValue` instance and returns its `.unit`
+property.
 
 Otherwise returns `undefined`.
 
@@ -381,7 +395,7 @@ unitOf('10px'); // undefined
 ### Color Helper
 
 `es-in-css` bundles the [`color` package](https://www.npmjs.com/package/color)
-and simply exposes it as `color`.
+and re-exports it as `color`.
 
 ```js
 import { color, css } from 'es-in-css';
@@ -402,7 +416,7 @@ export default css`
 // }
 ```
 
-It also exports `rgb()` and `hsl()` which are simply aliases of the `color`
+It also exports `rgb()` and `hsl()` which are simple aliases of the `color`
 package's static class methods of the same names.
 
 ```js
@@ -438,8 +452,7 @@ const myVarNames = ['linkColor', 'linkColor__hover'];
 const cssVars = makeVariables(myVarNames);
 ```
 
-The returned `VariableStyles` objects contains the following (see more
-below)):
+The returned `VariableStyles` object contains the following properties:
 
 - `VariableStyles.vars.*` — pre-declared CSS value printers (outputting
   `var(--*)` strings)
@@ -831,10 +844,11 @@ const rawCSS = `
 
 compileCSSString(rawCSS, {
   prettify: true,
-  // outdir: 'dist', // prettier config auto-resolve path
+  // outdir: 'dist', // Used for auto-resolving .prettierrc
   // minify: false,
+  // nesting: true,
   // banner: '',
-  footer: '/* The "footer" just appended as is */',
+  footer: '/* The "footer" is appended as is */',
 }).then((outCSS) => {
   console.log(outCSS);
   // /* My double-slash comment *​/
@@ -844,21 +858,45 @@ compileCSSString(rawCSS, {
   // body p > span {
   //   border: none;
   // }
-  // /* The "footer" just appended as is *​/
+  // /* The "footer" is appended as is *​/
 });
 ```
 
+## Why es-in-css Instead of SASS?
+
+**TL;DR:** JavaScript/TypeScript provides better developer ergonomics than
+SASS, and is a more future-proof technology.
+
+SASS has been almost an industry standard tool for templating CSS code for
+well over a decade now. Yet it provides poor developer experience with
+lackluster editor integrations, idiosyncratic syntax, extremely limited
+feature set, publishing and consuming libraries is hard, etc…
+
+Over the past few years, the web development community has been gradually
+moving on to other, more nimble technologies — either more vanilla "text/css"
+authoring, or class-name-based reverse compilers like Tailwind, or various
+CSS-in-JS solutions.
+
+This package provides supportive tooling for this last group, but offers also
+a new lightweight alternative: To author CSS using JavaScript as a templating
+engine, and then output it via one of the following methods:
+
+- Simply `writeFile` the resulting string to static file
+- Use an
+  [es-to-css compiler](https://github.com/maranomynet/es-in-css#compilation-api),
+- Or stream it directly to the browser.
+
 ## Roadmap
 
-- Expose a JavaScript build API with slightly more configurability
-- **Help wanted:** Loaders/config for Webpack, esbuild, Next.js builds, etc.
+- Loaders/config for Webpack, esbuild, Next.js builds, etc. (**Help wanted!**)
 
 **Maybes:**
 
-- Add more CSS authoring helpers/utilities (ideas? PRs welcome)
-- In-built `--watch` mode … may be out of scope
+- Add more CSS authoring helpers/utilities (ideas/PRs welcome)
+- In-built `--watch` mode (may be out of scope?)
 - Ability to add more postcss plugins and more fine-grained plugin
   configurability.
+- Compilation directly from TypeScript
 
 **Not planned:**
 
