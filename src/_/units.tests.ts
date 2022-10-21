@@ -17,6 +17,7 @@ import {
   PxValue,
   rem,
   unitOf,
+  unitVal,
   UnitValue,
   vh_f,
   vmax_f,
@@ -112,6 +113,20 @@ o.spec('unitOf helper', () => {
         '100px'
       )
     ).equals(undefined);
+  });
+});
+
+o.spec('unitVal helper', () => {
+  o('creates a custom UnitNumber object', () => {
+    o((unitVal(100, 'foo') as any) instanceof UnitValue).equals(true);
+    o(unitVal(100, 'foo').unit).equals('foo');
+    o(unitVal(100, 'foo').toString()).equals('100foo');
+    o(unitVal(100, 'foo') * 2).equals(200);
+    o(unitVal(1, 'px').unit).notEquals(
+      // @ts-expect-error  (Testing that generics flag error)
+      'rem'
+    );
+    o(unitVal<string>(1, 'px').unit).notEquals('rem');
   });
 });
 

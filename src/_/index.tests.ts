@@ -25,6 +25,7 @@ const tokens: Record<keyof typeof libTokens, true> = {
   // units.ts
   UnitValue: true,
   unitOf: true,
+  unitVal: true,
 
   ch: true,
   cm: true,
@@ -83,6 +84,7 @@ import type {
   // units.ts
   PlainNumber,
   UnitValue,
+  // UnitNumber, //<-- Should NOT be exported!
   PxValue,
   RemValue,
   EmValue,

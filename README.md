@@ -35,6 +35,7 @@ See also the chapter
   - [`scoped` Name Generator](#scoped-name-generator)
   - [Unit Value Helpers](#unit-value-helpers)
   - [Unit Converters](#unit-converters)
+  - [`unitVal` Helper](#unitval-helper)
   - [`unitOf` Helper](#unitof-helper)
   - [Color Helper](#color-helper)
   - [`makeVariables` Helper](#makevariables-helper)
@@ -288,8 +289,8 @@ export default css`
 
 **Angle:** `deg()`
 
-These return light-weight object instances that can behave as either string
-**or** number literals, depending on the context.
+These return light-weight `UnitValue` instances that can behave as either
+string **or** number literals, depending on the context.
 
 ```js
 import { px, css } from 'es-in-css';
@@ -333,7 +334,7 @@ export default css`
 
 ### Unit Converters
 
-To keep it simple and sane `es-in-css` only **supports** one UnitValue type
+To keep it simple and sane `es-in-css` only **supports** one `UnitValue` type
 per category of units (time, angles, physical size, etc.) but provides
 friendly converter functions from other units of measure into the main
 supported units.
@@ -368,6 +369,23 @@ Degrees from other angle units:
 deg_turn(0.75); // 270deg
 deg_rad(-Math.PI); // -180deg
 ```
+
+### `unitVal` Helper
+
+**Syntax:**
+`unitVal<U extends string>(value: number | UnitValue<U>, unit: U): UnitNumber<U>`
+
+Creates a custom UnitValue instance that is also typed as a `number` as to
+tell TypeScript that the value is safe to use in calculations. \
+ (They are because they have a number-returning `.valueOf()` method.)
+
+NOTE: This white "lie" may cause problems at runtime if these `UnitNumbers`
+end up in situations where `typeof x === "number"` is used to validate a
+literal number value. \
+ However, on balance, the risk vs. benefit trade-off seems reasonable.
+
+export const unitVal = <U extends string = string>( value: PlainNumber |
+UnitValue<U>, unit: U ) => new UnitValue(unit, value) as UnitNumber<U>;
 
 ### `unitOf` Helper
 

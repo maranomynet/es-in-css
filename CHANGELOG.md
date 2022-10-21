@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add `unitVal` helper that emits a `UnitNumber` type
 - feat(ts): Export `PlainNumber` type
 - feat(ts): Add better generics to `unitOf()`
 - feat: Silently strip invalid characters from custom namespaces
