@@ -292,6 +292,8 @@ export default css`
 These return light-weight `UnitValue` instances that can behave as either
 string **or** number literals, depending on the context.
 
+(See [the `unitVal` helper](#unitval-helper) for more info)
+
 ```js
 import { px, css } from 'es-in-css';
 
@@ -373,19 +375,42 @@ deg_rad(-Math.PI); // -180deg
 ### `unitVal` Helper
 
 **Syntax:**
-`unitVal<U extends string>(value: number | UnitValue<U>, unit: U): UnitNumber<U>`
+`unitVal<U extends string>(value: number | UnitValue<U>, unit: U): UnitValue<U> & number`
 
-Creates a custom UnitValue instance that is also typed as a `number` as to
-tell TypeScript that the value is safe to use in calculations. \
- (They are because they have a number-returning `.valueOf()` method.)
+Creates a custom `UnitValue` instance that is also typed as a `number` as to
+tell TypeScript that the value is safe to use in calculations. (They are
+because they have a number-returning `.valueOf()` method.)
 
-NOTE: This white "lie" may cause problems at runtime if these `UnitNumbers`
-end up in situations where `typeof x === "number"` is used to validate a
-literal number value. \
- However, on balance, the risk vs. benefit trade-off seems reasonable.
+```js
+import { unitVal, px } from 'es-in-css';
 
-export const unitVal = <U extends string = string>( value: PlainNumber |
-UnitValue<U>, unit: U ) => new UnitValue(unit, value) as UnitNumber<U>;
+// These are the same
+const valA = /** @type {number & UnitValue<'px'>} */ unitVal(10, 'px');
+const valB = /** @type {number & UnitValue<'px'>} */ px(10);
+
+// Both have `.value` and `.unit`
+valA.value === 10; // true
+valA.unit === 'px'; // true
+valB.value === 10; // true
+valB.unit === 'px'; // true
+
+// Both string-print with the unit attached
+`${valA}` === '10px'; // true
+`${valB}` === '10px'; // true
+
+// Both behave as numbers
+valA * 2 === 20; // true;
+valB * 2 === 20; // true;
+
+// And are assignable to numbers
+const numA = /** @type {number} */ valA;
+const numB = /** @type {number} */ valB;
+```
+
+**NOTE:** This white "lie" about the `number` type may cause problems at
+runtime if these "UnitNumbers" end up in situations where
+`typeof x === "number"` is used to validate a literal number value.  
+However, the risk vs. benefit trade-off seems reasonable.
 
 ### `unitOf` Helper
 

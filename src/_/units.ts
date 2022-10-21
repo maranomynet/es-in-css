@@ -4,6 +4,7 @@
  */
 export class UnitValue<U extends string = string> {
   constructor(unit: U, value: PlainNumber | UnitValue<U>) {
+    // TODO: Decide if we want to error/warn on empoty `unit` strings
     // TODO: Decide if we want to error/warn on invalid UnitValue types
     this.value = typeof value === 'number' ? value : value.value;
     this.unit = unit;
@@ -39,13 +40,13 @@ type UnitNumber<U extends string> = number & UnitValue<U>;
 
 /**
  * Creates a custom UnitValue instance that is also typed as a `number` as to
- * tell TypeScript that the value is safe to use in calculations. \
- * (They are because they have a number-returning `.valueOf()` method.)
+ * tell TypeScript that the value is safe to use in calculations. (They are
+ * because they have a number-returning `.valueOf()` method.)
  *
- * NOTE: This white "lie" may cause problems at runtime if these `UnitNumbers`
- * end up in situations where `typeof x === "number"` is used to validate a
- * literal number value. \
- * However, on balance, the risk vs. benefit trade-off seems reasonable.
+ * **NOTE:** This white "lie" about the `number` type may cause problems at
+ * runtime if these `UnitNumbers` end up in situations where
+ * `typeof x === "number"` is used to validate a literal number value. \
+ * However, the risk vs. benefit trade-off seems reasonable.
  *
  * @see https://github.com/maranomynet/es-in-css#unitval-helper
  */
