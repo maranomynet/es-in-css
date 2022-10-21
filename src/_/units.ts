@@ -37,8 +37,11 @@ UnitValue.prototype.getName = UnitValue.prototype.toString;
  *
  * @see https://github.com/maranomynet/es-in-css#unitof-helper
  */
-export const unitOf = (item: number | UnitValue): undefined | string =>
-  item instanceof UnitValue ? item.unit : undefined;
+export function unitOf(item: PlainNumber): undefined;
+export function unitOf<U extends string>(item: UnitValue<U>): U;
+export function unitOf<U extends string>(item: number | UnitValue<U>): U | undefined {
+  return item instanceof UnitValue ? item.unit : undefined;
+}
 
 // ===========================================================================
 

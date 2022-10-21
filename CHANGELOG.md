@@ -4,6 +4,7 @@
 
 - ... <!-- Add new lines here. -->
 - feat(ts): Export `PlainNumber` type
+- feat(ts): Add better generics to `unitOf()`
 - feat: Silently strip invalid characters from custom namespaces
 
 ## 0.5.16

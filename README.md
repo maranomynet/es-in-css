@@ -371,7 +371,8 @@ deg_rad(-Math.PI); // -180deg
 
 ### `unitOf` Helper
 
-**Syntax:** `unitOf(value: number | UnitValue): string | undefined`
+**Syntax:**
+`unitOf<U extends string>(value: number | UnitValue<U>): U | undefined`
 
 Checks if its given argument is a `UnitValue` instance and returns its `.unit`
 property.

@@ -91,14 +91,27 @@ o.spec('unitOf helper', () => {
     o(unitOf(pct(10))).equals('%');
     o(unitOf(ms_sec(1))).equals('ms');
     o(unitOf(new UnitValue('Quonks', 1.5))).equals('Quonks');
+    o(unitOf(px(1))).notEquals(
+      // @ts-expect-error  (Testing that generics flag error)
+      'rem'
+    );
+    o(unitOf(new UnitValue('px' as string, 1))).notEquals('rem');
   });
   o('returns undefined for non-UnitValues', () => {
     o(unitOf(100)).equals(undefined);
     o(unitOf(0)).equals(undefined);
-    // @ts-expect-error  (testing bad input)
-    o(unitOf(undefined)).equals(undefined);
-    // @ts-expect-error  (testing bad input)
-    o(unitOf('100px')).equals(undefined);
+    o(
+      unitOf(
+        // @ts-expect-error  (testing bad input)
+        undefined
+      )
+    ).equals(undefined);
+    o(
+      unitOf(
+        // @ts-expect-error  (testing bad input)
+        '100px'
+      )
+    ).equals(undefined);
   });
 });
 
