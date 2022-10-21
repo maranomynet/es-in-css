@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.17
+
+_2022-10-21_
+
 - feat: Add `unitVal` helper that emits a `UnitNumber` type
 - feat(ts): Export `PlainNumber` type
 - feat(ts): Add better generics to `unitOf()`
