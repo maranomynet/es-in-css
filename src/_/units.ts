@@ -2,8 +2,8 @@
  * Abstract class that holds a value and its unit.
  * Provides a `toString` and `valueOf` methods, and nothing else.
  */
-export class UnitValue<U extends string | never = string> {
-  constructor(unit: U, value: plainNumber | UnitValue<U>) {
+export class UnitValue<U extends string = string> {
+  constructor(unit: U, value: PlainNumber | UnitValue<U>) {
     this.value = typeof value === 'number' ? value : value.value;
     this.unit = unit;
   }
@@ -42,7 +42,8 @@ export const unitOf = (item: number | UnitValue): undefined | string =>
 
 // ===========================================================================
 
-type plainNumber = number & { unit?: never };
+/** A number that is NOT a UnitValue */
+export type PlainNumber = number & { unit?: never };
 
 // NOTE: The below `*Value` types are declared as the intersection of number and UnitValue.
 // This is done to tell TypeScript that these values are safe to use in calculations.
@@ -53,42 +54,42 @@ export type PxValue = number & UnitValue<'px'>;
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const px = (n: plainNumber | PxValue) => new UnitValue('px', n) as PxValue;
+export const px = (n: PlainNumber | PxValue) => new UnitValue('px', n) as PxValue;
 
 export type RemValue = number & UnitValue<'rem'>;
 /** Returns a `rem` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const rem = (n: plainNumber | RemValue) => new UnitValue('rem', n) as RemValue;
+export const rem = (n: PlainNumber | RemValue) => new UnitValue('rem', n) as RemValue;
 
 export type EmValue = number & UnitValue<'em'>;
 /** Returns a `em` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const em = (n: plainNumber | EmValue) => new UnitValue('em', n) as EmValue;
+export const em = (n: PlainNumber | EmValue) => new UnitValue('em', n) as EmValue;
 
 export type ChValue = number & UnitValue<'ch'>;
 /** Returns a `ch` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const ch = (n: plainNumber | ChValue) => new UnitValue('ch', n) as ChValue;
+export const ch = (n: PlainNumber | ChValue) => new UnitValue('ch', n) as ChValue;
 
 export type ExValue = number & UnitValue<'ex'>;
 /** Returns a `ex` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const ex = (n: plainNumber | ExValue) => new UnitValue('ex', n) as ExValue;
+export const ex = (n: PlainNumber | ExValue) => new UnitValue('ex', n) as ExValue;
 
 export type PctValue = number & UnitValue<'%'>;
 /** Returns a `pct` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const pct = (n: plainNumber | PctValue) => new UnitValue('%', n) as PctValue;
+export const pct = (n: PlainNumber | PctValue) => new UnitValue('%', n) as PctValue;
 /**
  * Convert fraction/proprtion to `%`.
  *
@@ -96,14 +97,14 @@ export const pct = (n: plainNumber | PctValue) => new UnitValue('%', n) as PctVa
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const pct_f = (n: plainNumber) => pct(n * 100);
+export const pct_f = (n: PlainNumber) => pct(n * 100);
 
 export type VwValue = number & UnitValue<'vw'>;
 /** Returns a `vw` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const vw = (n: plainNumber | VwValue) => new UnitValue('vw', n) as VwValue;
+export const vw = (n: PlainNumber | VwValue) => new UnitValue('vw', n) as VwValue;
 /**
  * Convert fraction/proprtion to `vw` per-centage.
  *
@@ -111,14 +112,14 @@ export const vw = (n: plainNumber | VwValue) => new UnitValue('vw', n) as VwValu
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const vw_f = (n: plainNumber) => vw(n * 100);
+export const vw_f = (n: PlainNumber) => vw(n * 100);
 
 export type VhValue = number & UnitValue<'vh'>;
 /** Returns a `vh` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const vh = (n: plainNumber | VhValue) => new UnitValue('vh', n) as VhValue;
+export const vh = (n: PlainNumber | VhValue) => new UnitValue('vh', n) as VhValue;
 /**
  * Convert fraction/proprtion to `vh` per-centage.
  *
@@ -126,14 +127,14 @@ export const vh = (n: plainNumber | VhValue) => new UnitValue('vh', n) as VhValu
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const vh_f = (n: plainNumber) => vh(n * 100);
+export const vh_f = (n: PlainNumber) => vh(n * 100);
 
 export type VminValue = number & UnitValue<'vmin'>;
 /** Returns a `vmin` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const vmin = (n: plainNumber | VminValue) => new UnitValue('vmin', n) as VminValue;
+export const vmin = (n: PlainNumber | VminValue) => new UnitValue('vmin', n) as VminValue;
 /**
  * Convert fraction/proprtion to `vmin` per-centage.
  *
@@ -141,14 +142,14 @@ export const vmin = (n: plainNumber | VminValue) => new UnitValue('vmin', n) as 
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const vmin_f = (n: plainNumber) => vmin(n * 100);
+export const vmin_f = (n: PlainNumber) => vmin(n * 100);
 
 export type VmaxValue = number & UnitValue<'vmax'>;
 /** Returns a `vmax` `UnitValue`
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const vmax = (n: plainNumber | VmaxValue) => new UnitValue('vmax', n) as VmaxValue;
+export const vmax = (n: PlainNumber | VmaxValue) => new UnitValue('vmax', n) as VmaxValue;
 /**
  * Convert fraction/proprtion to `vmax` per-centage.
  *
@@ -156,7 +157,7 @@ export const vmax = (n: plainNumber | VmaxValue) => new UnitValue('vmax', n) as 
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const vmax_f = (n: plainNumber) => vmax(n * 100);
+export const vmax_f = (n: PlainNumber) => vmax(n * 100);
 
 // ===========================================================================
 
@@ -165,7 +166,7 @@ export type MsValue = number & UnitValue<'ms'>;
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const ms = (n: plainNumber | MsValue) => new UnitValue('ms', n) as MsValue;
+export const ms = (n: PlainNumber | MsValue) => new UnitValue('ms', n) as MsValue;
 /**
  * Convert seconds (`s`) to `ms`.
  *
@@ -173,7 +174,7 @@ export const ms = (n: plainNumber | MsValue) => new UnitValue('ms', n) as MsValu
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const ms_sec = (n: plainNumber) => ms(n * 1000);
+export const ms_sec = (n: PlainNumber) => ms(n * 1000);
 
 // ===========================================================================
 
@@ -182,7 +183,7 @@ export type CmValue = number & UnitValue<'cm'>;
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const cm = (n: plainNumber | CmValue) => new UnitValue('cm', n) as CmValue;
+export const cm = (n: PlainNumber | CmValue) => new UnitValue('cm', n) as CmValue;
 /**
  * Convert inches (`in`) to `cm`.
  *
@@ -190,7 +191,7 @@ export const cm = (n: plainNumber | CmValue) => new UnitValue('cm', n) as CmValu
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const cm_in = (n: plainNumber) => cm(n * 2.54);
+export const cm_in = (n: PlainNumber) => cm(n * 2.54);
 /**
  * Convert millimeters (`mm`) to `cm`.
  *
@@ -198,7 +199,7 @@ export const cm_in = (n: plainNumber) => cm(n * 2.54);
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const cm_mm = (n: plainNumber) => cm(n * 0.1);
+export const cm_mm = (n: PlainNumber) => cm(n * 0.1);
 /**
  * Convert points (`pt`) to `cm`.
  *
@@ -206,7 +207,7 @@ export const cm_mm = (n: plainNumber) => cm(n * 0.1);
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const cm_pt = (n: plainNumber) => cm(n * 0.0352777778);
+export const cm_pt = (n: PlainNumber) => cm(n * 0.0352777778);
 /**
  * Convert picas (`pc`) to `cm`.
  *
@@ -214,7 +215,7 @@ export const cm_pt = (n: plainNumber) => cm(n * 0.0352777778);
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const cm_pc = (n: plainNumber) => cm(n * 0.42333333333);
+export const cm_pc = (n: PlainNumber) => cm(n * 0.42333333333);
 
 // ===========================================================================
 
@@ -223,7 +224,7 @@ export type DegValue = number & UnitValue<'deg'>;
  *
  * @see https://github.com/maranomynet/es-in-css#unit-value-helpers
  */
-export const deg = (n: plainNumber | DegValue) => new UnitValue('deg', n) as DegValue;
+export const deg = (n: PlainNumber | DegValue) => new UnitValue('deg', n) as DegValue;
 /**
  * Convert turns (`turn`) to `deg`.
  *
@@ -231,7 +232,7 @@ export const deg = (n: plainNumber | DegValue) => new UnitValue('deg', n) as Deg
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const deg_turn = (n: plainNumber) => deg(n * 360);
+export const deg_turn = (n: PlainNumber) => deg(n * 360);
 const GRAD_TO_DEG = 360 / 400;
 /**
  * Convert gradians (`grad`) to `deg`.
@@ -240,7 +241,7 @@ const GRAD_TO_DEG = 360 / 400;
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const deg_grad = (n: plainNumber) => deg(n * GRAD_TO_DEG);
+export const deg_grad = (n: PlainNumber) => deg(n * GRAD_TO_DEG);
 const RAD_TO_DEG = 360 / (2 * Math.PI);
 /**
  * Convert radians (`rad`) to `deg`.
@@ -249,4 +250,4 @@ const RAD_TO_DEG = 360 / (2 * Math.PI);
  *
  * @see https://github.com/maranomynet/es-in-css#unit-converters
  */
-export const deg_rad = (n: plainNumber) => deg(n * RAD_TO_DEG);
+export const deg_rad = (n: PlainNumber) => deg(n * RAD_TO_DEG);

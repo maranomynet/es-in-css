@@ -81,6 +81,8 @@ import type {
   ColorName,
 
   // units.ts
+  PlainNumber,
+  UnitValue,
   PxValue,
   RemValue,
   EmValue,

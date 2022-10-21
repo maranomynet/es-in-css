@@ -12,7 +12,10 @@ import {
   ms_sec,
   pct,
   pct_f,
+  PlainNumber,
   px,
+  PxValue,
+  rem,
   unitOf,
   UnitValue,
   vh_f,
@@ -98,3 +101,17 @@ o.spec('unitOf helper', () => {
     o(unitOf('100px')).equals(undefined);
   });
 });
+
+{
+  // Assert that UnitValues masquerade as numbers in TypeScript
+  // Assert that PlainNumber type guards against unwanted random Unitvalues
+  const foo = (v: PlainNumber | PxValue) => px(v);
+  foo(44);
+  foo(px(44));
+  const remVal = rem(44);
+  // @ts-expect-error  (testing bad input)
+  foo(remVal);
+  const customVal = new UnitValue('custom', 99);
+  // @ts-expect-error  (testing bad input)
+  foo(customVal);
+}

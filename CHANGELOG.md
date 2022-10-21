@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat(ts): Export `PlainNumber` type
 - feat: Silently strip invalid characters from custom namespaces
 
 ## 0.5.16
