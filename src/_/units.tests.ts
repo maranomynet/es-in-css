@@ -101,6 +101,7 @@ o.spec('unitOf helper', () => {
   o('returns undefined for non-UnitValues', () => {
     o(unitOf(100)).equals(undefined);
     o(unitOf(0)).equals(undefined);
+    o(unitOf(0 as number | PxValue)).equals(undefined);
     o(
       unitOf(
         // @ts-expect-error  (testing bad input)

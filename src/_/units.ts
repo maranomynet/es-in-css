@@ -62,6 +62,8 @@ export const unitVal = <U extends string>(value: PlainNumber | UnitValue<U>, uni
  */
 export function unitOf(item: PlainNumber): undefined;
 export function unitOf<U extends string>(item: UnitValue<U>): U;
+export function unitOf<U extends string>(item: number | UnitValue<U>): U | undefined;
+
 export function unitOf<U extends string>(item: number | UnitValue<U>): U | undefined {
   return item instanceof UnitValue ? item.unit : undefined;
 }
