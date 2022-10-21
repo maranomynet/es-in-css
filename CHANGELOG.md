@@ -11,7 +11,7 @@ _2022-10-21_
 - feat: Add `unitVal` helper that emits a `UnitNumber` type
 - feat(ts): Export `PlainNumber` type
 - feat(ts): Add better generics to `unitOf()`
-- feat: Silently strip invalid characters from custom namespaces
+- feat: Silently strip invalid characters from custom variable `namespace`s
 
 ## 0.5.16
 
