@@ -56,7 +56,7 @@ export type VariableStyles<T extends string> = {
 export type VariablePrinter = Readonly<{
   /** Prints the CSS varible string with a fallback/default value paramter. */
   or(defaultValue: VariableValue): RawCssVarString;
-  cssName: string;
+  readonly cssName: string;
   toString(): string;
   toJSON(): string;
   /** @deprecated Typing hack to allow direct printing into styled-components CSS templates. This method is an alias of `.toString()` */

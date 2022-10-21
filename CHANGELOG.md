@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat(ts): Mark key props of `UnitValue` and `VariablePrinter` readonly
 
 ## 0.5.17 – 0.5.18
 

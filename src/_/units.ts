@@ -9,8 +9,8 @@ export class UnitValue<U extends string = string> {
     this.unit = unit;
   }
 
-  value: number;
-  unit: U;
+  readonly value: number;
+  readonly unit: U;
 
   toString() {
     return this.value + this.unit;
