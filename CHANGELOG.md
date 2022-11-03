@@ -4,6 +4,7 @@
 
 - ... <!-- Add new lines here. -->
 - feat(ts): Mark key props of `UnitValue` and `VariablePrinter` readonly
+- docs: Improve README by adding VSCode snippets, explaining `unitVal` better
 
 ## 0.5.17 – 0.5.18
 
