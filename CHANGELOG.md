@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.19
+
+_2022-11-03_
+
 - feat(ts): Mark key props of `UnitValue` and `VariablePrinter` readonly
 - docs: Improve README by adding VSCode snippets, explaining `unitVal` better
 
