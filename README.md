@@ -17,7 +17,8 @@ basic. Just you composing CSS.
 For good developer experience, use VSCode and install the official
 [**vscode-styled-components** extension](https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components).
 That gives you instant syntax highlighting and IntelliSense autocompletion
-inside ` css``  ` template literals.
+inside ` css``  ` template literals, and maybe add a few
+[helpful "snippets"](#helpful-vscode-snippets).
 
 See also the chapter
 [Why es-in-css Instead of SASS?](#why-es-in-css-instead-of-sass) below.
@@ -53,6 +54,7 @@ See also the chapter
     - [`compileCSSFromJS`](#compilecssfromjs)
     - [`compileCSSString`](#compilecssstring)
 - [Why es-in-css Instead of SASS?](#why-es-in-css-instead-of-sass)
+- [Helpful VSCode Snippets](#helpful-vscode-snippets)
 - [Roadmap](#roadmap)
 - [Changelog](#changelog)
 
@@ -929,6 +931,38 @@ engine, and then output it via one of the following methods:
 - Use an
   [es-to-css compiler](https://github.com/maranomynet/es-in-css#compilation-api),
 - Or stream it directly to the browser.
+
+## Helpful VSCode Snippets
+
+Here are a few code "snippets" you can
+[add to your global snippets file](https://code.visualstudio.com/docs/editor/userdefinedsnippets#_create-your-own-snippets)
+to help you use es-in-css a bit faster:
+
+```jsonc
+  "Insert ${} variable print block": {
+    "scope": "javascript,javascriptreact,typescript,typescriptreact,css",
+    "prefix": "v",
+    "body": "\\${$0}",
+  },
+  "css`` tagged template literal": {
+    "scope": "javascript,javascriptreact,typescript,typescriptreact",
+    "prefix": "css",
+    "body": "css`\n\t$0\n`",
+  },
+  "cssVal`` tagged template literal": {
+    "scope": "javascript,typescript,typescriptreact",
+    "prefix": "cssVal",
+    "body": "cssVal`\n\t$0\n`",
+  },
+  "New *.css.js file": {
+    "scope": "javascript,typescript",
+    "prefix": "css-js-file",
+    "body": [
+      "import { css } from 'es-in-css';",
+      "",
+      "export default css`\n\t$0\n`"],
+  },
+```
 
 ## Roadmap
 
