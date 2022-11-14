@@ -2,6 +2,10 @@
 
 ## Upcoming...
 
+## 0.5.20
+
+_2022-11-14_
+
 - ... <!-- Add new lines here. -->
 - feat(ts): Export unit group aliases `LengthValue`, `LayoutRelativeValue`,
   `FontRelativeValue`
