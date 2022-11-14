@@ -98,5 +98,9 @@ import type {
   MsValue,
   CmValue,
   DegValue,
+  // Groups:
+  LengthValue,
+  LayoutRelativeValue,
+  FontRelativeValue,
 } from '../index.js';
 /* eslint-enisable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, simple-import-sort/imports */

@@ -311,3 +311,9 @@ const RAD_TO_DEG = 360 / (2 * Math.PI);
 export const deg_rad = (n: PlainNumber) => deg(n * RAD_TO_DEG);
 
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+
+export type LengthValue = PxValue | CmValue | LayoutRelativeValue | FontRelativeValue;
+export type LayoutRelativeValue = PctValue | VwValue | VhValue | VminValue | VmaxValue;
+export type FontRelativeValue = EmValue | RemValue | ChValue | ExValue;

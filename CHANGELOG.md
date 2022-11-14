@@ -3,6 +3,8 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat(ts): Export unit group aliases `LengthValue`, `LayoutRelativeValue`,
+  `FontRelativeValue`
 
 ## 0.5.19
 
