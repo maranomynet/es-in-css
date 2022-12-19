@@ -2,6 +2,8 @@
 
 ## Upcoming...
 
+- feat: Flag the package as side-effect free via `pkg.sideEffects`
+
 ## 0.5.20
 
 _2022-11-14_
