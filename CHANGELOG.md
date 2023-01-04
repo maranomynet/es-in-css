@@ -2,6 +2,12 @@
 
 ## Upcoming...
 
+- ... <!-- Add new lines here. -->
+
+## 0.5.21
+
+_2023-01-04_
+
 - feat: Flag the package as side-effect free via `pkg.sideEffects`
 - fix: Compiler removes stray ";" characters after curly-brace blocks
 
@@ -9,7 +15,6 @@
 
 _2022-11-14_
 
-- ... <!-- Add new lines here. -->
 - feat(ts): Export unit group aliases `LengthValue`, `LayoutRelativeValue`,
   `FontRelativeValue`
 
