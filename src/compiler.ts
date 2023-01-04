@@ -38,9 +38,12 @@ const makeProcessCSS = (options: ProcessingOpts) => {
   }
 
   const postPostss =
-    !minify && !!prettify
+    !minify && prettify
       ? makePrettifyCSS(prettify, options.outdir)
-      : (css: string) => css;
+      : // NOTE: Functions/mixins commonly introduce stray ";" after curly-brace blocks.
+        // Those semicolons then get parsed as weird/invalid selector tokens.
+        // Prettify removes those automatically.
+        (css: string) => css.replace(/\}(\s*;)+/g, '}');
 
   return (css: string) =>
     postcss(postcssPlugins)

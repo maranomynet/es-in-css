@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - feat: Flag the package as side-effect free via `pkg.sideEffects`
+- fix: Compiler removes stray ";" characters after curly-brace blocks
 
 ## 0.5.20
 
