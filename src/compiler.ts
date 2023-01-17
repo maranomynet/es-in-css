@@ -1,3 +1,4 @@
+import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
 import { access, mkdir, unlink, writeFile } from 'fs/promises';
 import { dirname } from 'path';
@@ -32,6 +33,8 @@ const makeProcessCSS = (options: ProcessingOpts) => {
     const nestedOpts = nested !== true ? nested : {};
     postcssPlugins.push(nestedPlugin(nestedOpts));
   }
+
+  postcssPlugins.push(autoprefixer);
 
   if (minify) {
     postcssPlugins.push(cssnano({ preset: 'default' }));

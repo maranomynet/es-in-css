@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: Compile using autoprefixer
 
 ## 0.5.21 – 0.5.22
 
