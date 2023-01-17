@@ -247,7 +247,8 @@ export const compileCSSFromJS = <Opts extends CompilerOptions>(
 
 // ---------------------------------------------------------------------------
 
-type StringCompilerOptions = ProcessingOpts & Pick<CompilerOptions, 'banner' | 'footer'>;
+export type StringCompilerOptions = ProcessingOpts &
+  Pick<CompilerOptions, 'banner' | 'footer'>;
 
 /**
  * Lower-level method that accepts a raw, optionally nested, CSS string (or an
