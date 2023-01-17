@@ -22,6 +22,7 @@ const makePackageJson = (
   delete pkg.private;
   delete pkg.hxmstyle;
   delete pkg.devDependencies;
+  delete pkg.browserslist;
   delete pkg.dist_package_json;
 
   Object.assign(pkg, dist_package_json, extraFields);

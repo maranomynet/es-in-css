@@ -74,6 +74,10 @@
     "prettier": "^2.6.0",
     "typescript": "^4.8"
   },
+  "browserslist": {
+    "// This is just for testing purposes. Do not change!": [],
+    "development": "chrome 100"
+  },
   "hxmstyle": {
     "options": {
       "typescript": true
