@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.23
+
+_2023-01-17_
+
 - fix(ts): Export `StringCompilerOptions`
 - fix: Compile using autoprefixer
 
