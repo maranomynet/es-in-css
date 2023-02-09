@@ -1,6 +1,6 @@
 import o from 'ospec';
 
-import { makeVariables, VariableStyles } from './makeVariables.js';
+import { makeVariables, VariableOptions, VariableStyles } from './makeVariables.js';
 import { StrictEquals } from './test-utils.js';
 import { px } from './units.js';
 
@@ -227,6 +227,10 @@ o.spec('variables helper', () => {
     /* eslint-disable @typescript-eslint/no-unused-vars */
     const tsTest1: StrictEquals<typeof joined, VariableStyles<'foo' | 'bar'>> = true;
     const tsTest2: StrictEquals<typeof joined2, VariableStyles<'foo'>> = true;
+
+    const opts1: VariableOptions = { nameRe: /^.+$/ };
+    const opts2: VariableOptions = { toCSSName: (n: string) => n };
+    const opts3: VariableOptions = { namespace: '' };
     /* eslint-enable @typescript-eslint/no-unused-vars */
   });
 });

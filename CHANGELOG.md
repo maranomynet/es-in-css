@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: All `VariableOptions` properties should be optional
 
 ## 0.5.23
 

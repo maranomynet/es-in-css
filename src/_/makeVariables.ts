@@ -85,7 +85,7 @@ export type VariableOptions = {
    *
    * @see https://github.com/maranomynet/es-in-css#variableoptions
    */
-  nameRe: RegExp;
+  nameRe?: RegExp;
   /**
    * Maps weird/wonky JavaScript property names to CSS-friendly
    * css custom property names.
@@ -94,7 +94,7 @@ export type VariableOptions = {
    *
    * @see https://github.com/maranomynet/es-in-css#variableoptions
    */
-  toCSSName: (name: string) => string;
+  toCSSName?: (name: string) => string;
 
   /**
    * Prefix that gets added to all CSS printed variable names.
@@ -167,7 +167,7 @@ const assertValidName = (name: string, nameRe = DEFAULT_NAME_RE) => {
  */
 export const makeVariables = <T extends string>(
   variableTokens: Array<T>,
-  options: Partial<VariableOptions> = {}
+  options: VariableOptions = {}
 ): VariableStyles<T> => {
   assertValidNameRe(options.nameRe);
 
