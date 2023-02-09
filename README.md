@@ -170,14 +170,6 @@ The `es-in-css` module exports the following methods:
 Dumb(-ish) tagged template literal that returns a `string`. It provides nice
 syntax highlighting and code-completion in VSCode by using a well-known name.
 
-It also has a few convenience features:
-
-- It filter away/suppresses "falsy" values (except `0`) similar to how React
-  behaves.
-- Arrays are falsy-filtered and then joined with a space.
-- Bare functions are invoked without any arguments.
-- All other values are cast to string as is.
-
 Example of use:
 
 ```js
@@ -212,6 +204,15 @@ export default css`
   )}
 `;
 ```
+
+Depsite being quite "dumb" it does have some convenience features:
+
+- It filter away/suppresses "falsy" values (except `0`) similar to how React
+  behaves.
+- Arrays are falsy-filtered and then auto-joined with a space.
+- Bare functions are invoked without any arguments.
+
+All other values are cast to string as is.
 
 ### `cssVal` Templater
 
@@ -522,7 +523,7 @@ const { vars } = cssVars;
 vars.linkColor + ''; // invokes .toString()
 // `var(--linkColor)`
 
-vars.linkColor.or(`black`); // pass fallback value
+vars.linkColor.or(`black`); // pass "black" as fallback value
 // `var(--linkColor, black)`
 
 `color: ${vars.linkColor__hover};`;
@@ -623,11 +624,13 @@ complex than the default setting allows.
 
 ```js
 // Default behaviour rejects the 'ö' character
-const v1 = makeVariables(['töff']); // ❌ Error
+const var1 = makeVariables(['töff']); // ❌ Error
 
 // Set custom pattern allowing a few accented letters.
-const v2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i };
-const v2 = makeVariables(['töff'], v2opts); // ✅ OK
+const var2opts: VariableOptions = { nameRe: /^[a-z0-9_-áðéíóúýþæö]+$/i };
+const var2 = makeVariables(['töff'], var2opts); // ✅ OK
+
+var2.vars.töff + ''; // `var(--töff)`
 ```
 
 **`VariableOptions.toCSSName?: (name: string) => string`**
@@ -638,13 +641,14 @@ names.
 (Default: `(name) => name`)
 
 ```js
-const v3opts: VariableOptions = {
+const var3opts: VariableOptions = {
+  // convert all "_" to "-"
   toCSSName: (name) => name.replace(/_/g, '-'),
 };
-const v3 = makeVariables(['link__color'], v3opts);
+const var3 = makeVariables(['link__color'], var3opts);
 
-v3.declare({ link__color: 'blue' }); // `--link--color: blue;\n`
-v3.vars.link__color(); // `var(--link--color)`
+var3.declare({ link__color: 'blue' }); // `--link--color: blue;\n`
+var3.vars.link__color + ''; // `var(--link--color)`
 ```
 
 **`VariableOptions.namespace?: string`**
@@ -655,11 +659,14 @@ The namespace is neither validated nor transformed in any way, except that
 spaces and other invalid characters are silently stripped away.
 
 ```js
-const v4opts: VariableOptions = { namespace: ' ZU{U}PER-' };
-const v4 = makeVariables(['link__color'], v3opts);
+const var4opts: VariableOptions = {
+  // NOTE: The "{" and "}" will get silently stripped
+  namespace: ' ZU{U}PER-',
+};
+const var4 = makeVariables(['link__color'], var4opts);
 
-v4.declare({ link__color: 'blue' }); // `--ZUUPER-link--color: blue;\n`
-v4.vars.link__color(); // `var(--ZUUPER-link--color)`
+var4.declare({ link__color: 'blue' }); // `--ZUUPER-link--color: blue;\n`
+var4.vars.link__color + ''; // `var(--ZUUPER-link--color)`
 ```
 
 ## Compilation API
