@@ -2,10 +2,6 @@ import { ColorValue } from './colors.js';
 import { RawCssString } from './css.js';
 import { UnitValue } from './units.js';
 
-type Mutable<T> = {
-  -readonly [P in keyof T]: T[P];
-};
-
 declare const _RawCssVarString__Brand: unique symbol;
 /** CSS `var(--custom-property, fallback)` string  */
 export type RawCssVarString = string & { [_RawCssVarString__Brand]?: true };
@@ -16,8 +12,6 @@ const IS_PRINTER = Symbol();
 
 const DEFAULT_NAME_RE = /^[a-z0-9_-]+$/i;
 const DEFAULT_NAME_MAPPER = (name: string) => name;
-
-const [, , foo] = [true, 23, 'hello'] as const;
 
 type VarsMap<T extends string> = Record<T, VariablePrinter>;
 
