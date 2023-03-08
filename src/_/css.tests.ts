@@ -29,7 +29,7 @@ o.spec('css``', () => {
     ).equals('color: red;');
     O(
       css`
-        bogus: foobarvalue; ;
+        bogus: foobarvalue;
       `
     ).equals('bogus: foobarvalue; ;');
     O(
