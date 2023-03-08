@@ -51,27 +51,16 @@
     "postcss-scss": "^4.0.3"
   },
   "devDependencies": {
-    "@hugsmidjan/hxmstyle": "^6.2.0",
+    "@hugsmidjan/hxmstyle": "^7.0.0",
     "@types/glob": "^7.2.0",
     "@types/node": "^16",
     "@types/ospec": "^4.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.15.0",
-    "@typescript-eslint/parser": "^5.15.0",
     "concurrently": "^7.0.0",
-    "eslint": "^8.11.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-deprecation": "^1.3.2",
-    "eslint-plugin-destructure-depth": "^1.0.3",
-    "eslint-plugin-destructuring": "^2.2.1",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "eslint-plugin-total-functions": "^5.0.1",
-    "eslint-plugin-unused-imports": "^2.0.0",
+    "eslint": "^8.35.0",
     "minimist": "^1.2.6",
     "onchange": "^7.1.0",
     "ospec": "^4.1.1",
-    "prettier": "^2.6.0",
+    "prettier": "^2.8.2",
     "typescript": "^4.8"
   },
   "browserslist": {
@@ -81,22 +70,7 @@
   "hxmstyle": {
     "options": {
       "typescript": true
-    },
-    "dependenciesAdded": [
-      "@typescript-eslint/eslint-plugin",
-      "@typescript-eslint/parser",
-      "eslint",
-      "eslint-config-prettier",
-      "eslint-plugin-deprecation",
-      "eslint-plugin-destructure-depth",
-      "eslint-plugin-destructuring",
-      "eslint-plugin-import",
-      "eslint-plugin-prettier",
-      "eslint-plugin-simple-import-sort",
-      "eslint-plugin-total-functions",
-      "eslint-plugin-unused-imports",
-      "prettier"
-    ]
+    }
   },
   "packageManager": "yarn@3.2.1"
 }
