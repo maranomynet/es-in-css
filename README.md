@@ -935,8 +935,7 @@ a new lightweight alternative: To author CSS using JavaScript as a templating
 engine, and then output it via one of the following methods:
 
 - Simply `writeFile` the resulting string to static file
-- Use an
-  [es-to-css compiler](https://github.com/maranomynet/es-in-css#compilation-api),
+- Use an [es-to-css compiler](#compilation-api),
 - Or stream it directly to the browser.
 
 ## Helpful VSCode Snippets

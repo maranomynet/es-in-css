@@ -7,6 +7,6 @@ const logWarnings = process.env.NODE_ENV !== 'production';
  * tokens can be using for naming `@keyframes` or for mangled class-names, if
  * that's what you need:
  *
- * @see https://github.com/maranomynet/es-in-css#scoped-name-generator
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.5#scoped-name-generator
  */
 export const scoped = (prefix?: string) => _scoped(prefix, logWarnings);
