@@ -7,17 +7,16 @@ preprocessors, but uses plain JavaScript/TypeScript to provide type-safety and
 Overall this is a "do less" toolkit with tiny API, that mainly tries to stay
 out of your way.
 
-SCSS-like [selector nesting](https://www.npmjs.com/package/postcss-nested),
-inline
+SCSS-like [selector nesting][postcss-nested], inline
 [`// comments` support](https://github.com/postcss/postcss-scss#2-inline-comments-for-postcss)
 and [autoprefixer](https://www.npmjs.com/package/autoprefixer) features are
 automatically provided by `postCSS`, but apart from that it's all pretty
 basic. Just you composing CSS.
 
 For good developer experience, use VSCode and install the official
-[**vscode-styled-components** extension](https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components).
-That gives you instant syntax highlighting and IntelliSense autocompletion
-inside ` css``  ` template literals, and maybe add a few
+[**vscode-styled-components** extension][vscode-styled-components]. That gives
+you instant syntax highlighting and IntelliSense autocompletion inside
+` css``  ` template literals, and maybe add a few
 [helpful "snippets"](#helpful-vscode-snippets).
 
 See also the chapter
@@ -730,7 +729,7 @@ Ignored if mixed with `--minify`.
 **`-n, --no-nested`**
 
 Disables the SCSS-like selector nesting behavior provided by the
-[postcss-nested](https://www.npmjs.com/package/postcss-nested) plugin.
+[postcss-nested][] plugin.
 
 (To pass custom options to the plugin, use the [JavaScript API](#js-api).)
 
@@ -934,9 +933,10 @@ This package provides supportive tooling for this last group, but offers also
 a new lightweight alternative: To author CSS using JavaScript as a templating
 engine, and then output it via one of the following methods:
 
-- Simply `writeFile` the resulting string to static file
+- `writeFile` the resulting string to static file
 - Use an [es-to-css compiler](#compilation-api),
-- Or stream it directly to the browser.
+- Stream it directly to the browser,
+- Use some build tool "magic" (e.g. write a custom Webpack loader)
 
 ## Helpful VSCode Snippets
 
@@ -970,6 +970,10 @@ to help you use es-in-css a bit faster:
   },
 ```
 
+Also make sure you install the official [**vscode-styled-components**
+extension][vscode-styled-components] for fancy syntax highlighting and
+IntelliSense autocompletion inside ` css``  ` template literals
+
 ## Roadmap
 
 - Loaders/config for Webpack, esbuild, Next.js builds, etc. (**Help wanted!**)
@@ -990,3 +994,9 @@ to help you use es-in-css a bit faster:
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md)
+
+<!-- Links: -->
+
+[vscode-styled-components]:
+  https://marketplace.visualstudio.com/items?itemName=styled-components.vscode-styled-components
+[postcss-nested]: https://www.npmjs.com/package/postcss-nested
