@@ -601,11 +601,44 @@ css`
 This helper combines the variable values and declaration methods from multiple
 `VariableStyles` objects into a new, larger `VariableStyles` object.
 
+```js
+const colorVariables = makeVariables(['primary', 'secondary', 'link'], {
+  namespace: 'color-',
+});
+const fontVariables = makeVariables(['heading', 'normal', 'smallprint'], {
+  namespace: 'font-',
+});
+
+const allVariables = makeVariables.join(colorVariables, fontVariables);
+
+css`
+  p {
+    color: ${allVariables.vars.primary};
+    font: ${allVariables.vars.normal};
+  }
+`;
+
+// p {
+//   color: var(--color-primary);
+//   font: var(--font-normal);
+// }
+```
+
 #### `makeVariables.isVar` Helper
 
 **Syntax:** `makeVariables.isVar(value: unknown): value is VariablePrinter`
 
 A helper that checks if an input value is of type `VariablePrinter`.
+
+```js
+import { makeVariables } from 'es-in-css';
+
+makeVariables.isVar(cssVars.vars.linkColor); // ✅ true
+// None of these are `VariablePrinter` objects:
+makeVariables.isVar('var(--linkColor)'); // ❌ false
+makeVariables.isVar('' + cssVars.vars.linkColor); // ❌ false
+makeVariables.isVar(cssVars); // ❌ false
+```
 
 #### `VariableOptions`
 
