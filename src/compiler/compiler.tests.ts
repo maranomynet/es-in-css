@@ -9,7 +9,7 @@ const tokens: Record<keyof typeof libTokens, true> = {
   compileCSSString: true,
 };
 
-o.spec('es-in-css entry point', () => {
+o.spec('es-in-css compiler entry point', () => {
   o('exports all the expected things', () => {
     compareKeys(libTokens, tokens);
   });

@@ -28,9 +28,8 @@ o.spec('css``', () => {
       `
     ).equals('color: red;');
     O(
-      css`
-        bogus: foobarvalue;
-      `
+      /* prettier-ignore */
+      css`bogus: foobarvalue; ;`
     ).equals('bogus: foobarvalue; ;');
     O(
       css`
