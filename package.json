@@ -5,7 +5,7 @@
   "scripts": {
     "format": "eslint --fix  \"*.{mjs,js,ts,tsx}\" \"src/**/*.{mjs,js,ts,tsx}\"  &&  prettier --write \"*.{json,md}\"  \"src/**/*.{json,md}\"",
     "build": "yarn install  &&  node build.mjs  &&  yarn run test",
-    "dev": "yarn install  &&  yarn run concurrently \"node build.mjs --dev\"  \"yarn run test:dev\"",
+    "dev": "yarn install  &&  yarn run concurrently -k \"node build.mjs --dev\"  \"yarn run test:dev\"",
     "prepublishOnly": "echo \"\nRun 'yarn run publishdist' to publish this package\n\n\"  && exit 1",
     "publish:lib": "yarn run build  &&  cd _npm-lib  &&  npm publish",
     "publish:canary": "yarn run build  &&  cd _npm-lib  &&  npm publish --tag canary",
