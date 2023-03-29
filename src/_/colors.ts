@@ -1,7 +1,7 @@
 import Color from 'color';
 import * as colorNames from 'color-name';
 
-import type Color_ from './color.types';
+import type Color_ from './color.types.js';
 
 export type { default as ColorValue } from 'color';
 
