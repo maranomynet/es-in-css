@@ -1,3 +1,9 @@
+// Copied from https://github.com/DefinitelyTyped/DefinitelyTyped/blob/297f116dcdbe8382a5e2b7b6aa0324f626e6f212/types/color/index.d.ts
+// - Removed the unnecessary generics
+// - Renamed `Color` to `ColorValue` to avoid name collision with the `Color` class
+// - Added custom "HACK Addition" for es-in-css
+// ===========================================================================
+
 // Type definitions for color 3.0
 // Project: https://github.com/qix-/color#readme
 // Definitions by: Junyoung Clare Jang <https://github.com/Airlun>
@@ -6,144 +12,144 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.7
 
-// Removing the unnecessary generics
-// With custom "HACK Addition" for es-in-css
-
-// import convert = require('color-convert');
 import convert from 'color-convert';
 
-type ColorParam = Color | string | ArrayLike<number> | number | { [key: string]: any };
+type ColorParam =
+  | ColorValue
+  | string
+  | ArrayLike<number>
+  | number
+  | { [key: string]: any };
 
-type Color = {
+export type ColorValue = {
   // BEGIN: HACK Addition
   /** @deprecated Typing hack to allow direct printing into styled-components CSS templates. This method is an alias of `.toString()` */
   getName(): string;
   // END: HACK Addition
 
   toString(): string;
-  toJSON(): Color;
+  toJSON(): ColorValue;
   string(places?: number): string;
   percentString(places?: number): string;
   array(): Array<number>;
   object(): { alpha?: number | undefined } & { [key: string]: number };
   unitArray(): Array<number>;
   unitObject(): { r: number; g: number; b: number; alpha?: number | undefined };
-  round(places?: number): Color;
+  round(places?: number): ColorValue;
   alpha(): number;
-  alpha(val: number): Color;
+  alpha(val: number): ColorValue;
   red(): number;
-  red(val: number): Color;
+  red(val: number): ColorValue;
   green(): number;
-  green(val: number): Color;
+  green(val: number): ColorValue;
   blue(): number;
-  blue(val: number): Color;
+  blue(val: number): ColorValue;
   hue(): number;
-  hue(val: number): Color;
+  hue(val: number): ColorValue;
   saturationl(): number;
-  saturationl(val: number): Color;
+  saturationl(val: number): ColorValue;
   lightness(): number;
-  lightness(val: number): Color;
+  lightness(val: number): ColorValue;
   saturationv(): number;
-  saturationv(val: number): Color;
+  saturationv(val: number): ColorValue;
   value(): number;
-  value(val: number): Color;
+  value(val: number): ColorValue;
   chroma(): number;
-  chroma(val: number): Color;
+  chroma(val: number): ColorValue;
   gray(): number;
-  gray(val: number): Color;
+  gray(val: number): ColorValue;
   white(): number;
-  white(val: number): Color;
+  white(val: number): ColorValue;
   wblack(): number;
-  wblack(val: number): Color;
+  wblack(val: number): ColorValue;
   cyan(): number;
-  cyan(val: number): Color;
+  cyan(val: number): ColorValue;
   magenta(): number;
-  magenta(val: number): Color;
+  magenta(val: number): ColorValue;
   yellow(): number;
-  yellow(val: number): Color;
+  yellow(val: number): ColorValue;
   black(): number;
-  black(val: number): Color;
+  black(val: number): ColorValue;
   x(): number;
-  x(val: number): Color;
+  x(val: number): ColorValue;
   y(): number;
-  y(val: number): Color;
+  y(val: number): ColorValue;
   z(): number;
-  z(val: number): Color;
+  z(val: number): ColorValue;
   l(): number;
-  l(val: number): Color;
+  l(val: number): ColorValue;
   a(): number;
-  a(val: number): Color;
+  a(val: number): ColorValue;
   b(): number;
-  b(val: number): Color;
+  b(val: number): ColorValue;
   keyword(): string;
-  keyword<V extends string>(val: V): Color;
+  keyword<V extends string>(val: V): ColorValue;
   hex(): string;
-  hex<V extends string>(val: V): Color;
+  hex<V extends string>(val: V): ColorValue;
   hexa(): string;
-  hexa<V extends string>(val: V): Color;
+  hexa<V extends string>(val: V): ColorValue;
   rgbNumber(): number;
   luminosity(): number;
-  contrast(color2: Color): number;
-  level(color2: Color): 'AAA' | 'AA' | '';
+  contrast(color2: ColorValue): number;
+  level(color2: ColorValue): 'AAA' | 'AA' | '';
   isDark(): boolean;
   isLight(): boolean;
-  negate(): Color;
-  lighten(ratio: number): Color;
-  darken(ratio: number): Color;
-  saturate(ratio: number): Color;
-  desaturate(ratio: number): Color;
-  whiten(ratio: number): Color;
-  blacken(ratio: number): Color;
-  grayscale(): Color;
-  fade(ratio: number): Color;
-  opaquer(ratio: number): Color;
-  rotate(degrees: number): Color;
-  mix(mixinColor: Color, weight?: number): Color;
+  negate(): ColorValue;
+  lighten(ratio: number): ColorValue;
+  darken(ratio: number): ColorValue;
+  saturate(ratio: number): ColorValue;
+  desaturate(ratio: number): ColorValue;
+  whiten(ratio: number): ColorValue;
+  blacken(ratio: number): ColorValue;
+  grayscale(): ColorValue;
+  fade(ratio: number): ColorValue;
+  opaquer(ratio: number): ColorValue;
+  rotate(degrees: number): ColorValue;
+  mix(mixinColor: ColorValue, weight?: number): ColorValue;
 
-  rgb(...args: Array<number>): Color;
-  hsl(...args: Array<number>): Color;
-  hsv(...args: Array<number>): Color;
-  hwb(...args: Array<number>): Color;
-  cmyk(...args: Array<number>): Color;
-  xyz(...args: Array<number>): Color;
-  lab(...args: Array<number>): Color;
-  lch(...args: Array<number>): Color;
-  ansi16(...args: Array<number>): Color;
-  ansi256(...args: Array<number>): Color;
-  hcg(...args: Array<number>): Color;
-  apple(...args: Array<number>): Color;
+  rgb(...args: Array<number>): ColorValue;
+  hsl(...args: Array<number>): ColorValue;
+  hsv(...args: Array<number>): ColorValue;
+  hwb(...args: Array<number>): ColorValue;
+  cmyk(...args: Array<number>): ColorValue;
+  xyz(...args: Array<number>): ColorValue;
+  lab(...args: Array<number>): ColorValue;
+  lch(...args: Array<number>): ColorValue;
+  ansi16(...args: Array<number>): ColorValue;
+  ansi256(...args: Array<number>): ColorValue;
+  hcg(...args: Array<number>): ColorValue;
+  apple(...args: Array<number>): ColorValue;
 };
 
 type ColorConstructor = {
-  (obj?: ColorParam, model?: keyof typeof convert): Color;
-  new (obj?: ColorParam, model?: keyof typeof convert): Color;
-  rgb(...val: Array<number>): Color;
-  rgb(color: ColorParam): Color;
-  hsl(...val: Array<number>): Color;
-  hsl(color: ColorParam): Color;
-  hsv(...val: Array<number>): Color;
-  hsv(color: ColorParam): Color;
-  hwb(...val: Array<number>): Color;
-  hwb(color: ColorParam): Color;
-  cmyk(...val: Array<number>): Color;
-  cmyk(color: ColorParam): Color;
-  xyz(...val: Array<number>): Color;
-  xyz(color: ColorParam): Color;
-  lab(...val: Array<number>): Color;
-  lab(color: ColorParam): Color;
-  lch(...val: Array<number>): Color;
-  lch(color: ColorParam): Color;
-  ansi16(...val: Array<number>): Color;
-  ansi16(color: ColorParam): Color;
-  ansi256(...val: Array<number>): Color;
-  ansi256(color: ColorParam): Color;
-  hcg(...val: Array<number>): Color;
-  hcg(color: ColorParam): Color;
-  apple(...val: Array<number>): Color;
-  apple(color: ColorParam): Color;
+  (obj?: ColorParam, model?: keyof typeof convert): ColorValue;
+  new (obj?: ColorParam, model?: keyof typeof convert): ColorValue;
+  rgb(...val: Array<number>): ColorValue;
+  rgb(color: ColorParam): ColorValue;
+  hsl(...val: Array<number>): ColorValue;
+  hsl(color: ColorParam): ColorValue;
+  hsv(...val: Array<number>): ColorValue;
+  hsv(color: ColorParam): ColorValue;
+  hwb(...val: Array<number>): ColorValue;
+  hwb(color: ColorParam): ColorValue;
+  cmyk(...val: Array<number>): ColorValue;
+  cmyk(color: ColorParam): ColorValue;
+  xyz(...val: Array<number>): ColorValue;
+  xyz(color: ColorParam): ColorValue;
+  lab(...val: Array<number>): ColorValue;
+  lab(color: ColorParam): ColorValue;
+  lch(...val: Array<number>): ColorValue;
+  lch(color: ColorParam): ColorValue;
+  ansi16(...val: Array<number>): ColorValue;
+  ansi16(color: ColorParam): ColorValue;
+  ansi256(...val: Array<number>): ColorValue;
+  ansi256(color: ColorParam): ColorValue;
+  hcg(...val: Array<number>): ColorValue;
+  hcg(color: ColorParam): ColorValue;
+  apple(...val: Array<number>): ColorValue;
+  apple(color: ColorParam): ColorValue;
 };
 
 declare const Color: ColorConstructor;
 
-// export = Color;
 export default Color;

@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: Fix typing issues in `color` helper and `ColorValue` type
 
 ## 0.5.24
 
