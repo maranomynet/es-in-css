@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.25
+
+_2023-03-29_
+
 - fix: Fix typing issues in `color` helper and `ColorValue` type
 
 ## 0.5.24
