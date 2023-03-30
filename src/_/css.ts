@@ -106,7 +106,7 @@ export function media(query: RawMediaQuery, cssContent: RawCssString): RawCssStr
 export function media(query: RawMediaQuery, cssContent?: RawCssString) {
   const mediaWrapper = (cssContent: RawCssString) =>
     css`
-      @at-root (without: media) {
+      ${'@at-root (without: media)'} {
         @media ${query} {
           ${cssContent}
         }
