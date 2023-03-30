@@ -34,8 +34,9 @@ See also the chapter
   - [`str` Quoted String Printer](#str-quoted-string-printer)
   - [`scoped` Name Generator](#scoped-name-generator)
   - [Unit Value Helpers](#unit-value-helpers)
-  - [Unit Converters](#unit-converters)
   - [`unitVal` Helper](#unitval-helper)
+  - [Unit Value Types](#unit-value-types)
+  - [Unit Converters](#unit-converters)
   - [`unitOf` Helper](#unitof-helper)
   - [Color Helper](#color-helper)
   - [`makeVariables` Helper](#makevariables-helper)
@@ -157,6 +158,8 @@ a[href]:focus-visible {
   }
 }
 ```
+
+---
 
 ## CSS Authoring Features
 
@@ -307,7 +310,7 @@ const totalWidth = px(leftColW + gutter + mainColW);
 
 export default css`
   .layout {
-    /* But the unit suffix appears when printed */
+    /* Unit suffix appears when printed. */
     width: ${totalWidth};
     margin: 0 auto;
     display: flex;
@@ -322,7 +325,7 @@ export default css`
 `;
 
 // .layout {
-//   /* But the unit suffix appears when printed */
+//   /* Unit suffix appears when printed. */
 //   width: 1050px;
 //   margin: 0 auto;
 //   display: flex;
@@ -335,6 +338,79 @@ export default css`
 //   width: 300px;
 // }
 ```
+
+### `unitVal` Helper
+
+**Syntax:**
+`unitVal<U extends string>(value: number | UnitValue<U>, unit: U): UnitValue<U> & number`
+
+Creates a custom `UnitValue` instance that is also `number`-compatible (see
+[Unit Value Types](#unit-value-types) for more info)
+
+```js
+import { unitVal, px } from 'es-in-css';
+
+// These are the same
+const valA = /** @type {number & UnitValue<'px'>} */ unitVal(10, 'px');
+const valB = /** @type {number & UnitValue<'px'>} */ px(10);
+
+// Both have `.value` and `.unit`
+valA.value === 10; // true
+valA.unit === 'px'; // true
+valB.value === 10; // true
+valB.unit === 'px'; // true
+
+// Both string-print with the unit attached
+`${valA}` === '10px'; // true
+`${valB}` === '10px'; // true
+
+// Both behave as numbers
+valA * 2 === 20; // true;
+valB * 2 === 20; // true;
+
+// And are assignable to numbers
+const numA = /** @type {number} */ valA;
+const numB = /** @type {number} */ valB;
+
+// And behave like numbers
+const minVal = Math.min(valA, valB);
+// ...except under close scrutiny
+typeof valB === 'number'; // ❌ false
+```
+
+### Unit Value Types
+
+The [unit value helpers](#unit-value-helpers) emit the following `UnitValue`
+sub-types:
+
+`PxValue`, `RemValue`, `EmValue`, `ChValue`, `ExValue`, `PctValue`, `VwValue`,
+`VhValue`, `VminValue`, `VmaxValue`, `MsValue`, `CmValue`, `DegValue`
+
+All of these unit types are also typed as a `number`, to tell TypeScript that
+the values are safe to use in calculations. (They are safe because they have a
+number-returning `.valueOf()` method.)
+
+**NOTE:** This white "lie" about the `number` type may cause problems at
+runtime if these "UnitNumbers" end up in situations where
+`typeof x === "number"` is used to validate a literal number value.  
+However, the risk vs. benefit trade-off seems reasonable.
+
+For cases that require an actual non-unit, plain `number` value, you can use
+the `PlainNumber` type. Example:
+
+```ts
+import { PlainNumber, PxValue, rem } from 'es-in-css';
+
+/** Converts a pixel size to a rem value. */
+export const pxRem = (px: PlainNumber | PxValue) => rem(px / 16);
+```
+
+Additionally, there are helpful categorized union types:
+
+- `LayoutRelativeValue` – all container proportional units: `%`, `vw`, etc.
+- `FontRelativeValue` – all text proportional units: `em`, `rem`, etc.
+- `LengthValue` – all fixed/physical units (`px`, `cm`), plus the above
+  unions.
 
 ### Unit Converters
 
@@ -374,46 +450,6 @@ deg_turn(0.75); // 270deg
 deg_rad(-Math.PI); // -180deg
 ```
 
-### `unitVal` Helper
-
-**Syntax:**
-`unitVal<U extends string>(value: number | UnitValue<U>, unit: U): UnitValue<U> & number`
-
-Creates a custom `UnitValue` instance that is also typed as a `number` as to
-tell TypeScript that the value is safe to use in calculations. (They are
-because they have a number-returning `.valueOf()` method.)
-
-```js
-import { unitVal, px } from 'es-in-css';
-
-// These are the same
-const valA = /** @type {number & UnitValue<'px'>} */ unitVal(10, 'px');
-const valB = /** @type {number & UnitValue<'px'>} */ px(10);
-
-// Both have `.value` and `.unit`
-valA.value === 10; // true
-valA.unit === 'px'; // true
-valB.value === 10; // true
-valB.unit === 'px'; // true
-
-// Both string-print with the unit attached
-`${valA}` === '10px'; // true
-`${valB}` === '10px'; // true
-
-// Both behave as numbers
-valA * 2 === 20; // true;
-valB * 2 === 20; // true;
-
-// And are assignable to numbers
-const numA = /** @type {number} */ valA;
-const numB = /** @type {number} */ valB;
-```
-
-**NOTE:** This white "lie" about the `number` type may cause problems at
-runtime if these "UnitNumbers" end up in situations where
-`typeof x === "number"` is used to validate a literal number value.  
-However, the risk vs. benefit trade-off seems reasonable.
-
 ### `unitOf` Helper
 
 **Syntax:**
@@ -421,8 +457,6 @@ However, the risk vs. benefit trade-off seems reasonable.
 
 Checks if its given argument is a `UnitValue` instance and returns its `.unit`
 property.
-
-Otherwise returns `undefined`.
 
 ```js
 import { unitOf } from 'es-in-css';
@@ -443,6 +477,9 @@ unitOf('10px'); // undefined
 `es-in-css` bundles the [`color` package](https://www.npmjs.com/package/color)
 and re-exports it as `color`.
 
+The color class/function creates `ColorValue` instances that can be used in
+CSS, but also come with useful manipulation mhethods.
+
 ```js
 import { color, css } from 'es-in-css';
 
@@ -460,6 +497,20 @@ export default css`
 //   color: rgb(255, 0, 0);
 //   background-color: hsla(0, 50%, 50%, 0.2);
 // }
+```
+
+It extends `color` by adding a static `fromName` method to generate a
+type-safe color-name to `ColorValue` mapper:
+
+```js
+const prettyColor = color.fromName('lime');
+// is just a alias for
+const prettyColor2 = color('lime');
+
+// but adds type-safety that the base method lacks:
+const notAColor2 = color('bogus'); // ❌ Type-checks but throws at runtime
+const notAColor = color.fromName('bogus'); // Type Error
+//                               ^^^^^^^
 ```
 
 It also exports `rgb()` and `hsl()` which are simple aliases of the `color`
@@ -700,6 +751,8 @@ const var4 = makeVariables(['link__color'], var4opts);
 var4.declare({ link__color: 'blue' }); // `--ZUUPER-link--color: blue;\n`
 var4.vars.link__color + ''; // `var(--ZUUPER-link--color)`
 ```
+
+---
 
 ## Compilation API
 
@@ -947,6 +1000,8 @@ compileCSSString(rawCSS, {
 });
 ```
 
+---
+
 ## Why es-in-css Instead of SASS?
 
 **TL;DR:** JavaScript/TypeScript provides better developer ergonomics than
@@ -970,6 +1025,8 @@ engine, and then output it via one of the following methods:
 - Use an [es-to-css compiler](#compilation-api),
 - Stream it directly to the browser,
 - Use some build tool "magic" (e.g. write a custom Webpack loader)
+
+---
 
 ## Helpful VSCode Snippets
 
@@ -1006,6 +1063,8 @@ to help you use es-in-css a bit faster:
 Also make sure you install the official [**vscode-styled-components**
 extension][vscode-styled-components] for fancy syntax highlighting and
 IntelliSense autocompletion inside ` css``  ` template literals
+
+---
 
 ## Roadmap
 

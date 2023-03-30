@@ -1,6 +1,10 @@
 /**
  * Abstract class that holds a value and its unit.
  * Provides a `toString` and `valueOf` methods, and nothing else.
+ *
+ * Use the `unitVal` helper to create nicely typed instances of this class.
+ *
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.5#unitval-helper
  */
 export class UnitValue<U extends string = string> {
   constructor(unit: U, value: PlainNumber | UnitValue<U>) {
@@ -33,20 +37,14 @@ UnitValue.prototype.getName = UnitValue.prototype.toString;
 
 // ===========================================================================
 
-/** A UnitValue instance that can be casually used in plain calculations. \
+/**
+ * A UnitValue instance that can be casually used in plain calculations. \
  * However, It will fail `typeof x === "number"` checks.
  */
 type UnitNumber<U extends string> = number & UnitValue<U>;
 
 /**
- * Creates a custom UnitValue instance that is also typed as a `number` as to
- * tell TypeScript that the value is safe to use in calculations. (They are
- * because they have a number-returning `.valueOf()` method.)
- *
- * **NOTE:** This white "lie" about the `number` type may cause problems at
- * runtime if these `UnitNumbers` end up in situations where
- * `typeof x === "number"` is used to validate a literal number value. \
- * However, the risk vs. benefit trade-off seems reasonable.
+ * Creates a custom `UnitValue` instance.
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.5#unitval-helper
  */
@@ -71,7 +69,11 @@ export function unitOf<U extends string>(item: number | UnitValue<U>): U | undef
 
 // ===========================================================================
 
-/** A number that is NOT a UnitValue */
+/**
+ * A "vanilla" `number` value that is NOT a `UnitValue`
+ *
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.5#unit-value-types
+ */
 export type PlainNumber = number & { unit?: never };
 
 // ---------------------------------------------------------------------------
@@ -314,6 +316,21 @@ export const deg_rad = (n: PlainNumber) => deg(n * RAD_TO_DEG);
 
 // ---------------------------------------------------------------------------
 
-export type LengthValue = PxValue | CmValue | LayoutRelativeValue | FontRelativeValue;
+/**
+ * All container proportional units: `%`, `vw`, etc.
+ *
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.5#unit-value-types
+ */
 export type LayoutRelativeValue = PctValue | VwValue | VhValue | VminValue | VmaxValue;
+/**
+ * All text proportional units: `em`, `rem`, etc.
+ *
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.5#unit-value-types
+ */
 export type FontRelativeValue = EmValue | RemValue | ChValue | ExValue;
+/**
+ * All fixed/physical units (`px`, `cm`), plus container-proportional and text-proportional units
+ *
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.5#unit-value-types
+ */
+export type LengthValue = PxValue | CmValue | LayoutRelativeValue | FontRelativeValue;

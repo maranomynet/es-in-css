@@ -104,7 +104,7 @@ export function media(query: RawMediaQuery, cssContent?: RawCssString) {
 }
 
 /**
- * Helper to convert a value to a quoted string.
+ * Helper to convert a value to a "quoted string".
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.5#str-quoted-string-printer
  */
