@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.26
+
+_2023-03-30_
+
 - feat: Add temporary/experimental `amp()` helper as a workaround for
   `postcss-nested` issue with root-level `& {}` blocks.
 
