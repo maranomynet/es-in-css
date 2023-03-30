@@ -53,6 +53,9 @@ const tokens: Record<keyof typeof libTokens, true> = {
   vmin_f: true,
   vw: true,
   vw_f: true,
+
+  // Undocumented HACK helper
+  amp: true,
 };
 
 o.spec('es-in-css entry point', () => {

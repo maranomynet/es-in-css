@@ -21,6 +21,7 @@ import type { StringCompilerOptions, CompilerOptions } from '../compiler';
 /* eslint-enable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, simple-import-sort/imports */
 
 import { compileCSSString } from '../compiler';
+import { amp } from '../index.js';
 
 // ===========================================================================
 
@@ -31,10 +32,17 @@ type Test = {
   input: string;
   expected: string;
   options?: StringCompilerOptions;
+  trim?: boolean;
 };
 
-const testCompiler = ({ test, input, expected, options }: Test) =>
-  compileCSSString(input, options).then((actual) => o(actual).equals(expected)(test));
+const testCompiler = ({ test, input, expected, options, trim }: Test) =>
+  compileCSSString(input, options).then((actual) => {
+    if (trim) {
+      actual = actual.trim().replace(/\s\s+/g, ' ');
+      expected = expected.trim().replace(/\s\s+/g, ' ');
+    }
+    o(actual).equals(expected)(test);
+  });
 
 o.spec('compileCSSString', () => {
   o('works', (done) => {
@@ -80,6 +88,40 @@ o.spec('compileCSSString', () => {
         test: 'Autoprefixer runs',
         input: 'body{ mask-image: foobar; }',
         expected: 'body{ -webkit-mask-image: foobar; mask-image: foobar; }',
+      }),
+    ])
+      .then(() => done())
+      .catch(done);
+  });
+});
+
+o.spec('amp() workarond for postcss-nesting bug', () => {
+  o('works', (done) => {
+    testCompiler({
+      test: 'apersand block is removed from output',
+      input: amp(`p {color:red;} div & {color:blue;}`),
+      expected: 'p {color:red;} div {color:blue;}',
+      trim: true,
+    })
+      .then(() => done())
+      .catch(done);
+  });
+
+  // NOTE: When/if these tests fail (in a meaningful way) then `postcss-nesting`
+  // has been fixed and the `amp()` workaround function can be removed.
+  // All downstream projects will need to be updated to replace the workaround
+  // with plain root-level `& {}` blocks.
+  o('is still neccessary', (done) => {
+    Promise.all([
+      testCompiler({
+        test: 'root level `&` appears in output',
+        input: '& { p {color:red;} div & {color:blue;} }',
+        expected: '& p {color:red;} div & {color:blue;}',
+      }),
+      testCompiler({
+        test: 'root level `&` appears in output',
+        input: '@media screen { & { p {color:red;} div & {color:blue;} } }',
+        expected: '@media screen { & p {color:red;} div & {color:blue;} }',
       }),
     ])
       .then(() => done())

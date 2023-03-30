@@ -66,6 +66,24 @@ export const cssVal = css;
 
 // ---------------------------------------------------------------------------
 
+/**
+ * UNDOCUMENTED/EXPERIMENTAL workaround helper:
+ *
+ * Use this to generate an empty selector block that disappears
+ * when the nesting is resolved. This is needed as `postcss-nested`
+ * treats root-level `&` selector tokens as a literal selector string,
+ * so that the `&` appears in the output CSS.
+ *
+ * Remove this once `postcss-nested` is fixed.
+ */
+export const amp = (cssString: RawCssString) => css`
+  ${''} {
+    ${cssString};
+  }
+`;
+
+// ---------------------------------------------------------------------------
+
 declare const _RawMediaQuery__Brand: unique symbol;
 /**
  * String, but soft-branded as a media query.
