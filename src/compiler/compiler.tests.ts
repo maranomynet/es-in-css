@@ -1,7 +1,7 @@
 import o from 'ospec';
 
-import { compareKeys } from '../_/test-utils';
-import * as libTokens from '../compiler';
+import { compareKeys } from '../_/test-utils.js';
+import * as libTokens from '../compiler.js';
 
 const tokens: Record<keyof typeof libTokens, true> = {
   compileCSS: true,
@@ -17,10 +17,10 @@ o.spec('es-in-css compiler entry point', () => {
 
 /* eslint-disable import/first */
 /* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, simple-import-sort/imports */
-import type { StringCompilerOptions, CompilerOptions } from '../compiler';
+import type { StringCompilerOptions, CompilerOptions } from '../compiler.js';
 /* eslint-enable @typescript-eslint/no-unused-vars, unused-imports/no-unused-imports-ts, simple-import-sort/imports */
 
-import { compileCSSString } from '../compiler';
+import { compileCSSString } from '../compiler.js';
 import { amp } from '../index.js';
 
 // ===========================================================================
