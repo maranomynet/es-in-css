@@ -3,13 +3,14 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Remove `amp()` helper. Future `postcss-nested` versions will throw
 
 ## 0.5.26
 
 _2023-03-30_
 
 - feat: Add temporary/experimental `amp()` helper as a workaround for
-  `postcss-nested` issue with root-level `& {}` blocks.
+  `postcss-nested` issue with root-level `& {}` blocks
 
 ## 0.5.25
 
@@ -135,7 +136,7 @@ _2022-06-01_
 - **BREAKING** feat: Change `VariablePrinter` to a simple object — with
   toString and an `.or()` method for fallbak/default values
 - feat(ts): Alias `toString` as `getName` on all basic value printers — to
-  hack a nicer DX when using es-in-css values with styled-components.
+  hack a nicer DX when using es-in-css values with styled-components
 - fix: Check for existstence of global.require before clearing cache
 - chore: Add `pkg.exports` description
 
