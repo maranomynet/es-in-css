@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.5.27
+
+_2023-03-31_
+
 - feat: Remove `amp()` helper. Future `postcss-nested` versions will throw
 
 ## 0.5.26
