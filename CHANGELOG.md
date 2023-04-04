@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.6.0
+
+_2023-04-04_
+
 - **BREAKING** feat: `css` helper now joins arrays with `, `, not just space
 
 ## 0.5.27
