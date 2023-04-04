@@ -43,19 +43,18 @@ o.spec('css``', () => {
   });
 
   o('joins arrays with a space', () => {
-    const arr1 = [1, 2, 3];
-    const arr2 = ['red', 'blue'];
+    const seletors = ['ul', 'ol', 'nav'];
+    const values = ['opacity', 'visibility'];
     O(css`
-      body {
-        ${arr1.map((n) => `foo-${n}: ${n};`)}
-        colours: ${arr2};
+      ${seletors} {
+        transition-property: ${values};
       }
-    `).equals('body { foo-1: 1; foo-2: 2; foo-3: 3; colours: red blue; }');
+    `).equals('ul, ol, nav { transition-property: opacity, visibility; }');
     O(
       css`
-        ${[arr1, arr2]}
+        ${[[null, false], seletors, values]}
       `
-    ).equals('1,2,3 red,blue')('does NOT deal with nested arrays');
+    ).equals(',false, ul,ol,nav, opacity,visibility')('does NOT deal with nested arrays');
   });
 
   o('calls functions with no params', () => {

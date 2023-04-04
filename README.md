@@ -211,7 +211,7 @@ Depsite being quite "dumb" it does have some convenience features:
 
 - It filter away/suppresses "falsy" values (except `0`) similar to how React
   behaves.
-- Arrays are falsy-filtered and then auto-joined with a space.
+- Arrays are falsy-filtered and then auto-joined with `", "`.
 - Bare functions are invoked without any arguments.
 
 All other values are cast to string as is.

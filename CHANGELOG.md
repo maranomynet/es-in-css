@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- **BREAKING** feat: `css` helper now joins arrays with `, `, not just space
 
 ## 0.5.27
 

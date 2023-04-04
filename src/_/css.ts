@@ -17,17 +17,15 @@ declare const _RawCssValue__Brand: unique symbol;
  */
 export type RawCssValue = string & { [_RawCssValue__Brand]?: true };
 
-/** Converts `null`, `undefined`, `false` and `NaN` values to an empty string.
- * Leaves `0` untouched
- */
-const notFalsy = (val: unknown) => (val || val === 0 ? val : '');
+/** Filters out all falsy values except `0`. */
+const notFalsy = (val: unknown) => !!val || val === 0;
 
 /**
  * Dumb(-ish) tagged template literal that returns a `string`. It primarily
  * guarantees nice syntax highlighting and code-completion in VSCode by using a
  * well-known name.
  *
- * It also provides a few convenience features
+ * It also provides a few convenience features.
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.5#css-templater
  */
@@ -43,12 +41,12 @@ export const css = function (
       }
       const rawValue = values[i];
       const value = Array.isArray(rawValue)
-        ? rawValue.map(notFalsy).join(' ')
+        ? rawValue.filter(notFalsy).join(', ')
         : typeof rawValue === 'function'
         ? (rawValue() as unknown)
         : rawValue;
 
-      return str + String(notFalsy(value));
+      return str + String(notFalsy(value) ? value : '');
     })
     .join('');
 };
