@@ -32,8 +32,6 @@ export class UnitValue<U extends string = string> {
     return this.toString();
   }
 }
-// eslint-disable-next-line deprecation/deprecation
-UnitValue.prototype.getName = UnitValue.prototype.toString;
 
 // ===========================================================================
 

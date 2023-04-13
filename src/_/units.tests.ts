@@ -34,7 +34,7 @@ o.spec('Abstract UnitValue class', () => {
     o(u.toString()).equals('123.456furlong');
     o(u.valueOf()).equals(123.456);
     // eslint-disable-next-line deprecation/deprecation
-    o(u.getName).equals(u.toString)('getName aliases toString');
+    o(u.getName()).equals(u.toString())('getName behaves like toString');
   });
 });
 
