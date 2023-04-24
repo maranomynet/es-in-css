@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- **BREAKING** feat: `css` helper again auto-joins arrays with space
 
 ## 0.6.0
 

@@ -41,7 +41,7 @@ export const css = function (
       }
       const rawValue = values[i];
       const value = Array.isArray(rawValue)
-        ? rawValue.filter(notFalsy).join(', ')
+        ? rawValue.filter(notFalsy).join(' ')
         : typeof rawValue === 'function'
         ? (rawValue() as unknown)
         : rawValue;
