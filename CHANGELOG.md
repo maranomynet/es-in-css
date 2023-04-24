@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.7.0
+
+_2023-04-24_
+
 - **BREAKING** feat: `css` helper again auto-joins arrays with space
 
 ## 0.6.0
