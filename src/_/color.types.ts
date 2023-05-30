@@ -12,7 +12,7 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.7
 
-import convert from 'color-convert';
+import type convert from 'color-convert';
 
 type ColorParam =
   | ColorValue
