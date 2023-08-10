@@ -3,9 +3,7 @@
 import { exec as execAsync, execSync } from 'child_process';
 import { readFileSync, writeFileSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
-import globPkg from 'glob';
-
-const glob = globPkg.sync;
+import { sync as glob } from 'glob';
 
 const pkg = await readFile('./package.json').then((res) => JSON.parse(res.toString()));
 

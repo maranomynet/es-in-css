@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- fix: Remove `css-prettier` package name alias, use plain `prettier` instead
 
 ## 0.7.0 – 0.7.1
 
