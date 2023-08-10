@@ -234,8 +234,8 @@ o.spec('resolveOutputFiles', () => {
     {
       name: 'Handles outbase for absolute input filepaths',
       input: [
-        process.cwd() + '/src/skin/resets.js',
-        process.cwd() + '/src/skin/sub/styles.js',
+        `${process.cwd()}/src/skin/resets.js`,
+        `${process.cwd()}/src/skin/sub/styles.js`,
       ],
       options: [{ outbase: 'src', outdir: 'out' }],
       expected: [

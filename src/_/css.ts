@@ -106,4 +106,4 @@ export function media(query: RawMediaQuery, cssContent?: RawCssString) {
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.5#str-quoted-string-printer
  */
-export const str = (string: string) => JSON.stringify('' + string);
+export const str = (string: string) => JSON.stringify(`${string}`);

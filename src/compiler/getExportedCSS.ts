@@ -38,7 +38,7 @@ export const getExportedCSS = (filePath: string) => {
     delete require.cache[require.resolve(url)];
   }
 
-  const cacheBust = '?' + Date.now();
+  const cacheBust = `?${Date.now()}`;
   return _import(url + cacheBust)
     .then(extractDefaultExport)
     .then((css) => {

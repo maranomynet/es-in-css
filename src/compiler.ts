@@ -168,10 +168,10 @@ const bannerify = (
   options: Pick<CompilerOptions, 'banner' | 'footer'>
 ): string => {
   if (options.banner) {
-    css = options.banner + '\n' + css;
+    css = `${options.banner}\n${css}`;
   }
   if (options.footer) {
-    css = css.replace(/\n$/, '') + '\n' + options.footer + '\n';
+    css = `${css.replace(/\n$/, '')}\n${options.footer}\n`;
   }
   return css;
 };
@@ -205,7 +205,7 @@ export const compileCSS = <Opts extends CompilerOptions>(
         .catch((e: unknown) => {
           const message = e instanceof Error ? e.message : String(e);
           throw new Error(
-            `Processing ${args.inFile}\n  ` + message.replace(/\n/g, '\n  ')
+            `Processing ${args.inFile}\n  ${message.replace(/\n/g, '\n  ')}`
           );
         })
     )

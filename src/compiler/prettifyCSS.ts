@@ -2,7 +2,7 @@ import prettier from 'prettier';
 
 export const makePrettifyCSS = (cliArg: string | true, outdir?: string) => {
   const cfgPath = typeof cliArg === 'string' ? cliArg : undefined;
-  const basePath = (outdir || '.').replace(/\/$/, '') + '/file.css';
+  const basePath = `${(outdir || '.').replace(/\/$/, '')}/file.css`;
 
   const configResolver = prettier
     .resolveConfig(basePath, {

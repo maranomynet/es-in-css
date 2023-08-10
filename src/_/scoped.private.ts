@@ -9,5 +9,5 @@ export const _scoped = (prefix?: string, logWarnings?: boolean): string => {
       safe_version: safePrefix,
     });
   }
-  return (safePrefix ? safePrefix + '_' : '') + rnd();
+  return (safePrefix ? `${safePrefix}_` : '') + rnd();
 };

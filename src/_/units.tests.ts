@@ -48,7 +48,8 @@ o.spec('px helper', () => {
 
   o('plays nicely with the + and math operators', () => {
     o(p + p).equals(123 + 123);
-    o('// ' + p).equals('// 123');
+    // Testing old-style "+" concatenation, which uses `.valueOf()` instead of `.toString()`
+    o('// ' + p).equals('// 123'); // eslint-disable-line prefer-template
     o(`width: ${p}`).equals('width: 123px');
     o(3 * p).equals(3 * 123);
   });

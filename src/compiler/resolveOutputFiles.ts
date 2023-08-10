@@ -18,7 +18,7 @@ export const getCommonPath = (fileNames: Array<string>): string => {
       }
       commonPath = commonPath.slice(0, i);
     });
-    return commonPath.length ? commonPath.join('/') + '/' : '';
+    return commonPath.length ? `${commonPath.join('/')}/` : '';
   }
   return '';
 };
@@ -35,10 +35,10 @@ export const resolveOutputFiles = (
 ) => {
   inputFiles = inputFiles.map((file) => relative('', file));
   const outdir = options.outdir
-    ? (relative('', options.outdir + '/') || '.') + '/'
+    ? `${relative('', `${options.outdir}/`) || '.'}/`
     : undefined;
   const outbase = options.outbase
-    ? (relative('', options.outbase) || '.') + '/'
+    ? `${relative('', options.outbase) || '.'}/`
     : undefined;
 
   let commonPath = getCommonPath(inputFiles);
@@ -62,7 +62,7 @@ export const resolveOutputFiles = (
     }
     const _ext = options.ext;
     const targetExt = _ext
-      ? '.' + (typeof _ext === 'string' ? _ext : _ext(inFile) || 'css').replace(/^\./, '')
+      ? `.${(typeof _ext === 'string' ? _ext : _ext(inFile) || 'css').replace(/^\./, '')}`
       : '.css';
 
     if (extname(outFile) !== targetExt) {

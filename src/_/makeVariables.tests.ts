@@ -67,9 +67,9 @@ o.spec('variables helper', () => {
   });
 
   o('generates variable printers', () => {
-    o(res.vars.componentWidth + '').equals('var(--componentWidth)');
-    o(res.vars['componentWidth--small'] + '').equals('var(--componentWidth--small)');
-    o(res.vars.componentWidth__large + '').equals('var(--componentWidth__large)');
+    o(`${res.vars.componentWidth}`).equals('var(--componentWidth)');
+    o(`${res.vars['componentWidth--small']}`).equals('var(--componentWidth--small)');
+    o(`${res.vars.componentWidth__large}`).equals('var(--componentWidth__large)');
     o(res.vars.componentWidth.or('defaultVal')).equals(
       'var(--componentWidth, defaultVal)'
     )('that can set defaults');
@@ -198,8 +198,8 @@ o.spec('variables helper', () => {
     const d2 = makeVariables(['bar']);
     const joined = makeVariables.join(d1, d2);
 
-    o(joined.vars.foo + '').equals('var(--foo)');
-    o(joined.vars.bar + '').equals('var(--bar)');
+    o(`${joined.vars.foo}`).equals('var(--foo)');
+    o(`${joined.vars.bar}`).equals('var(--bar)');
     o(joined.declare({ foo: 1, bar: 'a' })).equals('--foo: 1;\n--bar: a;\n')(
       'declare method accepts all keys'
     );
