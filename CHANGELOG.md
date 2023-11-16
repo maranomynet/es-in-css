@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add `fr` unit helper (and `FrValue` type)
 
 ## 0.7.2
 

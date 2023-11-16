@@ -384,7 +384,8 @@ The [unit value helpers](#unit-value-helpers) emit the following `UnitValue`
 sub-types:
 
 `PxValue`, `RemValue`, `EmValue`, `ChValue`, `ExValue`, `PctValue`, `VwValue`,
-`VhValue`, `VminValue`, `VmaxValue`, `MsValue`, `CmValue`, `DegValue`
+`VhValue`, `VminValue`, `VmaxValue`, `MsValue`, `CmValue`, `DegValue`,
+`FrValue`
 
 All of these unit types are also typed as a `number`, to tell TypeScript that
 the values are safe to use in calculations. (They are safe because they have a

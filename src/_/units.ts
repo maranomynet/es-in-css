@@ -312,6 +312,13 @@ export const deg_rad = (n: PlainNumber) => deg(n * RAD_TO_DEG);
 
 // ---------------------------------------------------------------------------
 
+export type FrValue = UnitNumber<'fr'>;
+/** Returns a `fr` `UnitNumber` for grid sizing
+ *
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.5#unit-value-helpers
+ */
+export const fr = (n: PlainNumber | FrValue): FrValue => unitVal(n, 'fr');
+
 // ---------------------------------------------------------------------------
 
 /**
