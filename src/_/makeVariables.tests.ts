@@ -233,4 +233,14 @@ o.spec('variables helper', () => {
     const opts3: VariableOptions = { namespace: '' };
     /* eslint-enable @typescript-eslint/no-unused-vars */
   });
+
+  o('namespaces survive variables.join()', () => {
+    const nsJoined = makeVariables.join(
+      makeVariables(['foo']),
+      makeVariables(['bar'], { namespace: 'X-' })
+    );
+    o(`${nsJoined.vars.bar}`).equals('var(--X-bar)');
+    o(nsJoined.declare({ foo: 1, bar: 2 })).equals('--foo: 1;\n--X-bar: 2;\n');
+    o(nsJoined.override({ bar: 3 })).equals('--X-bar: 3;\n');
+  });
 });
