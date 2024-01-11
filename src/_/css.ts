@@ -114,4 +114,4 @@ export type RawCssString = string & { [_RawCssString__Brand]?: true };
 /** @deprecated  Use either `RawCssString` or just `string` instead (Will be removed in v0.8) */
 export type RawCssValue = string & { [_RawCssString__Brand]?: true };
 /** @deprecated  Use `CssMediaQueryString` type instead (Will be removed in v0.8) */
-export type RawMediaQuery = string & { [_RawCssString__Brand]: true };
+export type RawMediaQuery = string & { [_RawCssString__Brand]?: true };
