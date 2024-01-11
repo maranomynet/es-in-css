@@ -3,9 +3,8 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
-- docs: Fix outdated links to README in JSDoc comments
 
-## 0.7.3 – 0.7.4
+## 0.7.3 – 0.7.5
 
 _2024-01-11_
 
@@ -16,6 +15,7 @@ _2024-01-11_
   - feat: Deprecate type `RawCssVarString` in favor of `CssVarString`
   - feat: Deprecate type `RawMediaQuery` in favor of `CssMediaQueryString`
 - feat: Add `fr` unit helper (and `FrValue` type)
+- docs: Fix outdated links to README in JSDoc comments
 
 ## 0.7.2
 
