@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.7.3
+
+_2024-01-11_
+
 - feat: Add branded types `CssString`, `CssVarString`, `CssMediaQueryString`.
 - Deprecate types:
   - feat: Deprecate type `RawCssValue` in favor of `CssString` or `string`
