@@ -6,7 +6,7 @@ import Color, { ColorValue } from './color.types.js';
 /**
  * CSS color names as defined by the W3C
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.5#color-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
 export type ColorName = keyof typeof colorNames;
 
@@ -14,7 +14,7 @@ export type ColorName = keyof typeof colorNames;
  * An object that represetns a CSS color value. Can be used in CSS, but also
  * omes with useful manipulation mhethods.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.5#color-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
 export type { ColorValue } from './color.types.js';
 
@@ -24,7 +24,7 @@ export type { ColorValue } from './color.types.js';
  * Creates `ColorValue` instances that can be used in CSS, but also come with
  * useful manipulation mhethods.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.5#color-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
 export const color = color_ as typeof Color & {
   fromName(colorName: ColorName): ColorValue;
@@ -50,19 +50,19 @@ const oldHex = (color.prototype as ColorValue).hex;
 /**
  * Create a `ColorValue` instance from a numeric RGB/RGBA color-channel values.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.5#color-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
 export const rgb = color.rgb;
 /**
  * Create a `ColorValue` instance from a numeric HSL/HSLA color-channel values.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.5#color-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
 export const hsl = color.hsl;
 
 /**
  * Type-safe name to color mapper. Alias for `color(colorName)`
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.5#color-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
 color.fromName = (colorName: ColorName) => color(colorName);

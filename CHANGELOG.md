@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- docs: Fix outdated links to README in JSDoc comments
 
 ## 0.7.3 – 0.7.4
 
