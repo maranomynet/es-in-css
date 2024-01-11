@@ -1,8 +1,12 @@
 import o from 'ospec';
 
+import { CssString } from './css.js';
 import { makeVariables, VariableOptions, VariableStyles } from './makeVariables.js';
 import { StrictEquals } from './test-utils.js';
 import { px } from './units.js';
+
+/** Converts the CSS a string type for easier matching */
+const O = (css: CssString) => o(css as string);
 
 o.spec('variables helper', () => {
   const res = makeVariables([
@@ -12,7 +16,7 @@ o.spec('variables helper', () => {
   ]);
 
   o('Allows generating CSS declarations', () => {
-    o(
+    O(
       res.declare({
         componentWidth: px(999),
         'componentWidth--small': '123px',
@@ -28,7 +32,7 @@ o.spec('variables helper', () => {
   });
 
   o('declarations trim values', () => {
-    o(
+    O(
       makeVariables(['foo']).declare({
         foo: ' 1\t ',
       })
@@ -40,7 +44,7 @@ o.spec('variables helper', () => {
       componentWidth: '0px ',
       componentWidth__large: px(10),
     });
-    o(overrides).equals(
+    O(overrides).equals(
       ['--componentWidth: 0px;\n', '--componentWidth__large: 10px;\n'].join('')
     );
     const overrides2 = res.override({
@@ -48,7 +52,7 @@ o.spec('variables helper', () => {
       componentWidth__large: null,
       'componentWidth--small': false,
     });
-    o(overrides2).equals('');
+    O(overrides2).equals('');
   });
 
   o('overrides only known variables', () => {
@@ -62,15 +66,15 @@ o.spec('variables helper', () => {
       // @ts-expect-error  (Testing unknown keys)
       someUnknownVariable: '0px',
     });
-    o(badOverrides).equals('--componentWidth: 1px;\n');
-    o(badOverrides).equals(badDeclarations);
+    O(badOverrides).equals('--componentWidth: 1px;\n');
+    O(badOverrides).equals(badDeclarations);
   });
 
   o('generates variable printers', () => {
     o(`${res.vars.componentWidth}`).equals('var(--componentWidth)');
     o(`${res.vars['componentWidth--small']}`).equals('var(--componentWidth--small)');
     o(`${res.vars.componentWidth__large}`).equals('var(--componentWidth__large)');
-    o(res.vars.componentWidth.or('defaultVal')).equals(
+    O(res.vars.componentWidth.or('defaultVal')).equals(
       'var(--componentWidth, defaultVal)'
     )('that can set defaults');
     // eslint-disable-next-line deprecation/deprecation
@@ -88,7 +92,7 @@ o.spec('variables helper', () => {
   o('accepts `VariablePrinter`s as values', () => {
     const { bar } = makeVariables(['bar']).vars;
 
-    o(makeVariables(['foo']).declare({ foo: bar })).equals('--foo: var(--bar);\n');
+    O(makeVariables(['foo']).declare({ foo: bar })).equals('--foo: var(--bar);\n');
   });
 
   o(
@@ -113,7 +117,7 @@ o.spec('variables helper', () => {
 
   o('accepts a custom namespace prefix option', () => {
     const res2 = makeVariables(['bar'], { namespace: 'FOO' });
-    o(res2.declare({ bar: 0 })).equals('--FOObar: 0;\n');
+    O(res2.declare({ bar: 0 })).equals('--FOObar: 0;\n');
     o(res2.vars.bar.cssName).equals('--FOObar');
     o(res2.vars.bar.toString()).equals('var(--FOObar)');
   });
@@ -125,13 +129,13 @@ o.spec('variables helper', () => {
 
   o('allows passing custom name RegExp', () => {
     // only allow two-letter names with the letters "þ" and "ú"
-    o(
+    O(
       makeVariables(['þú', 'úþ'], {
         nameRe: /^[þú]{2}$/i,
       }).declare({ þú: 'red', úþ: 'blue' })
     ).equals('--þú: red;\n--úþ: blue;\n')('only "þ" and "ú" combos of length 2');
 
-    o(
+    O(
       makeVariables(['þú'], {
         nameRe: /^[þú]{2}$/i,
         namespace: 'foobar-',
@@ -165,17 +169,17 @@ o.spec('variables helper', () => {
     const res2 = makeVariables(['link__hover'], {
       toCSSName: (name) => name.replace(/_/g, '-'),
     });
-    o(res2.declare({ link__hover: 'red' })).equals('--link--hover: red;\n');
+    O(res2.declare({ link__hover: 'red' })).equals('--link--hover: red;\n');
     o('link__hover' in res2.vars).equals(true);
     o('link--hover' in res2.vars).equals(false);
     o(res2.vars.link__hover.cssName).equals('--link--hover')('cssName is also mapped');
-    o(
+    O(
       res2.override({
         // @ts-expect-error  (Invalid key)
         'link--hover': 'blue',
       })
     ).equals('');
-    o(res2.override({ link__hover: 'blue' })).equals('--link--hover: blue;\n');
+    O(res2.override({ link__hover: 'blue' })).equals('--link--hover: blue;\n');
 
     o(() =>
       makeVariables(['link$$hover'], {
@@ -183,7 +187,7 @@ o.spec('variables helper', () => {
       })
     ).throws(Error)('toCSSName does not obviate the `nameRe` validation');
 
-    o(
+    O(
       makeVariables(['link__hover'], {
         toCSSName: (name) => name.replace(/_/g, '-'),
         namespace: 'foobar__',
@@ -200,10 +204,10 @@ o.spec('variables helper', () => {
 
     o(`${joined.vars.foo}`).equals('var(--foo)');
     o(`${joined.vars.bar}`).equals('var(--bar)');
-    o(joined.declare({ foo: 1, bar: 'a' })).equals('--foo: 1;\n--bar: a;\n')(
+    O(joined.declare({ foo: 1, bar: 'a' })).equals('--foo: 1;\n--bar: a;\n')(
       'declare method accepts all keys'
     );
-    o(
+    O(
       joined.override({
         foo: 42,
         // @ts-expect-error  (Invalid key)
@@ -213,10 +217,10 @@ o.spec('variables helper', () => {
 
     const d1b = makeVariables(['foo']);
     const joined2 = makeVariables.join(d1, d1b);
-    o(joined2.declare({ foo: 2 })).equals('--foo: 2;\n')(
+    O(joined2.declare({ foo: 2 })).equals('--foo: 2;\n')(
       'Clashing/repeat declarations simply merge'
     );
-    o(
+    O(
       joined2.override({
         foo: 42,
         // @ts-expect-error  (Invalid key)
@@ -240,7 +244,7 @@ o.spec('variables helper', () => {
       makeVariables(['bar'], { namespace: 'X-' })
     );
     o(`${nsJoined.vars.bar}`).equals('var(--X-bar)');
-    o(nsJoined.declare({ foo: 1, bar: 2 })).equals('--foo: 1;\n--X-bar: 2;\n');
-    o(nsJoined.override({ bar: 3 })).equals('--X-bar: 3;\n');
+    O(nsJoined.declare({ foo: 1, bar: 2 })).equals('--foo: 1;\n--X-bar: 2;\n');
+    O(nsJoined.override({ bar: 3 })).equals('--X-bar: 3;\n');
   });
 });

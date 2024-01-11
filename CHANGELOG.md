@@ -3,6 +3,12 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Add branded types `CssString`, `CssVarString`, `CssMediaQueryString`.
+- Deprecate types:
+  - feat: Deprecate type `RawCssValue` in favor of `CssString` or `string`
+  - feat: Deprecate type `RawCssString` in favor of `CssString`
+  - feat: Deprecate type `RawCssVarString` in favor of `CssVarString`
+  - feat: Deprecate type `RawMediaQuery` in favor of `CssMediaQueryString`
 - feat: Add `fr` unit helper (and `FrValue` type)
 
 ## 0.7.2

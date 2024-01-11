@@ -1,9 +1,10 @@
 import o from 'ospec';
 
-import { css, cssVal, media, str } from './css.js';
+import { css, CssString, cssVal, media, str } from './css.js';
 import { em, ms, px } from './units.js';
 
-const O = (css: string) => o(css.replace(/\s\s+/g, ' ').trim());
+/** Normalizes the CSS output and converts it to a string type for easier matching */
+const O = (css: CssString) => o(css.replace(/\s\s+/g, ' ').trim());
 
 o.spec('css``', () => {
   o('outputs css string', () => {
@@ -18,7 +19,7 @@ o.spec('css``', () => {
       'body { color: red; border: 1px solid blue; background: white; width: 33.3333%; }'
     );
 
-    o(css``).equals('')('CSS can be empty string');
+    O(css``).equals('')('CSS can be empty string');
   });
 
   o('tolerates BS inputs', () => {

@@ -1,10 +1,10 @@
 import { ColorValue } from './colors.js';
-import { RawCssString } from './css.js';
+import { CssString } from './css.js';
 import { UnitValue } from './units.js';
 
-declare const _RawCssVarString__Brand: unique symbol;
+declare const _CssVarString__Brand: unique symbol;
 /** CSS `var(--custom-property, fallback)` string  */
-export type RawCssVarString = string & { [_RawCssVarString__Brand]?: true };
+export type CssVarString = CssString & { [_CssVarString__Brand]: true };
 
 export type VariableValue = string | number | UnitValue | ColorValue | VariablePrinter;
 
@@ -32,7 +32,7 @@ export type VariableStyles<T extends string> = {
    *
    * @see https://github.com/maranomynet/es-in-css/tree/v0.5#variablestylesdeclare
    */
-  declare(vars: Record<T, VariableValue>): RawCssString;
+  declare(vars: Record<T, VariableValue>): CssString;
 
   /**
    * Similar to the `.declare()` method, but can be used to re-declare (i.e.
@@ -44,12 +44,12 @@ export type VariableStyles<T extends string> = {
    *
    * @see https://github.com/maranomynet/es-in-css/tree/v0.5#variablestylesoverride
    */
-  override(vars: Partial<Record<T, VariableValue | false | null>>): RawCssString;
+  override(vars: Partial<Record<T, VariableValue | false | null>>): CssString;
 };
 
 export type VariablePrinter = Readonly<{
   /** Prints the CSS varible string with a fallback/default value paramter. */
-  or(defaultValue: VariableValue): RawCssVarString;
+  or(defaultValue: VariableValue): CssVarString;
   readonly cssName: string;
   toString(): string;
   toJSON(): string;
@@ -105,13 +105,15 @@ export type VariableOptions = {
 
 const makeVariablePrinter = (name: string): VariablePrinter => {
   const cssName = `--${name}`;
-  const varString = `var(${cssName})`;
+  const varString = `var(${cssName})` as CssVarString;
   const toString = () => varString;
 
   return {
     cssName,
     or: (defaultValue?: VariableValue) =>
-      defaultValue ? varString.replace(/\)$/, `, ${defaultValue})`) : varString,
+      defaultValue
+        ? (varString.replace(/\)$/, `, ${defaultValue})`) as CssVarString)
+        : varString,
     [IS_PRINTER]: true,
     toString,
     toJSON: toString,
@@ -124,7 +126,7 @@ const makeVariablePrinter = (name: string): VariablePrinter => {
 const makeDeclarations = (
   vars: Partial<Record<string, VariableValue | false | null>>,
   allowed: Record<string, VariablePrinter>
-): string => {
+): CssString => {
   return Object.entries(vars)
     .map(([key, value]) => {
       const printer = allowed[key];
@@ -133,7 +135,7 @@ const makeDeclarations = (
       }
       return `${printer.cssName}: ${String(value).trim()};\n`;
     })
-    .join('');
+    .join('') as CssString;
 };
 
 // ===========================================================================
@@ -213,3 +215,10 @@ makeVariables.join = <VArr extends Array<VariableStyles<string>>>(
     override: (overrides) => makeDeclarations(overrides, vars),
   };
 };
+
+// ===========================================================================
+// Deprecated types:
+
+declare const _RawCssVarString__Brand: unique symbol;
+/** @deprecated  Use `CssString` type instead (Will be removed in v0.8) */
+export type RawCssVarString = string & { [_RawCssVarString__Brand]?: true };
