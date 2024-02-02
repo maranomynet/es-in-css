@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.7.6
+
+_2024-01-11_
+
 - feat: Clean up temp files when a `compileCSSFromJS` process exits mid-flight
 
 ## 0.7.3 – 0.7.5
