@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: Clean up temp files when a `compileCSSFromJS` process exits mid-flight
 
 ## 0.7.3 – 0.7.5
 

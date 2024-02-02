@@ -226,24 +226,36 @@ export const compileCSSFromJS = <Opts extends CompilerOptions>(
     content: string;
   }>,
   options: Opts
-) =>
-  Promise.all(
+) => {
+  const _tempfiles: Record<string, true> = {};
+  const unlinkTempFile = (fileName: string) => {
+    unlink(fileName).catch(() => undefined);
+    delete _tempfiles[fileName];
+  };
+  const emergencyUnlink = () => Object.keys(_tempfiles).forEach(unlinkTempFile);
+  process.on('exit', emergencyUnlink);
+
+  const compilation = Promise.all(
     scriptStrings.map(async ({ fileName, content }) => {
+      _tempfiles[fileName] = true;
       await makeFile(fileName, content);
       return fileName;
     })
   )
     .then((inputFiles) =>
       compileCSS(inputFiles, options).catch((err) => {
-        inputFiles.forEach(unlink);
+        inputFiles.forEach(unlinkTempFile);
         throw err;
       })
     )
-
     .then((rets) => {
-      rets.map((ret) => ret.inFile).forEach(unlink);
+      rets.map((ret) => ret.inFile).forEach(unlinkTempFile);
+      process.off('exit', emergencyUnlink);
       return rets;
     });
+
+  return compilation;
+};
 
 // ---------------------------------------------------------------------------
 
