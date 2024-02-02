@@ -196,11 +196,11 @@ export const compileCSS = <Opts extends CompilerOptions>(
         .then(processCSS)
         .then(async (css) => {
           css = bannerify(css, options);
-          if (options.write === false) {
-            return Object.assign({ css }, args);
+          if (options.write) {
+            await makeFile(args.outFile, css);
+            return Object.assign({}, args) as Ret<Opts>;
           }
-          await makeFile(args.outFile, css);
-          return Object.assign({}, args) as Ret<Opts>;
+          return Object.assign({ css }, args);
         })
         .catch((e: unknown) => {
           const message = e instanceof Error ? e.message : String(e);
