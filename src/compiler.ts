@@ -196,7 +196,7 @@ export const compileCSS = <Opts extends CompilerOptions>(
         .then(processCSS)
         .then(async (css) => {
           css = bannerify(css, options);
-          if (options.write) {
+          if (options.write !== false) {
             await makeFile(args.outFile, css);
             return Object.assign({}, args) as Ret<Opts>;
           }
