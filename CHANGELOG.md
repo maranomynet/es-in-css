@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.7.7
+
+_2024-02-05_
+
 - fix: Regression where `CompilerOptions.write` defaulted to `false`
 
 ## 0.7.6
