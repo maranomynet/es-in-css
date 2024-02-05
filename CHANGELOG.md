@@ -7,7 +7,7 @@
 
 ## 0.7.6
 
-_2024-01-11_
+_2024-02-02_
 
 - feat: Clean up temp files when a `compileCSSFromJS` process exits mid-flight
 
