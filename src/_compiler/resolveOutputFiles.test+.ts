@@ -1,4 +1,4 @@
-import o from 'ospec';
+import { describe, expect, test } from 'bun:test';
 
 import {
   DestinationOpts,
@@ -7,7 +7,9 @@ import {
   resolveOutputFiles,
 } from './resolveOutputFiles.js';
 
-o.spec('getCommonPath', () => {
+// ===========================================================================
+
+describe('getCommonPath', () => {
   const tests = [
     {
       input: ['__tests/css/styles/test.css.js', '__tests/css/styles/sub/test2.css.js'],
@@ -25,23 +27,23 @@ o.spec('getCommonPath', () => {
     },
   ];
 
-  o('works', () => {
+  test('works', () => {
     tests.forEach(({ input, expected }) => {
-      o(getCommonPath(input)).equals(expected);
+      expect(getCommonPath(input)).toBe(expected);
     });
   });
 });
 
-o.spec('resolveOutputFiles', () => {
-  type Test = {
+// ===========================================================================
+
+describe('resolveOutputFiles', () => {
+  const tests: Array<{
     name: string;
     input: Array<string>;
     options: Array<DestinationOpts>;
     expected: Array<InOutMap>;
     only?: boolean;
-  };
-
-  const tests: Array<Test> = [
+  }> = [
     {
       name: 'works and resolves file-extensions correctly',
       input: [
@@ -306,10 +308,13 @@ o.spec('resolveOutputFiles', () => {
   ];
 
   tests.forEach(({ name, input, options, expected, only }, i) => {
-    (only ? o.only : o)(`${name} (opts #${i})`, () => {
+    const Test = only ? test.only : test;
+    Test(`${name} (opts #${i})`, () => {
       options.forEach((opts) => {
-        o(resolveOutputFiles(input, opts, true)).deepEquals(expected);
+        expect(resolveOutputFiles(input, opts, true)).toEqual(expected);
       });
     });
   });
 });
+
+// ===========================================================================

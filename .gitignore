@@ -1,10 +1,8 @@
 # --------------------------------------------------------------------
 # deps and build/test results
 node_modules
-/_npm-lib
-/__tests
 *.css
-tsconfig.build.*.json
+/_npm-lib
 
 # --------------------------------------------------------------------
 # junk
@@ -14,19 +12,9 @@ yarn-error.log*
 .DS_Store
 
 # --------------------------------------------------------------------
-# yarn
+# Ingore remains of old yarn+ospec setup
 
-/.yarn/*
-!/.yarn/patches
-!/.yarn/plugins
-!/.yarn/releases
-!/.yarn/sdks
-
-## Swap the comments on the following lines if you don't wish to use
-## zero-installs. See: https://yarnpkg.com/features/zero-installs
-
-# # If .yarnrc.yml says: `nodeLinker: pnp`
-# !/.yarn/cache
-
-# If .yarnrc.yml says: `nodeLinker: node-modules`
+tsconfig.build.*.json
+/__tests
+/.yarn*
 /.pnp.*

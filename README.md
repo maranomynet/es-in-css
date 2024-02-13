@@ -56,6 +56,7 @@ See also the chapter
 - [Why es-in-css Instead of SASS?](#why-es-in-css-instead-of-sass)
 - [Helpful VSCode Snippets](#helpful-vscode-snippets)
 - [Roadmap](#roadmap)
+- [Contributing](#contributing)
 - [Changelog](#changelog)
 
 <!-- prettier-ignore-end -->
@@ -1083,6 +1084,17 @@ IntelliSense autocompletion inside ` css``  ` template literals
 
 - Emitting source maps.
 - Complicated config files, etc.
+
+---
+
+## Contributing
+
+This project uses the [Bun runtime](https://bun.sh) for development (tests,
+build, etc.)
+
+PRs are welcoms!
+
+---
 
 ## Changelog
 

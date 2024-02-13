@@ -2,14 +2,17 @@
   "compilerOptions": {
     "lib": ["esnext"],
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "nodenext",
+    "module": "NodeNext",
+    "target": "ES2017",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "jsx": "preserve",
+    "skipLibCheck": true,
+    "noEmit": true,
+
     "strict": true, // Don't be daft. Always be strict.
-    "noUncheckedIndexedAccess": true, // Should be part of strict
+    "noUncheckedIndexedAccess": true,
+    "noImplicitAny": true,
     "useUnknownInCatchVariables": true
   },
-  "exclude": ["node_modules", "dist"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "exclude": ["node_modules", "_npm-lib", "src/**/*.tests.ts"]
 }

@@ -3,17 +3,13 @@
   "version": "0.7.7",
   "description": "Need to write CSS, but tired of SASS, LESS et al? Try JavaScript/TypeScript in CSS.",
   "scripts": {
-    "format": "eslint --fix  \"*.{mjs,js,ts,tsx}\" \"src/**/*.{mjs,js,ts,tsx}\"  &&  prettier --write \"*.{json,md}\"  \"src/**/*.{json,md}\"",
-    "build": "yarn install  &&  node build.mjs  &&  yarn run test",
-    "dev": "yarn install  &&  yarn run concurrently -k \"node build.mjs --dev\"  \"yarn run test:dev\"",
-    "prepublishOnly": "echo \"\nRun 'yarn run publishdist' to publish this package\n\n\"  && exit 1",
-    "publish:lib": "yarn run build  &&  cd _npm-lib  &&  npm publish",
-    "publish:canary": "yarn run build  &&  cd _npm-lib  &&  npm publish --tag canary",
-    "test:dev": "sleep 1  &&  (yarn run test || true)  &&  yarn run test:watch",
-    "test:watch": "yarn run onchange '__tests/**/*' -f add -f change -- yarn run test",
-    "test:cli": "node _npm-lib/bin/cli.js \"__tests/**/*.css.js\"",
-    "test": "yarn run ospec \"__tests/**/*.tests.js\"",
-    "es-in-css": "node _npm-lib/bin/cli.js"
+    "dev": "bun scripts/dev.ts",
+    "build": "bun scripts/build.ts",
+    "publish:lib": "bun scripts/publish.ts",
+    "prepublishOnly": "echo \"\nRun 'bun run publish:lib' to publish this package\n\n\"  &&  exit 1",
+    "format": "bun scripts/format.ts",
+    "test:cli": "bun _npm-lib/bin/cli.js \"__tests/**/*.css.js\"",
+    "es-in-css": "bun _npm-lib/bin/cli.js"
   },
   "repository": "git@github.com:maranomynet/es-in-css.git",
   "author": "Már Örlygsson",
@@ -23,17 +19,12 @@
   ],
   "license": "MIT",
   "private": true,
-  "dist_package_json": {
-    "engines": {
-      "node": ">=16"
-    },
-    "bin": {
-      "es-in-css": "bin/cli.js"
-    },
-    "sideEffects": false
-  },
+  "type": "module",
   "engines": {
-    "node": "^16"
+    "bun": "^1.0.26",
+    "node": "9999. Please use bun",
+    "npm": "9999. Please use bun",
+    "yarn": "9999. Please use bun"
   },
   "dependencies": {
     "@types/color": "^3.0.3",
@@ -51,16 +42,11 @@
     "prettier": "^2.8.8"
   },
   "devDependencies": {
-    "@hugsmidjan/hxmstyle": "^8.2.0",
-    "@types/node": "^16",
-    "@types/ospec": "^4.0.5",
-    "concurrently": "^8.2.0",
-    "eslint": "^8.41.0",
-    "minimist": "^1.2.8",
-    "onchange": "^7.1.0",
-    "ospec": "^4.2.0",
-    "prettier": "^2.8.8",
-    "typescript": "^5.1.6"
+    "@hugsmidjan/hxmstyle": "^8.5.0",
+    "@maranomynet/libtools": "^0.1.7",
+    "@types/bun": "^1.0.5",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
   },
   "browserslist": {
     "// This is just for testing purposes. Do not change!": [],
@@ -71,5 +57,13 @@
       "typescript": true
     }
   },
-  "packageManager": "yarn@3.2.1"
+  "npmPackageJson": {
+    "engines": {
+      "node": ">=16"
+    },
+    "bin": {
+      "es-in-css": "bin/cli.js"
+    },
+    "sideEffects": false
+  }
 }
