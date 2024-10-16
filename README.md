@@ -1,4 +1,4 @@
-# es-in-css
+# es-in-css <!-- omit from toc -->
 
 This library serves much of the same purpose as SASS/SCSS, LESS and other CSS
 preprocessors, but uses plain JavaScript/TypeScript to provide type-safety and
@@ -171,7 +171,8 @@ The `es-in-css` module exports the following methods:
 **Syntax:** <code>css\`...`: string</code>
 
 Dumb(-ish) tagged template literal that returns a `string`. It provides nice
-syntax highlighting and code-completion in VSCode by using a well-known name.
+syntax highlighting and code-completion in VSCode ([with an
+extension][vscode-styled-components]) by using a well-known name.
 
 Example of use:
 
