@@ -58,6 +58,12 @@
     }
   },
   "npmPackageJson": {
+    "type": null,
+    "private": null,
+    "scripts": null,
+    "browserslist": null,
+    "devDependencies": null,
+    "hxmstyle": null,
     "engines": {
       "node": ">=16"
     },
