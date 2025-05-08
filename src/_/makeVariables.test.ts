@@ -81,7 +81,6 @@ describe('variables helper', () => {
       'var(--componentWidth, defaultVal)'
     );
     // aliases toString as getName
-    // eslint-disable-next-line deprecation/deprecation
     expect(res.vars.componentWidth.getName).toBe(res.vars.componentWidth.toString);
   });
 

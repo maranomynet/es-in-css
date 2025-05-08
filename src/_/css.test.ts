@@ -149,7 +149,6 @@ describe('media() helper', () => {
   });
 
   test('returns a curried function when called with a single argument', () => {
-    // eslint-disable-next-line deprecation/deprecation
     Expect(media(mediaQuery)(cssRules)).toBe(expectedOutput);
   });
 });

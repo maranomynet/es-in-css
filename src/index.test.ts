@@ -104,11 +104,8 @@ if (false as boolean) {
   type CssVarString_is_exported = CssVarString;
   type CssMediaQueryString_is_exported = CssMediaQueryString;
 
-  // eslint-disable-next-line deprecation/deprecation
   type RawCssString_is_exported = RawCssString;
-  // eslint-disable-next-line deprecation/deprecation
   type RawCssVarString_is_exported = RawCssVarString;
-  // eslint-disable-next-line deprecation/deprecation
   type RawMediaQuery_is_exported = RawMediaQuery;
 
   // scoped.ts

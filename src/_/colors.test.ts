@@ -17,9 +17,7 @@ describe('color helper', () => {
   test('adds a getName method', () => {
     const col = color('red');
     const col2 = col.opaquer(-0.5);
-    // eslint-disable-next-line deprecation/deprecation
     expect(col.getName).toBe(col.toString);
-    // eslint-disable-next-line deprecation/deprecation
     expect(col2.getName).toBe(col2.toString); // 'inherited down to secondary instances'
   });
 
