@@ -6,6 +6,7 @@
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unitval-helper
  */
+/*#__NO_SIDE_EFFECTS__*/
 export class UnitValue<U extends string = string> {
   constructor(unit: U, value: PlainNumber | UnitValue<U>) {
     // TODO: Decide if we want to error/warn on empoty `unit` strings
@@ -46,6 +47,7 @@ type UnitNumber<U extends string> = number & UnitValue<U>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unitval-helper
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const unitVal = <U extends string>(value: PlainNumber | UnitValue<U>, unit: U) =>
   new UnitValue(unit, value) as UnitNumber<U>;
 
@@ -61,6 +63,7 @@ export function unitOf(item: PlainNumber): undefined;
 export function unitOf<U extends string>(item: UnitValue<U>): U;
 export function unitOf<U extends string>(item: number | UnitValue<U>): U | undefined;
 
+/*#__NO_SIDE_EFFECTS__*/
 export function unitOf<U extends string>(item: number | UnitValue<U>): U | undefined {
   return item instanceof UnitValue ? item.unit : undefined;
 }
@@ -81,6 +84,7 @@ export type PxValue = UnitNumber<'px'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const px = (n: PlainNumber | PxValue): PxValue => unitVal(n, 'px');
 
 // ---------------------------------------------------------------------------
@@ -90,6 +94,7 @@ export type RemValue = UnitNumber<'rem'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const rem = (n: PlainNumber | RemValue): RemValue => unitVal(n, 'rem');
 
 // ---------------------------------------------------------------------------
@@ -99,6 +104,7 @@ export type EmValue = UnitNumber<'em'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const em = (n: PlainNumber | EmValue): EmValue => unitVal(n, 'em');
 
 // ---------------------------------------------------------------------------
@@ -108,6 +114,7 @@ export type ChValue = UnitNumber<'ch'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const ch = (n: PlainNumber | ChValue): ChValue => unitVal(n, 'ch');
 
 // ---------------------------------------------------------------------------
@@ -117,6 +124,7 @@ export type ExValue = UnitNumber<'ex'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const ex = (n: PlainNumber | ExValue): ExValue => unitVal(n, 'ex');
 
 // ---------------------------------------------------------------------------
@@ -126,6 +134,7 @@ export type PctValue = UnitNumber<'%'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const pct = (n: PlainNumber | PctValue): PctValue => unitVal(n, '%');
 
 /**
@@ -135,6 +144,7 @@ export const pct = (n: PlainNumber | PctValue): PctValue => unitVal(n, '%');
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const pct_f = (n: PlainNumber) => pct(n * 100);
 
 // ---------------------------------------------------------------------------
@@ -144,6 +154,7 @@ export type VwValue = UnitNumber<'vw'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const vw = (n: PlainNumber | VwValue): VwValue => unitVal(n, 'vw');
 
 /**
@@ -153,6 +164,7 @@ export const vw = (n: PlainNumber | VwValue): VwValue => unitVal(n, 'vw');
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const vw_f = (n: PlainNumber) => vw(n * 100);
 
 // ---------------------------------------------------------------------------
@@ -162,6 +174,7 @@ export type VhValue = UnitNumber<'vh'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const vh = (n: PlainNumber | VhValue): VhValue => unitVal(n, 'vh');
 
 /**
@@ -171,6 +184,7 @@ export const vh = (n: PlainNumber | VhValue): VhValue => unitVal(n, 'vh');
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const vh_f = (n: PlainNumber) => vh(n * 100);
 
 // ---------------------------------------------------------------------------
@@ -180,6 +194,7 @@ export type VminValue = UnitNumber<'vmin'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const vmin = (n: PlainNumber | VminValue): VminValue => unitVal(n, 'vmin');
 
 /**
@@ -189,6 +204,7 @@ export const vmin = (n: PlainNumber | VminValue): VminValue => unitVal(n, 'vmin'
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const vmin_f = (n: PlainNumber) => vmin(n * 100);
 
 // ---------------------------------------------------------------------------
@@ -198,6 +214,7 @@ export type VmaxValue = UnitNumber<'vmax'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const vmax = (n: PlainNumber | VmaxValue): VmaxValue => unitVal(n, 'vmax');
 
 /**
@@ -207,6 +224,7 @@ export const vmax = (n: PlainNumber | VmaxValue): VmaxValue => unitVal(n, 'vmax'
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const vmax_f = (n: PlainNumber) => vmax(n * 100);
 
 // ---------------------------------------------------------------------------
@@ -216,6 +234,7 @@ export type MsValue = UnitNumber<'ms'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const ms = (n: PlainNumber | MsValue): MsValue => unitVal(n, 'ms');
 
 /**
@@ -225,6 +244,7 @@ export const ms = (n: PlainNumber | MsValue): MsValue => unitVal(n, 'ms');
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const ms_sec = (n: PlainNumber) => ms(n * 1000);
 
 // ---------------------------------------------------------------------------
@@ -234,6 +254,7 @@ export type CmValue = UnitNumber<'cm'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const cm = (n: PlainNumber | CmValue): CmValue => unitVal(n, 'cm');
 
 /**
@@ -243,6 +264,7 @@ export const cm = (n: PlainNumber | CmValue): CmValue => unitVal(n, 'cm');
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const cm_in = (n: PlainNumber) => cm(n * 2.54);
 
 /**
@@ -252,6 +274,7 @@ export const cm_in = (n: PlainNumber) => cm(n * 2.54);
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const cm_mm = (n: PlainNumber) => cm(n * 0.1);
 
 /**
@@ -261,6 +284,7 @@ export const cm_mm = (n: PlainNumber) => cm(n * 0.1);
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const cm_pt = (n: PlainNumber) => cm(n * 0.0352777778);
 
 /**
@@ -270,6 +294,7 @@ export const cm_pt = (n: PlainNumber) => cm(n * 0.0352777778);
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const cm_pc = (n: PlainNumber) => cm(n * 0.42333333333);
 
 // ---------------------------------------------------------------------------
@@ -279,6 +304,7 @@ export type DegValue = UnitNumber<'deg'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const deg = (n: PlainNumber | DegValue): DegValue => unitVal(n, 'deg');
 
 /**
@@ -288,6 +314,7 @@ export const deg = (n: PlainNumber | DegValue): DegValue => unitVal(n, 'deg');
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const deg_turn = (n: PlainNumber) => deg(n * 360);
 const GRAD_TO_DEG = 360 / 400;
 
@@ -298,6 +325,7 @@ const GRAD_TO_DEG = 360 / 400;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const deg_grad = (n: PlainNumber) => deg(n * GRAD_TO_DEG);
 const RAD_TO_DEG = 360 / (2 * Math.PI);
 
@@ -308,6 +336,7 @@ const RAD_TO_DEG = 360 / (2 * Math.PI);
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-converters
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const deg_rad = (n: PlainNumber) => deg(n * RAD_TO_DEG);
 
 // ---------------------------------------------------------------------------
@@ -317,6 +346,7 @@ export type FrValue = UnitNumber<'fr'>;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#unit-value-helpers
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const fr = (n: PlainNumber | FrValue): FrValue => unitVal(n, 'fr');
 
 // ---------------------------------------------------------------------------

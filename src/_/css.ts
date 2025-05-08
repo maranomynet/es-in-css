@@ -17,6 +17,7 @@ const notFalsy = (val: unknown) => !!val || val === 0;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#css-templater
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const css = function (
   strings: TemplateStringsArray,
   ...values: Array<unknown>
@@ -48,6 +49,7 @@ export const css = function (
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#cssval-templater
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const cssVal = css;
 
 // ---------------------------------------------------------------------------
@@ -77,11 +79,12 @@ export function media(
   cssContent: CssString | string
 ): CssString;
 
+/*#__NO_SIDE_EFFECTS__*/
 export function media(
   query: CssMediaQueryString | string,
   cssContent?: CssString | string
 ) {
-  const mediaWrapper = (cssContent: CssString | string) =>
+  const mediaWrappinator = (cssContent: CssString | string) =>
     css`
       ${'@at-root (without: media)'} {
         @media ${query} {
@@ -92,10 +95,10 @@ export function media(
 
   if (arguments.length === 1) {
     // Curry!
-    return mediaWrapper;
+    return mediaWrappinator;
   }
 
-  return mediaWrapper(cssContent || '');
+  return mediaWrappinator(cssContent || '');
 }
 
 /**
@@ -103,6 +106,7 @@ export function media(
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#str-quoted-string-printer
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const str = (string: string) => JSON.stringify(`${string}`);
 
 // ===========================================================================

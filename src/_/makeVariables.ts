@@ -161,6 +161,7 @@ const assertValidName = (name: string, nameRe = DEFAULT_NAME_RE) => {
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#makevariables-helper
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const makeVariables = <T extends string>(
   variableTokens: Array<T>,
   options: VariableOptions = {}

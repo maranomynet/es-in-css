@@ -9,4 +9,5 @@ const logWarnings = process.env.NODE_ENV !== 'production';
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#scoped-name-generator
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const scoped = (prefix?: string) => _scoped(prefix, logWarnings);

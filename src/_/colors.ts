@@ -26,6 +26,7 @@ export type { ColorValue } from './color.types.js';
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const color = color_ as typeof Color & {
   fromName(colorName: ColorName): ColorValue;
 };
@@ -52,12 +53,14 @@ const oldHex = (color.prototype as ColorValue).hex;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const rgb = color.rgb;
 /**
  * Create a `ColorValue` instance from a numeric HSL/HSLA color-channel values.
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
+/*#__NO_SIDE_EFFECTS__*/
 export const hsl = color.hsl;
 
 /**
@@ -65,4 +68,5 @@ export const hsl = color.hsl;
  *
  * @see https://github.com/maranomynet/es-in-css/tree/v0.7#color-helper
  */
+/*#__NO_SIDE_EFFECTS__*/
 color.fromName = (colorName: ColorName) => color(colorName);
