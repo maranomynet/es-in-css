@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.7.8
+
+_2025-05-08_
+
 - perf: Add `#__NO_SIDE_EFFECTS__` compiler notation to all exported functions
 
 ## 0.7.7
