@@ -21,32 +21,32 @@
   "private": true,
   "type": "module",
   "engines": {
-    "bun": "^1.0.26",
+    "bun": "^1.2.12",
     "node": "9999. Please use bun",
     "npm": "9999. Please use bun",
     "yarn": "9999. Please use bun"
   },
   "dependencies": {
-    "@types/color": "^3.0.3",
-    "@types/color-name": "^1.1.1",
+    "@types/color": "^3.0.6",
+    "@types/color-name": "^1.1.5",
     "@types/prettier": "^2.7.3",
-    "autoprefixer": "^10.4.14",
+    "autoprefixer": "^10.4.21",
     "color": "^4.2.3",
     "color-name": "^1.1.4",
-    "commander": "^11.0.0",
-    "cssnano": "^6.0.1",
-    "glob": "^10.3.0",
-    "postcss": "^8.4.27",
-    "postcss-nested": "^6.0.1",
-    "postcss-scss": "^4.0.6",
+    "commander": "^11.1.0",
+    "cssnano": "^6.1.2",
+    "glob": "^10.4.5",
+    "postcss": "^8.5.3",
+    "postcss-nested": "^6.2.0",
+    "postcss-scss": "^4.0.9",
     "prettier": "^2.8.8"
   },
   "devDependencies": {
-    "@hugsmidjan/hxmstyle": "^8.5.0",
-    "@maranomynet/libtools": "^0.1.7",
-    "@types/bun": "^1.0.5",
-    "eslint": "^8.56.0",
-    "typescript": "^5.3.3"
+    "@hugsmidjan/hxmstyle": "^8.13.0",
+    "@maranomynet/libtools": "^0.1.16",
+    "@types/bun": "^1.2.12",
+    "eslint": "^8.57.1",
+    "typescript": "^5.8.3"
   },
   "browserslist": {
     "// This is just for testing purposes. Do not change!": [],
