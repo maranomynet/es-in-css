@@ -126,7 +126,7 @@ if (false as boolean) {
   // units.ts
   type PlainNumber_is_exported = PlainNumber;
   type UnitValue_is_exported = UnitValue;
-  type UnitNumber_is_exported = UnitNumber; //<-- Should NOT be exported!rted
+  type UnitNumber_is_exported = UnitNumber; //<-- Should NOT be exported!
   type PxValue_is_exported = PxValue;
   type RemValue_is_exported = RemValue;
   type EmValue_is_exported = EmValue;
