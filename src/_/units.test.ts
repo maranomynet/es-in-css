@@ -56,6 +56,7 @@ describe('Abstract UnitValue class', () => {
     expect(u.value).toBe(123.456);
     expect(u.toString()).toBe('123.456furlong');
     expect(u.valueOf()).toBe(123.456);
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     expect(u.getName()).toBe(u.toString()); // getName behaves like toString
   });
 });

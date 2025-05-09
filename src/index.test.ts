@@ -44,7 +44,7 @@ import * as moduleExports from './index.js';
 // Test Type Signature and Exports
 
 if (false as boolean) {
-  /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
 
   // Make sure the module exports are as advertised
   const exports: Record<keyof typeof moduleExports, true> = {
@@ -104,8 +104,11 @@ if (false as boolean) {
   type CssVarString_is_exported = CssVarString;
   type CssMediaQueryString_is_exported = CssMediaQueryString;
 
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   type RawCssString_is_exported = RawCssString;
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   type RawCssVarString_is_exported = RawCssVarString;
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   type RawMediaQuery_is_exported = RawMediaQuery;
 
   // scoped.ts
@@ -142,7 +145,7 @@ if (false as boolean) {
   type LayoutRelativeValue_is_exported = LayoutRelativeValue;
   type FontRelativeValue_is_exported = FontRelativeValue;
 
-  /* eslint-enable @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention */
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 }
 
 // ===========================================================================

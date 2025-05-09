@@ -149,6 +149,7 @@ describe('media() helper', () => {
   });
 
   test('returns a curried function when called with a single argument', () => {
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     Expect(media(mediaQuery)(cssRules)).toBe(expectedOutput);
   });
 });
