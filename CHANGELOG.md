@@ -3,6 +3,11 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+
+## 0.8.0
+
+_2026-01-15_
+
 - **BREAKING** feat: `VariablePrinter.or()` now returns a `VariablePrinter`
 - **BREAKING** feat: Remove deprecated `media` helper
 - **BREAKING** feat: Remove deprecated types `RawCssString`, `RawCssValue`,
