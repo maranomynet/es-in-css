@@ -24,7 +24,7 @@ export type VariableStyles<T extends string> = {
    * used as CSS values … with the option of passing a default/fallback value via
    * the `.or() method`.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#variablestylesvars
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#variablestylesvars
    */
   readonly vars: VarsMap<T>;
 
@@ -32,7 +32,7 @@ export type VariableStyles<T extends string> = {
    * Lets you type-safely write values for **all** the defined CSS variables into a
    * CSS rule block. Property names not matching `T` are dropped/ignored.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#variablestylesdeclare
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#variablestylesdeclare
    */
   declare(vars: Record<T, VariableValue>): CssString;
 
@@ -44,7 +44,7 @@ export type VariableStyles<T extends string> = {
    * Furthermore, values of `null`, `undefined`, `false` are interpreted as
    * "missing", and the property is ignored/dropped.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#variablestylesoverride
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#variablestylesoverride
    */
   override(vars: Partial<Record<T, VariableValue | false | null>>): CssString;
 };
@@ -79,7 +79,7 @@ export type VariableOptions = {
    *
    * Default: `/^[a-z0-9_-]+$/i`
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#variableoptions
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#variableoptions
    */
   nameRe?: RegExp;
   /**
@@ -88,7 +88,7 @@ export type VariableOptions = {
    *
    * Default: `(name) => name`
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#variableoptions
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#variableoptions
    */
   toCSSName?: (name: string) => string;
 
@@ -98,7 +98,7 @@ export type VariableOptions = {
    * The namespace is neither validated nor transformed in any way, except that
    * spaces and other invalid characters are silently stripped away.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#variableoptions
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#variableoptions
    */
   namespace?: string;
 };
@@ -174,7 +174,7 @@ const assertValidName = (name: string, nameRe = DEFAULT_NAME_RE) => {
  * Helper to provide type-safety and code-completion when using CSS custom
  * properties (CSS variables) at scale.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#makevariables-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#makevariables-helper
  */
 /*#__NO_SIDE_EFFECTS__*/
 export const makeVariables = <T extends string>(
@@ -206,7 +206,7 @@ export const makeVariables = <T extends string>(
 /**
  * A helper that checks if an input value is of type `VariablePrinter`.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#makevariablesisvar-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#makevariablesisvar-helper
  */
 makeVariables.isVar = (value: unknown): value is VariablePrinter =>
   typeof value === 'function' && IS_PRINTER in value;
@@ -217,7 +217,7 @@ makeVariables.isVar = (value: unknown): value is VariablePrinter =>
  * This helper combines the variable values and declaration methods from multiple
  * `VariableStyles` objects into a new, larger `VariableStyles` object.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#makevariablesjoin-composition-helper
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#makevariablesjoin-composition-helper
  */
 makeVariables.join = <VArr extends Array<VariableStyles<string>>>(
   ...varDatas: VArr

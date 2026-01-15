@@ -15,7 +15,7 @@ const notFalsy = (val: unknown) => !!val || val === 0;
  *
  * It also provides a few convenience features.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#css-templater
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#css-templater
  */
 /*#__NO_SIDE_EFFECTS__*/
 export const css = function (
@@ -47,7 +47,7 @@ export const css = function (
  * standalone CSS value or other out-of-context CSS snippets, and you wish to
  * disable VSCode's syntax highlighting and error checking.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#cssval-templater
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#cssval-templater
  */
 /*#__NO_SIDE_EFFECTS__*/
 export const cssVal = css;
@@ -65,7 +65,7 @@ export type CssMediaQueryString = string & { [_CssediaQueryString__Brand]: true 
 /**
  * Helper to convert a value to a "quoted string".
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#str-quoted-string-printer
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#str-quoted-string-printer
  */
 /*#__NO_SIDE_EFFECTS__*/
 export const str = (string: string) => JSON.stringify(`${string}`);

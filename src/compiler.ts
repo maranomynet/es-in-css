@@ -72,7 +72,7 @@ export type CompilerOptions = {
    * unless if the source file name ends in `.css.js`, in which case the `.js`
    * ending is simply dropped.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   outdir?: string;
 
@@ -82,7 +82,7 @@ export type CompilerOptions = {
    * starting from the lowest common ancestor directory among all input entry point
    * paths.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   outbase?: string;
 
@@ -92,7 +92,7 @@ export type CompilerOptions = {
    *
    * All comments are stripped, except ones that start with `/*!`.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   minify?: boolean;
 
@@ -115,14 +115,14 @@ export type CompilerOptions = {
    * provided by [postcss-nested](https://www.npmjs.com/package/postcss-nested)
    * or passing it custom options.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   nested?: boolean | NestedPluginOptions;
 
   /**
    * Customize the file-extension of the output files. Default is `.css`
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   ext?: string | ((sourceFile: string) => string | undefined | false | null);
 
@@ -130,21 +130,21 @@ export type CompilerOptions = {
    * Dynamically changes the final destination of the output files.
    * (Values that lead to overwriting the source file are ignored.)
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   redirect?: (outFile: string, inFile: string) => string | undefined | false | null;
 
   /**
    * Text that's prepended to every output file.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   banner?: string;
 
   /**
    * Text that's appended to every output file.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   footer?: string;
 
@@ -154,7 +154,7 @@ export type CompilerOptions = {
    *
    * When turned off the CSS content is returned as part of the promise payload.
    *
-   * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilation-api
+   * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilation-api
    */
   write?: boolean;
 };
@@ -182,7 +182,7 @@ const bannerify = (
  * Takes a list of files to read, and returns an Array of result objects each
  * containing the compiled CSS and the resolved output file path.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilecss-from-files
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilecss-from-files
  */
 export const compileCSS = <Opts extends CompilerOptions>(
   sourceFiles: Array<string>,
@@ -218,7 +218,7 @@ export const compileCSS = <Opts extends CompilerOptions>(
  * Compiles CSS from a JavaScript source string. This may be the preferable
  * method when working with bundlers such as `esbuild`.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilecssfromjs
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilecssfromjs
  */
 export const compileCSSFromJS = <Opts extends CompilerOptions>(
   scriptStrings: Array<{
@@ -267,7 +267,7 @@ export type StringCompilerOptions = ProcessingOpts &
  * array of such strings) and returns a compiled CSS string (or array) —
  * optionally minified or prettified.
  *
- * @see https://github.com/maranomynet/es-in-css/tree/v0.7#compilecssstring
+ * @see https://github.com/maranomynet/es-in-css/tree/v0.8#compilecssstring
  */
 export function compileCSSString(
   css: string,
