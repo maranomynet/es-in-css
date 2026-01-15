@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 
-import { css, CssString, cssVal, media, str } from './css.js';
+import { css, CssString, cssVal, str } from './css.js';
 import { em, ms, px } from './units.js';
 
 /** Normalizes the CSS output and converts it to a string type for easier matching */
@@ -133,24 +133,6 @@ describe('css``', () => {
 describe('cssVal``', () => {
   test('is a simple alias of `css`', () => {
     expect(cssVal).toBe(css);
-  });
-});
-
-// ===========================================================================
-
-describe('media() helper', () => {
-  const mediaQuery = 'print and (screen)';
-  const cssRules = 'p { color: red; }';
-  const expectedOutput =
-    '@at-root (without: media) { @media print and (screen) { p { color: red; } } }';
-
-  test('outputs @at-root wrapped @media block', () => {
-    Expect(media(mediaQuery, cssRules)).toBe(expectedOutput);
-  });
-
-  test('returns a curried function when called with a single argument', () => {
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
-    Expect(media(mediaQuery)(cssRules)).toBe(expectedOutput);
   });
 });
 

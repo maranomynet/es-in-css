@@ -4,6 +4,9 @@
 
 - ... <!-- Add new lines here. -->
 - **BREAKING** feat: `VariablePrinter.or()` now returns a `VariablePrinter`
+- **BREAKING** feat: Remove deprecated `media` helper
+- **BREAKING** feat: Remove deprecated types `RawCssString`, `RawCssValue`,
+  `RawMediaQuery`, `RawCssVarString`
 
 ## 0.7.8
 

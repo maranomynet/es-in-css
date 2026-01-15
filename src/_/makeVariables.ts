@@ -236,5 +236,3 @@ makeVariables.join = <VArr extends Array<VariableStyles<string>>>(
 // Deprecated types:
 
 declare const _RawCssVarString__Brand: unique symbol;
-/** @deprecated  Use `CssString` type instead (Will be removed in v0.8) */
-export type RawCssVarString = string & { [_RawCssVarString__Brand]?: true };

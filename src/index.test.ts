@@ -20,9 +20,6 @@ import type {
   // units.ts
   PlainNumber,
   PxValue,
-  RawCssString,
-  RawCssVarString,
-  RawMediaQuery,
   RemValue,
   // @ts-expect-error  (Should NOT be exported)
   UnitNumber,
@@ -51,7 +48,6 @@ if (false as boolean) {
     // css.ts
     css: true,
     cssVal: true,
-    media: true,
     str: true,
 
     // scoped.ts
@@ -103,13 +99,6 @@ if (false as boolean) {
   type CssString_is_exported = CssString;
   type CssVarString_is_exported = CssVarString;
   type CssMediaQueryString_is_exported = CssMediaQueryString;
-
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
-  type RawCssString_is_exported = RawCssString;
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
-  type RawCssVarString_is_exported = RawCssVarString;
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
-  type RawMediaQuery_is_exported = RawMediaQuery;
 
   // scoped.ts
 
