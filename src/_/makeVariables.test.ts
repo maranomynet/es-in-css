@@ -77,8 +77,12 @@ describe('variables helper', () => {
     expect(`${res.vars['componentWidth--small']}`).toBe('var(--componentWidth--small)');
     expect(`${res.vars.componentWidth__large}`).toBe('var(--componentWidth__large)');
     // that can set defaults
-    Expect(res.vars.componentWidth.or('defaultVal')).toBe(
+    Expect(res.vars.componentWidth.or('defaultVal').toString()).toBe(
       'var(--componentWidth, defaultVal)'
+    );
+    Expect(res.vars.componentWidth.or('').toString()).toBe('var(--componentWidth, )');
+    Expect(res.vars.componentWidth.or('71px').or('83px').toString()).toBe(
+      'var(--componentWidth, 83px)'
     );
     // aliases toString as getName
     // eslint-disable-next-line @typescript-eslint/no-deprecated
@@ -89,6 +93,8 @@ describe('variables helper', () => {
     expect(res.vars.componentWidth.cssName).toBe('--componentWidth');
     expect(res.vars['componentWidth--small'].cssName).toBe('--componentWidth--small');
     expect(res.vars.componentWidth__large.cssName).toBe('--componentWidth__large');
+    // cssName unaffected by .or()
+    expect(res.vars.componentWidth.or('foobar').cssName).toBe('--componentWidth');
   });
 
   test('accepts `VariablePrinter`s as values', () => {
@@ -118,7 +124,7 @@ describe('variables helper', () => {
     const res2 = makeVariables(['bar'], { namespace: 'FOO' });
     Expect(res2.declare({ bar: 0 })).toBe('--FOObar: 0;\n');
     expect(res2.vars.bar.cssName).toBe('--FOObar');
-    expect(res2.vars.bar.toString()).toBe('var(--FOObar)');
+    Expect(res2.vars.bar.toString()).toBe('var(--FOObar)');
   });
 
   test('silently strips invalid characters from custom namespaces', () => {

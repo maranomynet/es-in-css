@@ -568,7 +568,7 @@ The returned `VariableStyles` object contains the following properties:
 Holds a readonly `Record<T, VariablePrinter>` object where the
 `VariablePrinter`s emit the CSS variable names wrapped in `var()`, ready to be
 used as CSS values … with the option of passing a default/fallback value via
-the `.or() method`.
+the `.or()` method which returns a new `VariablePrinter`.
 
 ```js
 const { vars } = cssVars;
@@ -576,8 +576,11 @@ const { vars } = cssVars;
 vars.linkColor + ''; // invokes .toString()
 // `var(--linkColor)`
 
-vars.linkColor.or(`black`); // pass "black" as fallback value
+vars.linkColor.or(`black`) + ''; // pass "black" as fallback value
 // `var(--linkColor, black)`
+
+vars.linkColor.or(`black`).or('white') + ''; // Chained calls override previous ones
+// `var(--linkColor, white)`
 
 `color: ${vars.linkColor__hover};`;
 // `color: var(--linkColor__hover);`
@@ -588,7 +591,7 @@ vars.linkColor.or(`black`); // pass "black" as fallback value
 
 ```js
 vars.linkColor.cssName;
-// `"--linkColor"`
+// `--linkColor`
 ```
 
 #### `VariableStyles.declare`

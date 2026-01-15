@@ -6,6 +6,8 @@ declare const _CssVarString__Brand: unique symbol;
 /** CSS `var(--custom-property, fallback)` string  */
 export type CssVarString = CssString & { [_CssVarString__Brand]: true };
 
+type Mutable<T> = { -readonly [P in keyof T]: T[P] };
+
 export type VariableValue = string | number | UnitValue | ColorValue | VariablePrinter;
 
 const IS_PRINTER = Symbol();
@@ -49,10 +51,10 @@ export type VariableStyles<T extends string> = {
 
 export type VariablePrinter = Readonly<{
   /** Prints the CSS varible string with a fallback/default value paramter. */
-  or(defaultValue: VariableValue): CssVarString;
+  or(defaultValue: VariableValue): VariablePrinter;
   readonly cssName: string;
-  toString(): string;
-  toJSON(): string;
+  toString(): CssVarString;
+  toJSON(): CssVarString;
   /** @deprecated Typing hack to allow direct printing into styled-components CSS templates. This method is an alias of `.toString()` */
   getName(): string;
 }> & {
@@ -108,12 +110,25 @@ const makeVariablePrinter = (name: string): VariablePrinter => {
   const varString = `var(${cssName})` as CssVarString;
   const toString = () => varString;
 
+  const or: VariablePrinter['or'] = (defaultValue) => {
+    const varStringWithOr = varString.replace(
+      /\)$/,
+      `, ${defaultValue})`
+    ) as CssVarString;
+    const toString = () => varStringWithOr;
+    return {
+      cssName,
+      or,
+      [IS_PRINTER]: true,
+      toString,
+      toJSON: toString,
+      getName: toString,
+    };
+  };
+
   return {
     cssName,
-    or: (defaultValue?: VariableValue) =>
-      defaultValue
-        ? (varString.replace(/\)$/, `, ${defaultValue})`) as CssVarString)
-        : varString,
+    or,
     [IS_PRINTER]: true,
     toString,
     toJSON: toString,

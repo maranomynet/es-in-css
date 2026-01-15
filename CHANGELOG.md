@@ -3,6 +3,7 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- **BREAKING** feat: `VariablePrinter.or()` now returns a `VariablePrinter`
 
 ## 0.7.8
 
