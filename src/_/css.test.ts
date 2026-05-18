@@ -94,12 +94,43 @@ describe('css``', () => {
   test('does NOT attempt to correct bad CSS or insert semi-colons', () => {
     const rule1 = `color: red`;
     const rule2 = `border: 0`;
+    const rule3 = `opacity: 1;; ;`;
+    const rule4 = `b { color: blue; };`;
     Expect(css`
       body {
         ${rule1}
         ${rule2}
+        ${rule3}
+        ${rule4}
       }
-    `).toBe('body { color: red border: 0 }');
+    `).toBe('body { color: red border: 0 opacity: 1;; ; b { color: blue; }; }');
+  });
+
+  test('does, however, suppress multiple adjacent semi-colons when inserting template string values', () => {
+    const empty = '';
+    const hasSemi = 'b: b;';
+    Expect(css`
+      ${empty};
+      body {
+        ${empty};
+        a: a;
+        ${empty};
+        ${hasSemi};
+      }
+    `).toBe('body { a: a; b: b; }');
+
+    const ruleBlock = `i { b: b; }`;
+    Expect(css`
+      body {
+        a: a;
+        ${ruleBlock};
+        ${`${ruleBlock};` /* interpreted as intentional "};" */};
+        ${`;;${ruleBlock}` /* only removes first semi */};
+        p {
+          c: c;
+        }
+      }
+    `).toBe('body { a: a; i { b: b; } i { b: b; }; ;i { b: b; } p { c: c; } }');
   });
 
   test('converts `false`, `null` and `undefined` to empty string for convenience', () => {

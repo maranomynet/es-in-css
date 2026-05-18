@@ -23,21 +23,27 @@ export const css = function (
   ...values: Array<unknown>
 ): CssString {
   const valCount = values.length;
-  return strings
-    .map((str, i) => {
-      if (i === valCount) {
-        return str;
-      }
-      const rawValue = values[i];
-      const value = Array.isArray(rawValue)
-        ? rawValue.filter(notFalsy).join(' ')
-        : typeof rawValue === 'function'
-        ? (rawValue() as unknown)
-        : rawValue;
+  const stringsWithVals = strings.flatMap((str, i) => {
+    if (i === valCount) {
+      return str;
+    }
+    const rawValue = values[i];
+    const value = Array.isArray(rawValue)
+      ? rawValue.filter(notFalsy).join(' ')
+      : typeof rawValue === 'function'
+      ? (rawValue() as unknown)
+      : rawValue;
 
-      return str + String(notFalsy(value) ? value : '');
-    })
-    .join('') as CssString;
+    return [str, String(notFalsy(value) ? value : '')];
+  });
+  return stringsWithVals.reduce((acc, str) => {
+    if (/^\s*;/.test(str) && (/[{};]\s*$/.test(acc) || /^\s*?$/.test(acc))) {
+      // remove extra semi colons on joint starts
+      // if the accumulated string ends with a CSS block or rule delimiter
+      str = str.replace(/^\s*;/, '');
+    }
+    return acc + str;
+  }, '') as CssString;
 };
 
 // ---------------------------------------------------------------------------

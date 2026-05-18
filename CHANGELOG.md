@@ -3,6 +3,9 @@
 ## Upcoming...
 
 - ... <!-- Add new lines here. -->
+- feat: `css` helper removes redundant semicolons on template string joints
+  — i.e. when a variable/mixin returns a trailing semi, and the template
+  string adds another semi. Semis after rule-block returning mixins, etc.
 
 ## 0.8.0
 
